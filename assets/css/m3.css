@@ -1,0 +1,34 @@
+@media only screen and (max-width:1280px)
+{
+.table {
+    width: 980px !important;
+    max-width: 980px !important;
+    margin-bottom: 20px;
+}
+}
+@media only screen and (max-width:1199px)
+{
+	.box-header button
+	{
+		margin:5px;
+	}
+
+	.dataTables_scrollHead{ overflow:auto !important;}
+	.dataTables_scrollHeadInner{ width:auto !important; max-width:auto !important;}
+	.sorting{width:auto !important; font-size:12px !important;}
+	table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc, table.dataTable thead > tr > th.sorting, table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > td.sorting {
+    padding-right: 0px !important;
+}
+
+}
+
+@media only screen and (max-width:991px)
+{
+}
+@media only screen and (max-width:767px)
+{
+	#datatable_info
+	{
+		font-size:12px;
+	}
+}
