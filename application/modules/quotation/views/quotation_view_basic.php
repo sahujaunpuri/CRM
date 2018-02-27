@@ -110,7 +110,7 @@ if($mode!="email")
                               ?>
                               <tr>
                                 <td><?php echo $i+1; ?></td>
-                                  <td style="max-width: 230px;"><span><?php echo $description[$i]; ?></span><br><span><?php echo $detail_description[$i]; ?></span></td>
+                                  <td style="max-width: 230px;"><span><?php echo $description[$i]; ?></span><br><span style="white-space: pre"><?php echo $detail_description[$i]; ?></span></td>
                                   <td style="width: 100px"><?php echo $quantity[$i]; ?></td>
                                 <td style="width: 90px"><?php echo $uom[$i]; ?></td>
                                 <td><?php echo $unit_price[$i]; ?></td>

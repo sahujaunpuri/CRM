@@ -360,8 +360,18 @@ function add_description(data){
     if($('#detailsAdded-'+product_id_add).text() == '') {
         $('#descriptionToAdd').val('').blur();
     }
-    else if($('#detailsAdded-'+product_id_add).text() != $('#descriptionToAdd').val()){
-        $('#descriptionToAdd').val($('#detailsAdded-'+product_id_add).text());
+    else if ($('#detailsAdded-' + product_id_add).text() != $('#descriptionToAdd').val()) {
+      var tonl = $('#detailsAdded-' + product_id_add).html();
+      var brakes = tonl.split("<br>");
+      var toEdit = '';
+      for (var i = 0; i < brakes.length; i++) {
+        if (i === (brakes.length - 1)) {
+          toEdit += brakes[i];
+        } else {
+          toEdit += brakes[i] + '\n';
+        }
+      }
+      $('#descriptionToAdd').val(toEdit);
     }
     $('#myModal').find('.modal-title').text('Add detailed description for '+productDescription);
 }
@@ -378,11 +388,19 @@ $('#btnSaveDescription').click(function() {
 
 function getDescription(ids,product_id_added){
     var url = '<?php echo base_url('common/Ajax/invoicelist_ajax/get_detail_description')?>';
-    console.log(ids);
-    console.log(product_id_added);
-    $.post(url, ids, function(data, textStatus, xhr) {
-        $('#detailsAdded-' + product_id_added).attr('value',data);
-        $('#detailsAdded-' + product_id_added).text(data);
+  $.post(url, ids, function (data, textStatus, xhr) {
+    var toShow = '';
+    var lines = data.split("\n");
+    //console.log(lines);
+    for (var i = 0; i < lines.length; i++) {
+      if (i === (lines.length - 1)) {
+        toShow += lines[i];
+      } else {
+        toShow += lines[i] + '<br/>';
+      }
+    }
+    $('#detailsAdded-' + product_id_added).attr('value', data);
+    $('#detailsAdded-' + product_id_added).html(toShow.slice(1));
     });
 }
 </script>

@@ -108,7 +108,7 @@ if($mode!="email")
                               ?>
                               <tr>
                                 <td><?php echo $i; ?></td>
-                                  <td style="max-width: 350px;"><span><?php echo $product_details->billing_description; ?></span><br><span><?php echo $detailed_description; ?></span></td>
+                                  <td style="max-width: 350px;"><span><?php echo $product_details->billing_description; ?></span><br><span style="white-space: pre"><?php echo $detailed_description; ?></span></td>
                                   <td class="invo_table" style="text-align: left; "><?php echo $value->quantity; ?></td>
                                 <td><?php echo $product_details->billing_uom; ?></td>
                                 <td style="max-width: 100px" class="invo_table"><?php echo $product_details->billing_price_per_uom; ?></td>

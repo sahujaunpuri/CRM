@@ -3,62 +3,30 @@
   <component name="ChangeListManager">
     <list default="true" id="8bd1bb6a-bd59-4358-956c-e03e7db31700" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Quotationlist_ajax.php" afterPath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Quotationlist_ajax.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/invoice/views/invoice.php" afterPath="$PROJECT_DIR$/application/modules/invoice/views/invoice.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/invoice/views/invoice_edit.php" afterPath="$PROJECT_DIR$/application/modules/invoice/views/invoice_edit.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/invoice/views/invoice_view.php" afterPath="$PROJECT_DIR$/application/modules/invoice/views/invoice_view.php" />
       <change beforePath="$PROJECT_DIR$/application/modules/quotation/views/quotation.php" afterPath="$PROJECT_DIR$/application/modules/quotation/views/quotation.php" />
-      <change beforePath="$PROJECT_DIR$/application/modules/receipt/controllers/Receipt.php" afterPath="$PROJECT_DIR$/application/modules/receipt/controllers/Receipt.php" />
-      <change beforePath="$PROJECT_DIR$/application/modules/receipt/views/receipt.php" afterPath="$PROJECT_DIR$/application/modules/receipt/views/receipt.php" />
-      <change beforePath="$PROJECT_DIR$/application/modules/receipt/views/receipt_edit.php" afterPath="$PROJECT_DIR$/application/modules/receipt/views/receipt_edit.php" />
-      <change beforePath="$PROJECT_DIR$/application/modules/receipt/views/receipt_view.php" afterPath="$PROJECT_DIR$/application/modules/receipt/views/receipt_view.php" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session08nvopic6ht2rkp5fcvu2oqrkql6lmv9" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session0qk6r1vp8s7tamd3nal4h5edm730qjf3" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session10b8qcoa8m93run8jh2s424d71l2mpcq" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session165r5dkssf8kqlg97fkdv1b7oi57kikd" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session190f2ncss7j0bje50mrtoloe2tlv13pg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session1ehncfbm5muiqo8if88dfgcgunkn6p41" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session47vbl39b0mg526sgegu29k933mvp236q" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session4o6b13f2psbjps5csjkur0hpk7pcf53q" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session50v06pik2llkg4u3v0tbfpqar09bq67v" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session5u6nieqnd7m5uhihbbbc6ptspvper0ad" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session6vh89s6ics2j8va941qq9ge2k84duhhq" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session7dpqkpu21rlcs2klmo0gft8vhl5iuh68" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session7f6d1fa6qclvu8u2ouuktb11ub3b7jgh" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session8hhbq9pfq0nebq0qrjnojv8ai5jqdq7j" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session90nto4ln5tvme2cbs5iqtfp2iue090pt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_session9hlb2ud70e29kbb9021j5bd8vaungmo8" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiona0bm26kq782263c1qogodc4ftshfhqil" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiona2ke5gsc4o8bj24l3eh6rhck5baprqbs" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiona6juolcu72p8ap82k1oul0o6a6jav66k" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiona9sc28rrd1kpd49ncl49nvh6nljf55mc" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionahh0r7kkehr7sehjmulo10mn3bn5ualh" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionbafrabo3b0js6rh6td295qkrpeh7kr01" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionbdoh0kfgjk3gi5rb39gdfcrq3m6o4pk3" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionf2muscb2esslk7lnmthed9khrbrncdp5" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionf9p4u74tpdlidv5trhmj5gvs0cpgpcmk" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionfmpe4701q2dhk2o8eb1thtnhdupqfd4j" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionfok4eqvu5sv3jp1cekakkk8348hmc620" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionfu01h8r84cvcu6ol6ueugi5p5jg2p02f" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionh6rto3cps0m2rl1ojoti2v6f76j4j5co" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionhbtm68fikopjeuj6qs739562lnpv9sn1" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionhfrllihagg4qeajd5t21umjtioc19dgg" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionhjlbsrbroje4t6dihq7pufjrv8j9h80e" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessioni4hivod2lfgjmt9p32i8hpqmt46anmhb" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionj8ed5pes6ngt5jpsm4tihs4s03ve0bn9" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionkghb599n2r7dt9i7r50q8i410dqvk17t" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionla80clgq9qturtp7v86ma0oa1go811p6" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionlobrsm2u1uupccvlujmv232c4utrda8l" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionma0ds7ogvh4gajt6er7kgd67j1sigbu5" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionn10nhkhbsqkg94m3hb0s8k07cm47tt4o" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionpbuajvbko31htddk277b38t03pekvutn" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionpd3ubrbkop8q5un47tem86fme8qqckb9" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionqgpgkp8osqod5el8uhf5k1v8crnkl7g0" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessions1ihrilc2hlcpkhhgpe9oesu2bt1spc8" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionsgjrkfhq10jectc4prhbfmnu8bkpkfci" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionsgllikn3hkfej978h35jirq2c8u4n3rn" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionstf0bujt62j8aj84c234d6vl8r29r2cq" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiont1d8ou1j8dlo6rhvn638g043f1dc3jfi" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiont8br51m7s1crp2a57e2miftqc82loko0" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiontoqu1t40db30vi5d60c3ndlreeg048oh" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionu0j3pgqafmlku71ak7d161fpb8umib7m" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/application/modules/quotation/views/quotation_edit.php" afterPath="$PROJECT_DIR$/application/modules/quotation/views/quotation_edit.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/quotation/views/quotation_view.php" afterPath="$PROJECT_DIR$/application/modules/quotation/views/quotation_view.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/quotation/views/quotation_view_basic.php" afterPath="$PROJECT_DIR$/application/modules/quotation/views/quotation_view_basic.php" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_session20h3lbecgtm9ioevfieh3udhpcat6v8n" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_session3cgdfk0sa7idbtkepeq9gr5fpsrod52l" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_session8ae70vf0ue3rli78mv4bcebcj2ja5m50" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_session8jusa6c4sfd02o4gtbppmguommr8mmpl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiona3r1dv2bs6vejht70jjhemgomr5h86k9" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionaq1c97p3u60m52nspngfm20sp28o8npg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionblmg2lge8bnj4ebkur3iu34v97i7g8ta" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessiond5kr6b6eg62kamop3aho8idr159q9j0b" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionedc585cvll4nde5r5r0oddg92htur5vu" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionjffg3cqfgkeend890ln0uqng90bde07u" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessions1qrkfgcua5pjmcnvp7tb006njl2e76t" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionsc447g4u2bk6ejskpi4avuit53je4tvp" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionsc89mfommb1vsni2l6ee15raaj4ckrvs" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionsh5unaaajd7553v5j7doslilai40m3sa" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionte3ffvgiob3ocb48diq11putdil0m2md" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionu78jrgrt2uilr0trt05n8eje3s4p6a56" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/system/cache/ci_sessionulol8qnuqdee6jf5jmbq56bl9m770sq0" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -82,41 +50,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="quotation.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="854">
-              <caret line="551" column="45" lean-forward="false" selection-start-line="551" selection-start-column="45" selection-end-line="551" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="quotation_edit.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="quotation_edit.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation_edit.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="394" column="32" lean-forward="false" selection-start-line="394" selection-start-column="32" selection-end-line="394" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Receiptlist_ajax.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/modules/common/controllers/Ajax/Receiptlist_ajax.php">
+      <file leaf-file-name="Quotation.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/modules/quotation/controllers/Quotation.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="296">
-              <caret line="405" column="27" lean-forward="false" selection-start-line="405" selection-start-column="23" selection-end-line="405" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Receipt.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/modules/receipt/controllers/Receipt.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="114" column="39" lean-forward="false" selection-start-line="114" selection-start-column="39" selection-end-line="114" selection-end-column="39" />
+              <caret line="208" column="107" lean-forward="false" selection-start-line="208" selection-start-column="93" selection-end-line="208" selection-end-column="107" />
               <folding />
             </state>
           </provider>
@@ -126,10 +74,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>customer_id&quot;</find>
-      <find>$(&quot;#customer_id&quot;)</find>
-      <find>thead</find>
-      <find>bank</find>
       <find>save_url</find>
       <find>readonly</find>
       <find>full_amount</find>
@@ -155,7 +99,11 @@
       <find>add_detailed</find>
       <find>pre</find>
       <find>add</find>
+      <find>manage</find>
+      <find>quotation_edit</find>
       <find>textarea</find>
+      <find>description</find>
+      <find>descript</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -179,6 +127,12 @@
         <option value="$PROJECT_DIR$/application/modules/receipt/views/receipt.php" />
         <option value="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Quotationlist_ajax.php" />
         <option value="$PROJECT_DIR$/application/modules/quotation/views/quotation.php" />
+        <option value="$PROJECT_DIR$/application/modules/quotation/views/quotation_edit.php" />
+        <option value="$PROJECT_DIR$/application/modules/quotation/views/quotation_view.php" />
+        <option value="$PROJECT_DIR$/application/modules/quotation/views/quotation_view_basic.php" />
+        <option value="$PROJECT_DIR$/application/modules/invoice/views/invoice.php" />
+        <option value="$PROJECT_DIR$/application/modules/invoice/views/invoice_view.php" />
+        <option value="$PROJECT_DIR$/application/modules/invoice/views/invoice_edit.php" />
       </list>
     </option>
   </component>
@@ -273,6 +227,21 @@
               <item name="http" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="invoice" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="http" type="b2602c69:ProjectViewProjectNode" />
+              <item name="http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="invoice" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="http" type="b2602c69:ProjectViewProjectNode" />
+              <item name="http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="quotation" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -343,7 +312,7 @@
       <workItem from="1519308437036" duration="2846000" />
       <workItem from="1519368291371" duration="4725000" />
       <workItem from="1519600728640" duration="2003000" />
-      <workItem from="1519682086666" duration="15905000" />
+      <workItem from="1519682086666" duration="19858000" />
     </task>
     <task id="LOCAL-00001" summary="Initial">
       <created>1519372951712</created>
@@ -356,7 +325,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54383000" />
+    <option name="totallyTimeSpent" value="58336000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="994" y="0" width="1860" height="1080" extended-state="6" />
@@ -398,45 +367,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/modules/receipt/views/receipt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/modules/receipt/views/receipt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/modules/common/controllers/Ajax/Receiptlist_ajax.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6579">
-          <caret line="387" column="66" lean-forward="false" selection-start-line="387" selection-start-column="63" selection-end-line="387" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php" />
-    <entry file="file://$PROJECT_DIR$/application/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/modules/receipt/views/receipt_edit.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/receipt/views/receipt_view.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -700,14 +630,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/modules/receipt/views/receipt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="170" column="38" lean-forward="false" selection-start-line="170" selection-start-column="38" selection-end-line="170" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/common/controllers/Ajax/Quotationlist_ajax.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
@@ -737,13 +659,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/quotation/controllers/Quotation.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="209" column="37" lean-forward="false" selection-start-line="209" selection-start-column="36" selection-end-line="209" selection-end-column="37" />
+        <state relative-caret-position="296">
+          <caret line="208" column="107" lean-forward="false" selection-start-line="208" selection-start-column="93" selection-end-line="208" selection-end-column="107" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation_edit.php">
+    <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation_setting.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -751,10 +673,80 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/invoice/views/invoice.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="546" column="58" lean-forward="false" selection-start-line="546" selection-start-column="58" selection-end-line="546" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="854">
-          <caret line="551" column="45" lean-forward="false" selection-start-line="551" selection-start-column="45" selection-end-line="551" selection-end-column="45" />
+        <state relative-caret-position="667">
+          <caret line="562" column="7" lean-forward="false" selection-start-line="553" selection-start-column="6" selection-end-line="562" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/receipt/views/receipt.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="170" column="38" lean-forward="false" selection-start-line="170" selection-start-column="38" selection-end-line="170" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/invoice/views/invoice_edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="374" column="5" lean-forward="false" selection-start-line="374" selection-start-column="5" selection-end-line="374" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation_view_basic.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="112" column="141" lean-forward="false" selection-start-line="112" selection-start-column="141" selection-end-line="112" selection-end-column="141" />
+          <folding>
+            <element signature="e#5231#5255#0#HTML" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/invoice/views/invoice_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="636">
+          <caret line="110" column="162" lean-forward="false" selection-start-line="110" selection-start-column="162" selection-end-line="110" selection-end-column="162" />
+          <folding>
+            <element signature="n#style#0;n#span#1;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#3;n#section#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#section#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/invoice/views/invoice_view_basic.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation_view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="112" column="165" lean-forward="false" selection-start-line="112" selection-start-column="165" selection-end-line="112" selection-end-column="165" />
+          <folding>
+            <element signature="n#style#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#0;n#div#3;n#section#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#section#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation_edit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="394" column="32" lean-forward="false" selection-start-line="394" selection-start-column="32" selection-end-line="394" selection-end-column="32" />
           <folding />
         </state>
       </provider>

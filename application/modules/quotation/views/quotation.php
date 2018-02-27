@@ -79,7 +79,7 @@
                   <!-- <legend></legend> -->
                   <div class="row">
                     <div class="col-xs-12">
-                      <textarea class="form-control" rows="1"
+                      <textarea class="form-control" rows="1" style="white-space:pre"
                                 name="quotation_header_text"><?php echo $quotation_details->quotation_header_text; ?></textarea>
                     </div>
                   </div>
@@ -517,11 +517,21 @@
     product_id_add = $(data).parents("tr").attr("id");
     var productDescription = $('#billing-id-' + product_id_add).text();
     $('#myModal').modal('show');
-    if ($('#detailsAdded-' + product_id_add).text() == '') {
+    if ($('#detailsAdded-' + product_id_add).html() == '') {
       $('#descriptionToAdd').val('').blur();
     }
     else if ($('#detailsAdded-' + product_id_add).text() != $('#descriptionToAdd').val()) {
-      $('#descriptionToAdd').val($('#detailsAdded-' + product_id_add).text());
+      var tonl = $('#detailsAdded-' + product_id_add).html();
+      var brakes = tonl.split("<br>");
+      var toEdit = '';
+      for (var i = 0; i < brakes.length; i++) {
+        if (i === (brakes.length - 1)){
+          toEdit += brakes[i];
+        } else {
+          toEdit += brakes[i] + '\n';
+        }
+      }
+      $('#descriptionToAdd').val(toEdit);
     }
     $('#myModal').find('.modal-title').text('Add detailed description for ' + productDescription);
   }
@@ -543,13 +553,17 @@
     $.post(url, ids, function (data, textStatus, xhr) {
       var toShow = '';
       var lines = data.split("\n");
-      console.log(lines);
-      for(var i=0; i<lines.length; i++){
-          toShow += lines[i]+'<br>/'
+      //console.log(lines);
+      for (var i = 0; i < lines.length; i++) {
+        if (i === (lines.length - 1)){
+          toShow += lines[i];
+        } else {
+          toShow += lines[i] + '<br/>';
+        }
       }
       console.log(toShow);
       $('#detailsAdded-' + product_id_added).attr('value', data);
-      $('#detailsAdded-' + product_id_added).text(data);
+      $('#detailsAdded-' + product_id_added).html(toShow);
     });
   }
 </script>
