@@ -162,11 +162,15 @@ $(document).ready(function(){
 });
 
 $(function() {
-
-
+  
   $('#submitbtn').click(function(e){
     e.preventDefault();
-    
+    var $partial_amount_check = $('.valid');
+    console.log('New');
+    //for (var i=0; i<$partial_amount_check.length; i++)
+    console.log($partial_amount_check);
+    console.log($partial_amount_check.length);
+    console.log('end');
     var tot_amt = $('#inv_amount').html();
     //alert(tot_amt);
     if (tot_amt == 0.00) {
@@ -251,7 +255,7 @@ $(function() {
             $(this).parents('tr').children("td.diff").html((parseFloat($(this).parents('tr').children("td.full_amount").html()) - $(this).val()).toFixed(2));
           }
         });
-        var sum = tot_inv - tot_cn;
+        var sum = tot_inv + tot_cn;
         $("#rec_amount").val(sum.toFixed(2));
         $("#inv_amount").html(' ' + sum.toFixed(2) );  
       }
@@ -311,17 +315,21 @@ $(function() {
           $.each($("#invoice_reference_id option:selected"), function(){            
               $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_receipt_data') ?>', {  invoice_id: invoice_id}, function(data, textStatus, xhr) {
                 obj = $.parseJSON(data);
+                sign = '';
                 // console.log(typeof obj.invoic_name);
-                console.log(obj);
-                
+                console.log('invoice data')
+                console.log(obj.amount_sign[$count]);
                 $("#inv_table").removeClass('hidden');
-
                 var pay_invoice_id = obj.invoice_id[$count];
+                if(obj.amount_sign[$count] === -1){
+                   sign = '-';
+                }
+                
                 $("#inv_table tbody").append('<tr id="'
                                               + pay_invoice_id
                                               + '"> <td>'
                                               + obj.invoic_name[$count]
-                                              + '</td> <td class="full_amount">'
+                                              + '</td> <td class="full_amount">'+sign
                                               + obj.full_amount[$count]
                                               + '</td> <td><input type="hidden" class="form-control" name="full_amount['
                                               + pay_invoice_id
@@ -337,8 +345,7 @@ $(function() {
                                               + obj.received_amount[$count]
                                               + '</td><input id="amount_sign" type="hidden" class="form-control amount_sign" name="amount_sign" value="'
                                               + obj.amount_sign[$count]
-                                              + '"><td class="diff">0</td></tr>');
-
+                                              + '"><td class="diff">0.00</td></tr>');
                 credit_tune("none");
 
                 $("#rec_invoice").val(obj.invoic_name);
@@ -355,7 +362,7 @@ $(function() {
                     $(diff).html(diff_html.toFixed(2));
 
                     credit_tune("change");
-
+                  
                 });
 
                 $count = $count + 1;

@@ -191,7 +191,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$gst=$this->custom->getSingleRow('gst_master',array('gst_id'=>$product_details->gst_id));
 			$html="";
 			//added field for detailed description
-            $html.="<td name='$product_details->billing_id' style='max-width: 600px; white-space: normal;'><span id='billing-id-$product_details->billing_id' >".$product_details->billing_description."</span><br><span id='detailsAdded-$product_details->billing_id'></span></td>";
+            $html.="<td name='$product_details->billing_id' style='max-width: 600px; white-space: pre;'><span id='billing-id-$product_details->billing_id' >".$product_details->billing_description."</span><br><span id='detailsAdded-$product_details->billing_id'></span></td>";
 		//	$html.="<td>".$product_details->billing_description."</td>";
 	
 			if($product_details->billing_type=="Product")
