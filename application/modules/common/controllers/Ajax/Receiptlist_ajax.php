@@ -413,7 +413,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						$html=$this->load->view('receipt/receipt_view.php', $this->data, TRUE);	
 						$this->load->helper('email');
 						// send_email("parthganatra17@gmail.com","trueline.chirag@gmail.com","Test",$html);
-						send_email("mohit.ch@ibrinfotech.com","mohit.ch@ibrinfotech.com","Test",$html);
+						send_email("andresforonda@wc1130.topjac.com","andresforonda@wc1130.topjac.com","Test",$html);
 					endif;
 					$message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
 

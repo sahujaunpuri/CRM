@@ -20,7 +20,7 @@ if($mode!="email")
       </div>
     </div>
   </div>
-<?php } ?>
+  <?php } ?>
     <div class="row" id="print_data">
       <div class="col-md-12">
         <div class="box box-danger">
@@ -204,22 +204,19 @@ if($mode!="email")
                           <?php endif; ?>
                           </tbody>
                         </table>
-                        <table class="table footer">
-                            <tbody>
-                            <tr>
-                                <td colspan="5"><?php echo $invoice_edit_data->invoice_footer_text; ?></td>
+                        <div class="footer">
+                                <?php echo $invoice_edit_data->invoice_footer_text; ?>
                                 <legend style="padding-top: 100px;"></legend>
                                 Customer Signature and Co Stamp<br>
                                 Name: <br>
                                 Date: <br>
-                            </tr>
-                        </table>
+                        </div>
+                        
                       </div>
                     </div>
                     <!-- /.col -->
                   </div>
                   <!-- this row will not appear when printing -->
-                  
                 </section>
               </div>
             </div>
@@ -227,35 +224,7 @@ if($mode!="email")
         </div>
       </div>
     </div>
-
-  <?php
-    
-  ?>
 </section>
-<!-- <script type="text/javascript">
-$(function() {
-  //=========================customer details ====================================================
-   $("#customer_id").change(function(event) {
-    customer_id=$("#customer_id option:selected").val();
-    if(customer_id!=""){
-      $.post('<?php // echo base_url('common/Ajax/invoicelist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
-        var obj = $.parseJSON(data);
-        $("#customer_address").html(obj.customer_address);
-        $("#customer_phone").html(obj.customer_phone);
-        $("#customer_email").html(obj.customer_email);
-        if(obj.customer_currency!="SGD"){
-          $("#total_curr").removeClass('hidden');
-          $("#cust_curr").text(obj.customer_currency);
-        }
-        else{
-          $("#total_curr").addClass('hidden');
-        }
-        $("#currency_amount").val(obj.currency_amount);
-      });
-  }
-  }).trigger('change');
-});
-</script> -->
 <?php 
 if($mode=="print")
 {

@@ -14,17 +14,17 @@
           <div class="tooltip">Hover over me
   <span class="tooltiptext">Tooltip text</span>
 </div>
-          <h3 class="box-title">Receipt</h3>
-        </div>
+          <h3 class="box-title">Receipt Edit</h3>
+        </div> 
       </div>
     </div>
   </div>
-  <form id="form_" autocomplete="off" class="form-horizontal validate" method="post" action="<?php echo $save_url; ?>">
+  <form autocomplete="off" class="form-horizontal validate" method="post" action="<?php echo $save_url; ?>">
     <div class="row">
       <div class="col-md-12">
         <div class="box box-danger">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12"> 
               <div class="box-header with-border">
                 <center>
                   <strong>
@@ -54,10 +54,10 @@
                     <div class="col-sm-4 receipt-col"></div>
                     <!-- /.col -->
                     <div class="col-sm-4 receipt-col">
-                      <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
+                      <b>Date:</b> <?php echo $receipt_edit_data->created_on; ?><br>
                       <br>
-                      <b>Receipt : <?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?></b><br>
-                      <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="<?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?>">
+                      <b>Receipt : <?php echo $receipt_edit_data->receipt_ref_no; ?></b><br>
+                      <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="<?php echo $receipt_edit_data->receipt_ref_no; ?>">
                       
                     </div>
                     <!-- /.col -->
@@ -67,7 +67,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-xs-12 col-md-4 product_id_div">
-                      <select name="invoice_reference_id" id="invoice_reference_id" title="Select Invoices" required="" class="form-control select2" multiple="multiple">
+                      <select name="invoice_reference_id" id="invoice_reference_id" title="Select Invoices" class="form-control select2" multiple="multiple">
                           <?php echo $invoice_reference; ?>
                         </select>
 
@@ -87,7 +87,7 @@
                           <tr>
                             <th>Invoice Number</th>
                             <th>Original Amount ( <span id="currency2"></span> ) </th>
-                            <th>Amount Received ( <span id="currency4"></span> ) </th>
+                            <th>Amount Received  ( <span id="currency4"></span> ) </th>
                             <th>Difference in Amount ( <span id="currency3"></span> )</th>
                           </tr>
                         </thead>
@@ -102,18 +102,18 @@
                   
                   <div class="row" align="left">
                     <div class="col-md-12">
-                        <div class="display-none receipt_body">Received with thanks the sum of <span id="currency">...</span><span id="inv_amount">...</span> Net being payment as shown above<!--  with <span id="cn_amount">...</span> Credit Note.</div>                       -->
+                        <div class="display-none receipt_body">Received with thanks the sum of <span id="currency">...</span><span id="inv_amount">...</span> being payment for above invoices with <span id="cn_amount">...</span> Credit Note.</div>                      
                     </div>
                     <br>
                     <div class="row col-md-12">
-                        <div class="col-md-6">Bank: <input type="text" class="form-control" name="bank"></div> 
-                        <div class="col-md-6">Cheque: <input type="text" name="cheque" class="form-control"></div> 
+                        <div class="col-md-6">Bank: <input type="text" class="form-control" name="bank" value="<?php echo $receipt_edit_data->bank;?>"></div> 
+                        <div class="col-md-6">Cheque: <input type="text" name="cheque" class="form-control" value="<?php echo $receipt_edit_data->cheque;?>"></div> 
                     </div>
                     <br>
                     <br><br>
                     <div class="row col-md-12">
                         <div class="col-md-6">OTHER REFERENCE IF ANY: </div> 
-                        <div class="col-md-6"> <input type="text" name="other_reference" class="form-control"> </div>
+                        <div class="col-md-6"> <input type="text" name="other_reference" class="form-control" value="<?php echo $receipt_edit_data->other_reference;?>"> </div>
                     </div>
                     <!-- /.col -->
                   </div>
@@ -122,11 +122,12 @@
                   <input type="hidden" name="currency" id="rec_currency">
                   <input type="hidden" name="amount" id="rec_amount">
                   <input type="hidden" name="invoice" id="rec_invoice">
-                  <!-- <input type="hidden" name="receipt_invoice_id" id="receipt_invoice_id"> -->
+                  <input type="hidden" name="receipt_id" value="<?php echo $receipt_edit_data->receipt_id;?>">
+                  
                   <!-- this row will not appear when printing -->
                   <div class="row no-print">
                     <div class="col-xs-12">
-                      <button type="submit" id="submitbtn" class="btn btn-success pull-right" ><i class="fa fa-credit-card"></i> Submit
+                      <button type="submit" class="btn btn-success pull-right" ><i class="fa fa-credit-card"></i> Submit
                       </button>
                     </div>
                   </div>
@@ -141,7 +142,19 @@
 </section>
 <!-- <script type="text/javascript" src="<?php echo JS_PATH ?>receipt.js"></script> -->
 <script type="text/javascript">
+function findTotal(){
+    //alert("dfsd");
+    var arr = document.getElementsByName('partial_amount_hidden');
+    var tot=0;
+    for(var i=0;i<arr.length;i++){
+        if(parseFloat(arr[i].value))
+            tot += parseFloat(arr[i].value);
+    }
+    //return tot;
 
+    document.getElementById('rec_amount').value = tot;
+    document.getElementById('inv_amount').innerHTML = ' ' + tot.toFixed(2);
+  }
 $(document).ready(function(){
         // alert(document.URL);
       history.pushState(null, null, document.URL);
@@ -163,21 +176,6 @@ $(document).ready(function(){
 
 $(function() {
 
-
-  $('#submitbtn').click(function(e){
-    e.preventDefault();
-    
-    var tot_amt = $('#inv_amount').html();
-    //alert(tot_amt);
-    if (tot_amt == 0.00) {
-      //return false;
-    }
-    else
-    {
-      $('#form_').submit();  
-    }
-    
-  });
 
   var credit_tune = function(change_flag) { 
       var tot = 0;
@@ -240,8 +238,8 @@ $(function() {
           // }                    
            
         });
-        $("#rec_amount").val(tot_inv.toFixed(2));
-        $("#inv_amount").html(' ' + tot_inv.toFixed(2));  
+        $("#rec_amount").val(tot_inv);
+        $("#inv_amount").html(' ' + tot_inv);  
       }
       else if(tot_inv >= tot_cn)
       {
@@ -253,7 +251,7 @@ $(function() {
         });
         var sum = tot_inv - tot_cn;
         $("#rec_amount").val(sum.toFixed(2));
-        $("#inv_amount").html(' ' + sum.toFixed(2) );  
+        $("#inv_amount").html(' ' + tot_inv.toFixed(2) );  
       }
 
       var tot_cn_show = 0;
@@ -271,6 +269,92 @@ $(function() {
       $("#cn_amount").html(tot_cn_show.toFixed(2));
   };
 
+  customer_id=$("#customer_id option:selected").val();
+    if(customer_id!=""){
+      $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
+        var obj = $.parseJSON(data);
+        console.log(obj);
+        $("#customer_bldg_street").html(obj.customer_bldg_street);
+        $("#customer_cntry_post").html(obj.customer_cntry_post);
+        $("#customer_cntry_post").html(obj.customer_cntry_post);
+        $("#currency").html(obj.customer_currency);
+        $("#currency2").html(obj.customer_currency);
+        $("#currency3").html(obj.customer_currency);
+        $("#currency4").html(obj.customer_currency);
+        $("#rec_currency").val(obj.customer_currency);
+
+        $( "#invoice_reference_id" ).html( obj.invoice_reference );
+        
+      });
+      // get_sub_total();
+   }
+
+    var invoice_id_json='<?php echo json_encode($invoice_array); ?>';
+      invoice_id_arr=$.parseJSON(invoice_id_json);
+
+      $("#inv_table tbody").empty();
+      $count = 0;
+
+      for (var i = 0; i < invoice_id_arr.length; i++) {
+        invoice_id=invoice_id_arr[i];
+        //alert(invoice_id_arr);
+        $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_receipt_edit_data') ?>', {  invoice_id: invoice_id_arr,receipt_id: <?php echo $receipt_edit_data->receipt_id;?>}, function(data, textStatus, xhr) {
+          console.log(data); 
+          obj = $.parseJSON(data);
+          $("#inv_table").removeClass('hidden');
+
+          var pay_invoice_id = obj.invoice_id[$count];
+
+          $("#inv_table tbody").append('<tr id="' 
+                                        + pay_invoice_id 
+                                        + '"> <td>'
+                                        + obj.invoic_name[$count]
+                                        + '</td> <td class="full_amount">'
+                                        + obj.full_amount[$count]
+                                        + '</td> <td><input type="hidden" class="form-control" name="full_amount['
+                                        + pay_invoice_id
+                                        + ']" value="'
+                                        + parseFloat(obj.full_amount[$count].replace(",", ""))
+                                        + '"><input id="partial_amount" type="hidden" class="form-control" name="partial_amount_hidden" value="'
+                                        + parseFloat(obj.invoice_amt[$count].replace(",", ""))
+                                        + '"><input type="number" class="partial_amount form-control" name="partial_amount[' 
+                                        + pay_invoice_id 
+                                        + ']"  value="'
+                                        + parseFloat(obj.invoice_amt[$count].replace(",", ""))
+                                        + '"></td><td class="hidden hidden_diff">'
+                                        + obj.received_amount[$count]
+                                        + '</td><input id="amount_sign" type="hidden" class="form-control amount_sign" name="amount_sign" value="'
+                                        + obj.amount_sign[$count] 
+                                        + '"> <td class="diff">'
+                                        + (obj.full_amount[$count] - obj.invoice_amt[$count]).toFixed(2)
+                                        + '</td></tr>');
+                 
+            credit_tune("none");
+
+            $("#rec_invoice").val(obj.invoic_name);
+            $('.receipt_body').show();
+
+            $(".partial_amount").change(function(){
+
+                var par_td = $(this).parents('tr');
+                var diff = $(par_td).children("td.diff");
+                var temp_full_amount = $(par_td).children("td.full_amount").html();
+                var amt_sign = $(par_td).children("input.amount_sign").val();
+                var diff_html = temp_full_amount - parseFloat($(this).val());
+
+                $(diff).html(diff_html.toFixed(2));
+
+                credit_tune("change");
+                                    
+            });
+          $count = $count + 1;
+        });
+      }
+      $("#customer_id").prop('disabled', 'disabled');
+      $("#invoice_reference_id").prop('disabled', 'disabled');
+      
+
+      //$("#customer_id")//
   //=========================customer details ====================================================
   $("#customer_id").change(function(event) {
     customer_id=$("#customer_id option:selected").val();
@@ -291,10 +375,11 @@ $(function() {
         // $("#customer_email").html(obj.customer_email);
         $("#invoice_reference_id").select2("open");
         // $("#invoice_reference_id select:first").focus();
-
+        $("#inv_table").addClass('hidden');
+        //$('.receipt_body').hide();
       });
       // get_sub_total();
-  }
+   }
   });
     //===============================================invoice reference ===================================
   $("#invoice_reference_id").change(function(event) {
@@ -311,54 +396,25 @@ $(function() {
           $.each($("#invoice_reference_id option:selected"), function(){            
               $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_receipt_data') ?>', {  invoice_id: invoice_id}, function(data, textStatus, xhr) {
                 obj = $.parseJSON(data);
-                // console.log(typeof obj.invoic_name);
-                console.log(obj);
-                
                 $("#inv_table").removeClass('hidden');
-
                 var pay_invoice_id = obj.invoice_id[$count];
-                $("#inv_table tbody").append('<tr id="' 
-                                              + pay_invoice_id 
-                                              + '"> <td>'
-                                              + obj.invoic_name[$count] 
-                                              + '</td> <td class="full_amount">' 
-                                              + obj.full_amount[$count] 
-                                              + '</td> <td><input type="hidden" class="form-control" name="full_amount['
-                                              + pay_invoice_id 
-                                              + ']" value="'
-                                              + parseFloat(obj.full_amount[$count].replace(",", "")) 
-                                              + '"><input id="partial_amount" type="hidden" class="form-control" name="partial_amount_hidden" value="'
-                                              + parseFloat(obj.invoice_amt[$count].replace(",", "")) 
-                                              + '"><input type="number" class="partial_amount form-control" name="partial_amount[' 
-                                              + pay_invoice_id 
-                                              + ']" value="'
-                                              + parseFloat(obj.invoice_amt[$count].replace(",", "")) 
-                                              + '"></td><td class="hidden hidden_diff">'
-                                              + obj.received_amount[$count]
-                                              + '</td><input id="amount_sign" type="hidden" class="form-control amount_sign" name="amount_sign" value="'
-                                              + obj.amount_sign[$count] 
-                                              + '"><td class="diff">0</td></tr>');
-                
-                credit_tune("none");
+                $("#inv_table tbody").append('<tr id="' + pay_invoice_id +'"> <td>'+obj.invoic_name[$count]+ '</td> <td>'+obj.full_amount[$count]+ '</td> <td>'+obj.received_amount[$count]+ '</td><td>' + '<input type="hidden" class="form-control" name="full_amount[' + pay_invoice_id + ']" value="'+ parseFloat(obj.invoice_amt[$count].replace(",", "")) +'">' + '<input id="partial_amount" type="hidden" class="form-control" name="partial_amount_hidden" value="'+ parseFloat(obj.invoice_amt[$count].replace(",", "")) +'">' + '<input type="number" class="partial_amount form-control" name="partial_amount[' + pay_invoice_id + ']"  value="'+ parseFloat(obj.invoice_amt[$count].replace(",", "")) +'"></td></tr>');
+                $count = $count + 1;
+                findTotal();
+                // $("#invoice_reference").html(obj.invoic_name.join(", "));
+                //$("#amountinwords").html(' '+obj.total_in_words);
 
                 $("#rec_invoice").val(obj.invoic_name);
                 $('.receipt_body').show();
 
                 $(".partial_amount").change(function(){
-
-                    var par_td = $(this).parents('tr');
-                    var diff = $(par_td).children("td.diff");
-                    var temp_full_amount = $(par_td).children("td.full_amount").html();
-                    var amt_sign = $(par_td).children("input.amount_sign").val();
-                    var diff_html = temp_full_amount - parseFloat($(this).val());
-
-                    $(diff).html(diff_html.toFixed(2));
-
-                    credit_tune("change");
-                                        
+                    var sum = 0;
+                  $(".partial_amount").each(function(){
+                    sum += parseFloat($(this).val());
+                  });
+                  $("#rec_amount").val(sum);
+                  $("#inv_amount").html(' ' + sum);
                 });
-
-                $count = $count + 1;
               });
           });
       }
