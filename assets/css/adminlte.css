@@ -13,7 +13,9 @@ html,
 body {
     min-height: 100%
 }
-
+.thead_print_list{
+    display: none;
+}
 .layout-boxed html,
 .layout-boxed body {
     height: 100%
@@ -4803,13 +4805,21 @@ table.text-center th {
     width: 100%!important
 }
 
+
 @media print {
     .no-print,
     .main-sidebar,
     .left-side,
     .main-header,
-    .content-header {
+    .content-header,
+    #message_area,
+    .dataTables_paginate,
+    .dataTables_filter,
+    .dataTables_length {
         display: none!important
+    }
+    .thead_print_list{
+        display: inline;
     }
     .content-wrapper,
     .right-side,

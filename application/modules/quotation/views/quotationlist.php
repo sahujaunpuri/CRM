@@ -31,7 +31,8 @@
         <?php get_flash_message('message'); ?>
       </div>
       <div class='box box-primary' id='buttons_panel'>
-        <div class='box-header'>
+        <h1 class="text-center thead_print_list" style="padding-bottom: 50px">Confirmed Quotation list</h1>
+        <div class='box-header no-print'>
           <button class='btn btn-warning $btn_style' id='view'>
             <i class='fa fa-eye' aria-hidden='true'></i> View
           </button>
@@ -67,9 +68,12 @@
           <button class='btn bg-purple $btn_style' id='email'>
             <i class='fa fa-inbox' aria-hidden='true'></i> Send Email To Customer
           </button> 
-          <button class='btn bg-navy $btn_style' id='print'>
-            <i class='fa fa-print' aria-hidden='true'></i> Print
+          <button class='btn bg-navy $btn_style' id='print_list'>
+            <i class='fa fa-print' aria-hidden='true'></i> Print list
           </button> 
+          <button class='btn bg-navy $btn_style' id='print'>
+            <i class='fa fa-print' aria-hidden='true'></i> Reprint
+          </button>           
           <button class='btn btn-info $btn_style' id='refresh'>
             <i class='fa fa-refresh' aria-hidden='true'></i> Refresh
           </button> 
@@ -78,8 +82,23 @@
       <div class="box box-warning">
         <div class="box-body">
           <div id="list_table">
-                <table class="table " id="datatable" width="100%">
-                  <thead>
+            <div class="table thead_print_list">
+            <table >
+                  <thead >
+                    <tr>
+                      <th style="width: 120px">Quotation Reference No</th>
+                      <th style="width: 150px">Customer</th>
+                      <th style="width: 75px">Sub Total</th>
+                      <th style="width: 65px">Lump Sum discount (%)</th>
+                      <th style="width: 80px">After Lump Sum Discount Price</th>
+                      <th style="width: 80px">Final Amount</th>
+                      <th>Created On</th>
+                    </tr>
+                  </thead>
+                </table>
+                </div>
+                <table class="table" id="datatable" width="100%">
+                  <thead class="no-print">
                     <tr>
                      <th>Id</th>
                       <th>Quotation Reference No</th>
@@ -177,11 +196,18 @@
      });
      /*... over here ...*/
 
-     /* print button */
+     /* Reprint button */
      $("#print").on('click',function(){
         var url = '<?php echo base_url()."common/Ajax/quotationlist_ajax/print_quotation" ?>';
         showData("print",url);
      });
      /*... over here ...*/
+
+     /* print list button */
+     $("#print_list").on('click',function(){
+        window.print();
+     });
+     /*... over here ...*/
+
   });
 </script>

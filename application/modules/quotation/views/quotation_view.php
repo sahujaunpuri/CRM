@@ -1,4 +1,7 @@
 <?php
+if (!isset($head)){
+    $head = 'yes';  
+  }
 if ($mode != "email")
 {
 ?>
@@ -29,6 +32,7 @@ if ($mode != "email")
           <div class="col-md-12">
             <div class="box-header with-border">
               <center>
+                <?php if($head=="yes" ): ?>
                 <strong>
                   <img src="<?php echo UPLOAD_PATH . 'site/' . $company_details->company_logo ?>"
                        class='img img-thumbnail' height="100px" width="100px"/>
@@ -38,6 +42,7 @@ if ($mode != "email")
                   : <?php echo $company_details->uen_no; ?>
                   <br>Phone : <?php echo $company_details->phone ?> | Fax : <?php echo $company_details->fax ?>
                 </strong>
+                <?php endif; ?> 
               </center>
             </div>
             <hr>

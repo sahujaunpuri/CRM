@@ -1,0 +1,17 @@
+marzo 2b 2018
+files to update
+
+adminlte.css
+custom.js
+
+For quotation print
+
+quotationlist.php
+Quotationlist_ajax.php
+quotation_view.php
+
+For invoice print
+
+invoicelist.php
+Invoicelist_ajax.php
+invoice_view.php

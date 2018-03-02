@@ -647,6 +647,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		public function print_quotation($mode="print")
 		{
 			$row_id=$this->input->post('rowID');
+			$head = $this->input->post('head');
+			echo $head;
 			$this->data['quotation_edit_data']=$quotation_edit_data=$this->custom->getSingleRow('quotation_master',array("quotation_id"=>$row_id));
 			if($quotation_edit_data):
 				$this->data['quotation_product_edit_data']=$quotation_product_edit_data=$this->custom->getRows('quotation_product_master',array("quotation_id"=>$row_id));
@@ -679,6 +681,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$this->data['save_url']=base_url('quotation/create_new_quotation/edit');
 					if($mode=="print"):
 						$this->data['mode']="print";
+						$this->data['head']=$head;
 						$this->load->view('quotation/quotation_view.php', $this->data, FALSE);
 					endif;
 					if($mode=="email"):

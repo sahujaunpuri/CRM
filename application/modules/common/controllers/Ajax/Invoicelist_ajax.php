@@ -515,6 +515,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		public function print_invoice($mode="print")
 		{
 			$row_id=$this->input->post('rowID');
+			$head = $this->input->post('head');
 			$this->data['invoice_edit_data']=$invoice_edit_data=$this->custom->getSingleRow('invoice_master',array("invoice_id"=>$row_id));
 			if($invoice_edit_data):
 				$this->data['invoice_product_edit_data']=$invoice_product_edit_data=$this->custom->getRows('invoice_product_master',array("invoice_id"=>$row_id));
@@ -548,6 +549,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					$this->data['save_url']=base_url('invoice/create_new_invoice/edit');
 					if($mode=="print"):
 						$this->data['mode']="print";
+						$this->data['head']=$head;
 						$this->load->view('invoice/invoice_view.php', $this->data, FALSE);
 					endif;
 					if($mode=="email"):

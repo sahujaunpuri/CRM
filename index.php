@@ -310,7 +310,7 @@ switch (ENVIRONMENT)
 	 * SET APP PATH FOR THE PROJECT
 	 * --------------------------------------------------------------------
 	 */
-	define('APP_URL', 'http://localhost/');
+	define('APP_URL', 'http://192.168.0.27/');
     //define('APP_URL', 'http://localhost/');
 	/*
 	 * --------------------------------------------------------------------

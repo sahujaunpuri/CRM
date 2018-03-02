@@ -345,12 +345,44 @@ function showData(mode,url,form_action='#'){
                     $("#refresh").click();//refresh  the datatable.
                 }
             });
+        }else if (mode == "print"){
+            $.confirm({
+                title:"<i class='fa fa-info'></i> Confirm Reject",
+                text: "Want to print with simple letterhead?",
+                confirmButton: 'Yes',
+                confirmButtonClass: 'btn-success',
+                confirm: function(button) {
+                  $.post(url,{ rowID: rowID, head: 'yes' } , function(result){
+                    $("#form_data").html('');
+                    $("#form_data").html(result);
+                    $('.toggle_button').bootstrapToggle({
+                      on: 'Permit',
+                      off: 'Ban'
+                    });
+                  });
+                },
+                cancelButton: 'No',
+                cancelButtonClass: 'btn-danger',
+                cancel: function(button) {
+                  $.post(url,{ rowID: rowID, head: 'no' } , function(result){
+                    console.log(result);
+                    $("#form_data").html('');
+                    $("#form_data").html(result);
+                    $('.toggle_button').bootstrapToggle({
+                      on: 'Permit',
+                      off: 'Ban'
+                    });
+                  });
+                }
+            });
+            //
+            
+            //
         }
         else
         {
           
             showHideButtons(mode);
-            
             $("#list_table").hide();
             //alert(window.location.href);
             //alert(rowID);

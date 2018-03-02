@@ -40,7 +40,8 @@
         <?php get_flash_message('message'); ?>
       </div>
       <div class='box box-primary' id='buttons_panel'>
-        <div class='box-header'>
+        <h1 class="text-center thead_print_list" style="padding-bottom: 50px">Confirmed invoice list</h1>
+        <div class='box-header no-print'>
           <?php if($this->uri->segment(3)=="confirmed"): ?>
             <button class='btn btn-warning $btn_style' id='view'>
               <i class='fa fa-eye' aria-hidden='true'></i> View
@@ -60,8 +61,11 @@
             <button class='btn bg-purple $btn_style' id='email'>
               <i class='fa fa-inbox' aria-hidden='true'></i> Send Email To Customer
             </button> 
+            <button class='btn bg-navy $btn_style' id='print_list'>
+            <i class='fa fa-print' aria-hidden='true'></i> Print list
+          </button>   
             <button class='btn bg-navy $btn_style' id='print'>
-              <i class='fa fa-print' aria-hidden='true'></i> Print
+              <i class='fa fa-print' aria-hidden='true'></i> Reprint
             </button> 
             <button class='btn btn-info $btn_style' id='refresh'>
               <i class='fa fa-refresh' aria-hidden='true'></i> Refresh
@@ -69,7 +73,7 @@
           <?php endif; ?>
           <?php if($this->uri->segment(3)=="posted"): ?>
             <button class='btn bg-navy $btn_style' id='print'>
-              <i class='fa fa-print' aria-hidden='true'></i> Print
+              <i class='fa fa-print' aria-hidden='true'></i> Reprint
             </button> 
             <button class='btn btn-info $btn_style' id='refresh'>
               <i class='fa fa-refresh' aria-hidden='true'></i> Refresh
@@ -77,7 +81,7 @@
           <?php endif; ?>
           <?php if($this->uri->segment(3)=="deleted"): ?>
             <button class='btn bg-navy $btn_style' id='print'>
-              <i class='fa fa-print' aria-hidden='true'></i> Print
+              <i class='fa fa-print' aria-hidden='true'></i> Reprint
             </button> 
             <button class='btn btn-info $btn_style' id='refresh'>
               <i class='fa fa-refresh' aria-hidden='true'></i> Refresh
@@ -88,8 +92,23 @@
       <div class="box box-warning">
         <div class="box-body ">
           <div id="list_table " class="table-responsive">
-                <table class="table " id="datatable" width="100%">
-                  <thead>
+            <div class="table thead_print_list">
+            <table >
+                  <thead >
+                    <tr>
+                      <th style="width: 140px">Invoice Reference No</th>
+                      <th style="width: 150px">Customer</th>
+                      <th style="width: 75px">Sub Total</th>
+                      <th style="width: 65px">Lump Sum disc (%)</th>
+                      <th style="width: 65px">After Lump Sum Disc Price</th>
+                      <th style="width: 65px">Final Amount</th>
+                      <th>Created On</th>
+                    </tr>
+                  </thead>
+                </table>
+                </div>
+                <table class="table" id="datatable" width="100%">
+                  <thead class=" no-print">
                     <tr>
                      <th>Id</th>
                       <th>Invoice Reference No</th>
@@ -195,6 +214,12 @@
      $("#print").on('click',function(){
         var url = '<?php echo base_url()."common/Ajax/invoicelist_ajax/print_invoice" ?>';
         showData("print",url);
+     });
+     /*... over here ...*/
+
+     /* print list button */
+     $("#print_list").on('click',function(){
+        window.print();
      });
      /*... over here ...*/
   });
