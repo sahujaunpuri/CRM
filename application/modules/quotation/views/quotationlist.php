@@ -2,13 +2,13 @@
   <h1>
     <?php 
     if($this->uri->segment(3)=="confirm")
-  {
-  echo "Confirmed Quotation";
-  }
-  else
-  echo ucwords($this->uri->segment(3))." Quotation";
-  
-  ?>
+    {
+      echo "Confirmed Quotation";
+    }
+    else
+      echo ucwords($this->uri->segment(3))." Quotation";
+    
+    ?>
     <!-- <small>Preview of UI elements</small> -->
   </h1>
   <?php 
@@ -18,11 +18,11 @@
   }
   else
   {
-      $list = array('active'=>ucwords($this->uri->segment(3)).' Quotation');
+    $list = array('active'=>ucwords($this->uri->segment(3)).' Quotation');
   }
-    
-    echo breadcrumb($list); 
-    ?>
+  
+  echo breadcrumb($list); 
+  ?>
 </section>
 <section class="content">
   <div class="row">
@@ -44,7 +44,7 @@
             <i class='fa fa-check' aria-hidden='true'></i> Confirm
           </button> 
         <?php endif; ?> -->
-          <?php if($this->uri->segment(3)!="successful"): ?>
+        <?php if($this->uri->segment(3)!="successful"): ?>
           <button class='btn btn-success $btn_style' id='success'>
             <i class='fa fa-check' aria-hidden='true'></i> Successful
           </button> 
@@ -54,15 +54,15 @@
           <button class='btn btn-danger $btn_style' id='reject'>
             <i class='fa fa-ban' aria-hidden='true'></i> Reject
           </button> 
-          <?php endif; ?>
-          
-          <?php if($this->uri->segment(3)!="deleted"): ?>
+        <?php endif; ?>
+        
+        <?php if($this->uri->segment(3)!="deleted"): ?>
           <button  class='btn bg-maroon $btn_style' id='delete'>
             <i class='fa fa-trash' aria-hidden='true'></i> Delete
           </button> 
-          <?php endif; ?>
-          
-          <!--<button class='btn bg-maroon $btn_style' id='delete'>-->
+        <?php endif; ?>
+        
+        <!--<button class='btn bg-maroon $btn_style' id='delete'>-->
           <!--  <i class='fa fa-trash' aria-hidden='true'></i> Delete-->
           <!--</button> -->
           <button class='btn bg-purple $btn_style' id='email'>
@@ -83,42 +83,42 @@
         <div class="box-body">
           <div id="list_table">
             <div class="table thead_print_list">
-            <table >
-                  <thead >
-                    <tr>
-                      <th style="width: 120px">Quotation Reference No</th>
-                      <th style="width: 150px">Customer</th>
-                      <th style="width: 75px">Sub Total</th>
-                      <th style="width: 65px">Lump Sum discount (%)</th>
-                      <th style="width: 80px">After Lump Sum Discount Price</th>
-                      <th style="width: 80px">Final Amount</th>
-                      <th>Created On</th>
-                    </tr>
-                  </thead>
-                </table>
-                </div>
-                <table class="table" id="datatable" width="100%">
-                  <thead class="no-print">
-                    <tr>
-                     <th>Id</th>
-                      <th>Quotation Reference No</th>
-                      <th>Customer</th>
-                      <th>Sub Total</th>
-                      <th>Lump Sum discount(%)</th>
-                      <th>After Lump Sum Discount Price</th>
-                      <th>Final Amount</th>
-                      <th>Created On</th>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
-              <form autocomplete="off" method="post" action="#" enctype="multipart/form-data" class="validate">
-                <div id="form_data"></div>
-              </form>
-           </div>
+              <table >
+                <thead >
+                  <tr>
+                    <th style="width: 120px">Quotation Reference No</th>
+                    <th style="width: 150px">Customer</th>
+                    <th style="width: 75px">Sub Total</th>
+                    <th style="width: 65px">Lump Sum discount (%)</th>
+                    <th style="width: 80px">After Lump Sum Discount Price</th>
+                    <th style="width: 80px">Final Amount</th>
+                    <th>Created On</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <table class="table" id="datatable" width="100%">
+              <thead class="no-print">
+                <tr>
+                 <th>Id</th>
+                 <th>Quotation Reference No</th>
+                 <th>Customer</th>
+                 <th>Sub Total</th>
+                 <th>Lump Sum discount(%)</th>
+                 <th>After Lump Sum Discount Price</th>
+                 <th>Final Amount</th>
+                 <th>Created On</th>
+               </tr>
+             </thead>
+           </table>
+         </div>
+         <form autocomplete="off" method="post" action="#" enctype="multipart/form-data" class="validate">
+          <div id="form_data"></div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 </section>
 <script type="text/javascript">
   jQuery(document).ready(function() {
@@ -128,17 +128,17 @@
     var form_action = '';
     var url = '';
     table = $('#datatable').DataTable({ 
-    "scrollX": true,
+      "scrollX": true,
     "processing": true, //Feature control the processing indicator.
     "serverSide": true, //Feature control DataTables' server-side processing mode.
     "order": [[0,"desc"]], //Initial no order.
-  
+    
     // Load data for the table's content from an Ajax source
     "ajax": {
       "url": "<?php echo base_url('common/datatable/ajax_list/quotation_list/').$this->uri->segment(3); ?>",
       "type": "POST"
     },
-  
+    
     //Set column definition initialisation properties.
     "columnDefs": [
     { 
@@ -150,64 +150,64 @@
         "visible": false, //set not orderable
       },
       ],
-  
+      
     });
 
     // ==================== magic goes here ============================================
     /* delete button */
-     $("#delete").on('click',function(){
+    $("#delete").on('click',function(){
       var url = '<?php echo base_url()."common/Ajax/quotationlist_ajax/delete" ?>';
-        showData("delete",url);
-     });
-     /*... over here ...*/
+      showData("delete",url);
+    });
+    /*... over here ...*/
 
-     /* confirm button */
-     $("#success").on('click',function(){
+    /* confirm button */
+    $("#success").on('click',function(){
       var url = '<?php echo base_url()."common/Ajax/quotationlist_ajax/success" ?>';
-        showData("confirm",url);
-     });
-     /*... over here ...*/
+      showData("confirm",url);
+    });
+    /*... over here ...*/
 
-     /* reject button */
-     $("#reject").on('click',function(){
+    /* reject button */
+    $("#reject").on('click',function(){
       var url = '<?php echo base_url()."common/Ajax/quotationlist_ajax/reject" ?>';
-        showData("reject",url);
-     });
-     /*... over here ...*/
+      showData("reject",url);
+    });
+    /*... over here ...*/
 
-     /* view button */
-     $("#view").on('click',function(){
-        var url = '<?php echo base_url()."quotation/quotation_manage/view/" ?>';
-        showData("quotation_view",url);
-     });
-     /*... over here ...*/
+    /* view button */
+    $("#view").on('click',function(){
+      var url = '<?php echo base_url()."quotation/quotation_manage/view/" ?>';
+      showData("quotation_view",url);
+    });
+    /*... over here ...*/
 
-     /* edit button */
-     $("#edit").on('click',function(){
-        var url = '<?php echo base_url()."quotation/quotation_manage/edit/" ?>';
-        showData("quotation_edit",url);
-     });
-     /*... over here ...*/
+    /* edit button */
+    $("#edit").on('click',function(){
+      var url = '<?php echo base_url()."quotation/quotation_manage/edit/" ?>';
+      showData("quotation_edit",url);
+    });
+    /*... over here ...*/
 
     /* email button */
-     $("#email").on('click',function(){
-        var url = '<?php echo base_url()."common/Ajax/quotationlist_ajax/print_quotation/email" ?>';
-        showData("email",url);
-     });
-     /*... over here ...*/
+    $("#email").on('click',function(){
+      var url = '<?php echo base_url()."common/Ajax/quotationlist_ajax/print_quotation/email" ?>';
+      showData("email",url);
+    });
+    /*... over here ...*/
 
-     /* Reprint button */
-     $("#print").on('click',function(){
-        var url = '<?php echo base_url()."common/Ajax/quotationlist_ajax/print_quotation" ?>';
-        showData("print",url);
-     });
-     /*... over here ...*/
+    /* Reprint button */
+    $("#print").on('click',function(){
+      var url = '<?php echo base_url()."common/Ajax/quotationlist_ajax/print_quotation" ?>';
+      showData("print",url);
+    });
+    /*... over here ...*/
 
-     /* print list button */
-     $("#print_list").on('click',function(){
-        window.print();
-     });
-     /*... over here ...*/
+    /* print list button */
+    $("#print_list").on('click',function(){
+      window.print();
+    });
+    /*... over here ...*/
 
   });
 </script>
