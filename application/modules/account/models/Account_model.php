@@ -8,15 +8,10 @@ class Account_model extends CI_Model {
     }
     public function get_customer_details($where)
     { 
-		return $result=$this->custom->getSingleRow("customer_master",$where);
-		
+        return $result=$this->custom->getSingleRow("customer_master",$where);
     }
-
-    public function get_product_details($where)
-    {
+    public function get_product_details($where){
         return $result=$this->custom->getSingleRow("billing_master",$where);
     }
-
-}
-
+ }
 ?>

@@ -99,26 +99,15 @@
 </section>
 <script src="<?php echo JS_PATH."/dist/jquery.inputmask.bundle.js";?>"></script>
 <script type="text/javascript">
-  $(function() {
+
   //=========================customer details ====================================================
 
   $cansend = false;
-  $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
-  $('form#form_').submit(function(){
-    $(".row").each(function(){
-      if (!$(this).find("td input[name^='data[transaction_date]']").val() 
-        && !$(this).find("td input[name^='data[doc_reference]']").val()
-        && !$(this).find("td input[name^='data[remarks]']").val()
-        && !$(this).find("td input[name^='data[amount]']").val()) 
-      {
-        console.log("sss");
-        $(this).remove();
-      }
+  $(".my_date").inputmask("99/99/9999",{ "placeholder": "yyyy/mm/dd" });
 
-    });
+  $('form#form_').submit(function(){
     var form = $(this);
-    if ($cansend == true)
-    {
+    if ($cansend == true){
       $cansend = false;
       return true;
     }
@@ -135,21 +124,16 @@
       },
       cancel: function(button) {
         $cansend = false;
-        //form.submit();
       }
     });
     return false;
-  })
-
+  });
 
   $("#customer_id").change(function(event) {
     customer_id=$("#customer_id option:selected").val();
     if(customer_id!=""){
       $.post('<?php echo base_url('common/Ajax/quotationlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
-        console.log(data);
         var obj = $.parseJSON(data);
-        console.log(obj);
-        
         $("#customer_name").html(obj.customer_name);
         $("#customer_code").html(obj.customer_code);
         $("#customer_currency").html(obj.customer_currency);
@@ -158,44 +142,31 @@
     }
   });
 
-  $("td input[name^='data[transaction_date]'],td input[name^='data[doc_reference]'],td input[name^='data[amount]']").focusout(function() {
-    if(!$(this).val())
-    {
-
-      $(this).addClass("custom_error_block");
-      $(this).focus();
-    }
-    else
-    {
-      $(this).removeClass("custom_error_block");
-    }
-  });
-
   $("#input_credit_note").click(function(event) {
 
     $("#flag_text").html("Mode: Credit Note");
     var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
     console.log(numrows);
-    var append_str_credit = '<tr id="row-'+numrows+'">' 
+    var append_str_credit = '<tr id="row-'+numrows+'" >' 
     +'<td class="form-group error_block">'
     + '<input type="text" required="" class="form-control my_date" id="'+numrows+'" name="data[transaction_date]['
                          + ']" onfocusout = validateDate(this)>'
-                         + '</td>'
+                         + '<span class="text-danger" id="date_error_'+numrows+'">Correct this date</span></td>'
                          + '<td class="form-group error_block">'
                          + '<input type="text" required="" class="form-control" name="data[doc_reference]['
                           //+ numrows
-                          + ']">'
-                          + '</td>'
+                          + ']" id="doc_'+numrows+'" onfocusout = validateDocReference(this)>'
+                          + '<span class="text-danger" id="error_doc_'+numrows+'" style="display: none">Correct this reference</span></td>'
                           + '<td>'
                           +  '<input type="text" class="form-control" name="data[remarks]['
                           //+ numrows
                           + ']">'
                           + '</td>'
                           + '<td class="form-group error_block">'
-                          +  '<input type="text" required="" class="form-control" name="data[amount]['
+                          +  '<input type="number" required="" class="form-control" name="data[amount]['
                           //+ numrows
-                          + ']">'
-                          + '</td>'
+                          + ']" id="amount_'+numrows+'" onfocusout = validateAmount(this)>'
+                          + ' <span style="display: none" class="text-danger" id="error_amount_'+numrows+'" ">Correct this amount</span></td>'
                           + '<td class="hidden">'
                           + '<input type="text" readonly class="form-control" name="data[sign]['
                           //+ numrows
@@ -209,50 +180,31 @@
                           $("#open_table tbody").append(append_str_credit);
                           $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
                           $(".my_date").focus();
-
-                          $("td input[name^='data[transaction_date]'],td input[name^='data[doc_reference]'],td input[name^='data[amount]']").focusout(function() {
-                            if(!$(this).val())
-                            {
-
-                              $(this).focus();
-                              $(this).addClass("custom_error_block");
-                            }
-                            else
-                            {
-                              $(this).removeClass("custom_error_block");
-                            }
-                          });
                         }); 
-  $("#input_another_entry").click(function(event) {
 
+
+  $("#input_another_entry").click(function(event) {
     $("#flag_text").html("Mode: Invoice Entry");
     var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
-
-    console.log(numrows);
-    var append_str_entry = '<tr id="row-'+numrows+'">' 
+    var append_str_entry = '<tr id="row-'+numrows+'" >' 
     +'<td class="form-group error_block">'
     + '<input type="text" required="" class="form-control my_date" id="'+numrows+'" name="data[transaction_date]['
-                          //+ numrows
                           + ']" onfocusout = validateDate(this)>'
-                          + '<span class="text-danger" hidden>Correct this date</span></td>'
+                          + '<span style="display: none" class="text-danger" id="date_error_'+numrows+'">Correct this date</span></td>'
                           + '<td class="form-group error_block">'
                           + '<input type="text" required="" class="form-control" name="data[doc_reference]['
-                          //+ numrows
-                          + '] onfocusout = validateDate(this)">'
-                          + '</td>'
+                          + ']" id="doc_'+numrows+'" onfocusout = validateDocReference(this)>'
+                          + '<span class="text-danger" id="error_doc_'+numrows+'" style="display: none">Correct this reference</span></td>'
                           + '<td>'
                           +  '<input type="text" class="form-control" name="data[remarks]['
-                          //+ numrows
                           + ']">'
                           + '</td>'
                           + '<td class="form-group error_block">'
-                          +  '<input type="text" required="" class="form-control" name="data[amount]['
-                          //+ numrows
-                          + ']">'
-                          + '</td>'
+                          +  '<input type="number" required="" class="form-control" name="data[amount]['
+                          + ']" id="amount_'+numrows+'" onfocusout = validateAmount(this) >'
+                          + ' <span style="display: none" class="text-danger" id="error_amount_'+numrows+'" ">Correct this amount</span></td>'
                           + '<td class="hidden">'
                           + '<input type="text" readonly class="form-control" name="data[sign]['
-                          //+ numrows
                           + ']" value="+">'
                           + '</td>'
                           + '<td>'
@@ -264,52 +216,33 @@
     //console.log(index_add);
     $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
     $(".my_date").focus();
-
-    $("td input[name^='data[transaction_date]'],td input[name^='data[doc_reference]'],td input[name^='data[amount]']").focusout(function() {
-      if(!$(this).val())
-      {
-        $(this).focus();
-        $(this).addClass("custom_error_block");
-      }
-      else
-      {
-        $(this).removeClass("custom_error_block");
-      }
-    });
-  });
 });
-
 
 //----------------- Field validations -----------------//
 
 // Date
-
-function validateDate(row){
+function validateDate(entryDate){
   var valid = 0;
-  var yesBtn = $('.yes_btn');
-  var noBtn = $('.no_btn');
-  var myDate = $('#'+row.id);
+  var myDate = $('#'+entryDate.id);
   var nowDate = new Date();
   var year = nowDate.getFullYear();
   var month = nowDate.getMonth();
   var day = nowDate.getDate();
   var date = myDate.val();
-  var dateFields = (date.split("/"));  
+  var dateFields = (date.split("/")); 
   var nowYear = parseInt(dateFields[0]);
   var nowMonth = parseInt(dateFields[1]) - 1;
   var nowDay = parseInt(dateFields[2]);
-  console.log(dateFields[2][1]);
+  var error = $('#date_error_'+entryDate.id);
   var number = nowYear + nowMonth + nowDay;
-  if(nowYear < 2000 || nowYear > year || nowMonth < 0 || nowMonth > 11 || nowDay < 1 || nowDay > 31 || isNaN(number) || dateFields[0].length != 4 || dateFields[1].length != 2 || isNaN(dateFields[2][1])){
+  console.log(number);
+  if(nowYear < 2000 || nowYear > year || nowMonth < 0 || nowMonth > 11 || nowDay < 1 || nowDay > 31 || isNaN(number) || isNaN(dateFields[2][1]) || isNaN(dateFields[1][1])){
     valid = 1;
-    $(myDate).focus();
   } else if(nowYear === year){
     if (nowMonth > month){
-      $(myDate).focus();
       valid = 1;
     } else if (nowMonth === month){
       if (nowDay > day){
-        $(myDate).focus();
         valid = 1;
       }
       else{
@@ -321,19 +254,72 @@ function validateDate(row){
   } else{
     valid = 0;
   }
-  if(valid === 1){
+  buttonState(valid, error, myDate);
+}
+
+function validateDocReference(reference){
+  console.log(reference.id);
+  var error = $('#error_'+reference.id);
+  var valid = 0;
+  var myDoc = $('#'+reference.id);
+  var doc_ref = myDoc.val();
+  if (doc_ref === ""){
+    buttonState(1, error, myDoc);
+  } else{
+    console.log(doc_ref);
+    $.post('<?php echo base_url('common/Ajax/double_check/double_doc_ref') ?>', {  doc_ref_no: doc_ref}, function(data, textStatus, xhr) {
+      console.log(parseInt(data));
+      buttonState(parseInt(data), error, myDoc);
+    });
+  }
+}
+
+function validateAmount(amount){
+  console.log(amount.id);
+  var error = $('#error_'+amount.id);
+  var valid = 0;
+  var myAmount = $('#'+amount.id);
+  var amount = myAmount.val();
+  console.log(amount);
+  if (amount === "" || amount <= 0 || isNaN(amount)){
+    buttonState(1, error, myAmount);   
+  }else{
+    buttonState(0, error, myAmount);   
+  }
+}
+
+function buttonState(value, error, toFocus){
+  var yesBtn = $('.yes_btn');
+  var noBtn = $('.no_btn');
+  if(value === 1){
     yesBtn.prop("disabled",true); 
     noBtn.prop("disabled",true); 
+    error.css('display','inline');  
+    toFocus.focus();
     $('#submitbtn').prop("disabled",true); 
-  }else {
+  } else {
     yesBtn.prop("disabled",false); 
     noBtn.prop("disabled",false); 
+    error.css('display','none'); 
     $('#submitbtn').prop("disabled",false); 
   }
 }
 
+function onChargeAndDelete(){
+  var yesBtn = $('.yes_btn');
+  var noBtn = $('.no_btn');
+  yesBtn.prop("disabled",false); 
+  noBtn.prop("disabled",false); 
+  $('#submitbtn').prop("disabled",false); 
+}
+
 function delete_row(data) {
+  var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
+  console.log(numrows);
   $(data).parents("tr").remove();
+  onChargeAndDelete();
+
 }
 
 </script>
+

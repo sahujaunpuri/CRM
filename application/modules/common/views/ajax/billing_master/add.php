@@ -81,6 +81,8 @@
             console.log(data);
             if (data == 1) {
                 $('#myModal').modal('show');
+
+                //Don't erase!!!!
                 //alert('DUPLICATE CODE NOT ALLOWED! (PLEASE ENTER UNIQUE CODE)');
                 //location.href = '<?php echo base_url('master_files/billing_master') ?>';
                 // $('.stock_code_error').css("display","block").css("color", "red");
