@@ -201,7 +201,7 @@ class Account_ajax extends CI_Controller {
 
 	public function get_customer_debtor_date($currency_type,$from = '0', $to = '120')
 	{
-		$this->db->select('ar_id, SUM(total_amt) AS amount, customer_code');
+		$this->db->select('SUM(total_amt) AS amount, customer_code');
 		$this->db->from('accounts_receivable');
 		if ($from == '0') {
 			$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN '0' AND '30' ");   	
@@ -213,7 +213,10 @@ class Account_ajax extends CI_Controller {
 		else 
 		{
 			$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN ".$from." AND ".$to);  
-		}   
+		}
+
+
+			//$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN ".$from." AND ".$to);   
 		$this->db->where(array('offset'=>'n','sign'=>'+', 'settled'=>'n', 'currency_type' =>$currency_type));
 		$this->db->order_by("customer_code", "asc");
 		$this->db->group_by("customer_code");
@@ -221,65 +224,6 @@ class Account_ajax extends CI_Controller {
 		$query = $this->db->get();
 		$customer_code_ar = $query->result();
 		return $customer_code_ar;
-	}
-
-
-	public function get_partial_debtor($currency_type = '',$from = '0', $to = '120')
-	{
-		$invoice_id = array();
-		$customer_code = array();
-		$tosub  = array();
-		$this->db->select('ar_id, total_amt, customer_code');
-		$this->db->from('accounts_receivable');
-		if ($from == '0') {
-			$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN '0' AND '30' ");   	
-		}
-		else if($from == '121')
-		{
-			$this->db->where("DATEDIFF(NOW(), doc_date) >= '120'");   	
-		}
-		else 
-		{
-			$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN ".$from." AND ".$to);  
-		}
-		$this->db->where(array('offset'=>'n','sign'=>'+', 'settled'=>'n', 'currency_type' =>$currency_type));
-		$this->db->order_by("customer_code", "asc");
-		$query = $this->db->get();
-		foreach ($query->result() as $row){
-			array_push($invoice_id, $row->ar_id);
-		}
-		foreach ($invoice_id as $id){
-			$this->db->select('SUM(rec_inv_amount) AS amount');
-			$this->db->from('receipt_invoice_master');	
-			$this->db->where('invoice_id',$id);	
-			$query = $this->db->get();
-			foreach ($query->result() as $row){
-				if ($row->amount == ''){
-					$tosub[$id] = 0;
-				} else{
-					$tosub[$id] = $row->amount;
-				}
-			}
-		}
-		$tosubend = array();
-		foreach ($tosub as $ar_id => $amount) {
-			$this->db->select('customer_code');
-			$this->db->from('accounts_receivable');
-			$this->db->where('ar_id', $ar_id);
-			$queryes = $this->db->get();
-			foreach ($queryes->result() as $row => $value){
-				foreach ($value as $key => $values) {
-					if (!array_key_exists($values, $tosubend)){
-						$tosubend[$values] 	= 0;
-						$tosubend[$values] 	+= $amount;	
-					}
-					else{
-						$tosubend[$values] 	+= $amount;	
-					}
-				}
-			}			
-		}	
-		return $tosubend;
 	}
 
 	public function get_customer_name($customer_code)
@@ -312,20 +256,13 @@ class Account_ajax extends CI_Controller {
 		$html_tbody = '';
 
 		$debtor_date = array();
-		$debtor_credit = array();
+
 
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '0', '30'));
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '31', '60'));
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '61', '90'));
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '91', '120'));
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '121', '365'));
-
-		array_push($debtor_credit, $this->get_partial_debtor($currency_type, '0', '30'));
-		array_push($debtor_credit, $this->get_partial_debtor($currency_type, '31', '60'));
-		array_push($debtor_credit, $this->get_partial_debtor($currency_type, '61', '90'));
-		array_push($debtor_credit, $this->get_partial_debtor($currency_type, '91', '120'));
-		array_push($debtor_credit, $this->get_partial_debtor($currency_type, '121', '365'));
-
 		$customers = array();
 		$amounts = array();
 		$i = 0;
@@ -337,7 +274,6 @@ class Account_ajax extends CI_Controller {
 				}
 			}
 		}
-
 		$total_amt = array(0,0,0,0,0);
 		foreach ($customers as $key => $customer) {
 			$amounts_item = array(0,0,0,0,0);
@@ -345,10 +281,11 @@ class Account_ajax extends CI_Controller {
 			foreach ($debtor_date as $key => $row) {
 				foreach ($row as $key => $value) {
 					if($customer == $value->customer_code){
-						$amounts_item[$i] = $value->amount - $debtor_credit[$i][$value->customer_code];
+						$amounts_item[$i] = $value->amount;
 					}
 				}
 				$i++;
+
 			}
 			array_push($amounts, $amounts_item);
 			for ($i=0; $i < 5; $i++) { 

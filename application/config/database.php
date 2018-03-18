@@ -82,7 +82,7 @@ $db['default'] = array(
 	/////////////////
 	'username' => 'root',
 	'password' => 'Electro708!',
-	'database' => 'andres_new',
+	'database' => 'patrick_new',
 	//////////////////
 	//'username' => 'schweta_new',
 	//'password' => 'Web@123',

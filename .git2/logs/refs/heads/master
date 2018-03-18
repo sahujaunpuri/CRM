@@ -1,0 +1,10 @@
+0000000000000000000000000000000000000000 c32f47b1e30e878459a8b5b68b7bb9436249dae6 Your Name <you@example.com> 1519372587 +0000	commit (initial): Initial commit
+c32f47b1e30e878459a8b5b68b7bb9436249dae6 88b96ae64b167277782fc183cf7154f27fa5116c Your Name <you@example.com> 1519372951 +0000	commit: Initial
+88b96ae64b167277782fc183cf7154f27fa5116c 6a3b2cfdd16b4fbc0d182712e587824d26c08158 Your Name <andresforonda.af@gmail.com> 1519709898 +0000	commit: Stop receipt, start fixing invoice and quotation
+6a3b2cfdd16b4fbc0d182712e587824d26c08158 880971840a8a2e52f6b56e9982c50e658b181194 Your Name <andresforonda.af@gmail.com> 1519714752 +0000	commit: Fixed add description bug (bullet items as long string)
+880971840a8a2e52f6b56e9982c50e658b181194 9d010a6912bb8f28b2d955d41f6841915962a84e Your Name <andresforonda.af@gmail.com> 1519921229 +0000	commit: Fixed print invoice footer issue
+9d010a6912bb8f28b2d955d41f6841915962a84e 7b27899f15fbf6a20389a2fef06252658591a936 Your Name <andresforonda.af@gmail.com> 1519984871 +0000	commit: Job wc1130.mar2b finished - added print list button. Reprint button allow to select if show header or not in printed document
+7b27899f15fbf6a20389a2fef06252658591a936 81023ae42fbe3e936441aa144cae91fb24b1daf1 Your Name <andresforonda.af@gmail.com> 1520371826 +0000	commit: hola
+81023ae42fbe3e936441aa144cae91fb24b1daf1 6f82eb48f1d64be441c6acbd0c0c0cafebc64555 Your Name <andresforonda.af@gmail.com> 1520436950 +0000	commit: Fixed bugs on wc1130.mar2.fix
+6f82eb48f1d64be441c6acbd0c0c0cafebc64555 80812d7c6cabf6c28e3b0e3276ae582bbd7e3edb Your Name <andresforonda.af@gmail.com> 1520910272 +0000	commit: wc1130.mar4 and mar4.fix finished, starting the changes on database, first the customer_id problem will be fixed: tables and functions.
+80812d7c6cabf6c28e3b0e3276ae582bbd7e3edb 6f82eb48f1d64be441c6acbd0c0c0cafebc64555 Your Name <andresforonda.af@gmail.com> 1521079430 +0000	reset: moving to HEAD@{1}

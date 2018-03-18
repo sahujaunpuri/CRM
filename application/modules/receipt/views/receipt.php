@@ -1,25 +1,25 @@
 <section class="content-header">
   <?php 
-    $list = array('active'=>'Receipt');
-    echo breadcrumb($list); 
+  $list = array('active'=>'Receipt');
+  echo breadcrumb($list); 
   ?>
 </section>
 <br>
-<section class="content">
+<section id="section_1" class="content">
   <?php echo get_flash_message('message'); ?>
   <div class="row">
     <div class="col-md-12">
       <div class="box box-info">
         <div class="box-header with-border">
           <div class="tooltip">Hover over me
-  <span class="tooltiptext">Tooltip text</span>
-</div>
+            <span class="tooltiptext">Tooltip text</span>
+          </div>
           <h3 class="box-title">Receipt</h3>
         </div>
       </div>
     </div>
   </div>
-  <form id="form_" autocomplete="off" class="form-horizontal validate" method="post" action="<?php echo $save_url; ?>">
+  <form autocomplete="off" id="form_" class="form-horizontal validate" method="post" action="<?php echo $save_url; ?>">
     <div class="row">
       <div class="col-md-12">
         <div class="box box-danger">
@@ -33,344 +33,317 @@
                     <?php echo $company_details->company_address; ?>
                     <br>GST Register Number : <?php echo $company_details->gst_reg_no ?> | UEN No. : <?php echo $company_details->uen_no; ?>
                     <br>Phone : <?php echo $company_details->phone ?> | Fax : <?php echo $company_details->fax ?>
-                  </strong>
+                  </strong>   
                 </center>
-              </div>
                 <hr>
-              <div class="box-body">
-                <section class="receipt">
-                  <!-- info row -->
+                <div class="box-body">
+                  <div class="invoice receipt">
+                    <div class="row receipt-info">
+                      <div class="col-sm-4 receipt-col">
+                        <b>To,</b>
+                        <address>
+                          <select name="customer_id" id="customer_id" title="Select Customer" class="form-control select2" required="">
+                            <?php echo $customer_options; ?>
+                          </select><br>
+                          <b>Country: </b><span id="customer_cntry_post"></span><br>
+                          <b>Address: </b><span id="customer_bldg_street"></span><br>
+                        </address>
+                      </div>
+                      <div class="col-sm-4 receipt-col">
+                      </div>
+                      <div class="col-sm-4 receipt-col">
+                        <label for="receipt_ref_no"><b>Receipt : <?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?></b></label>
+                        <br>
+                        <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="<?php //echo $invoice_details->invoice_text_prefix.'.'.$total_invoice; ?>">
+                        <br>
+                        <b>Date:</b> <?php echo date('d-m-Y'); ?><br> 
+                      </div>
+                      <br/><br/>
+                      <!-- /.row -->
+                      <div class="row col-md-12 display-none" id="bank_input">
+                        <div class="col-md-4">
+                          Bank: <input type="text" name="bank" class="form-control" id="bank">
+                        </div> 
+                        <div class="col-md-4">
+                          Cheque: <input type="text" name="cheque" id="cheque" class="form-control" disabled>
+                        </div> 
+                        <div class="col-md-4">
+                          Cheque amount ( <span class="cheque_currency" id="cheque_currency"></span> ): <input type="number" name="cheque_amount" id="cheque_amount" class="form-control" min="1" disabled>
+                        </div> 
+                        <div class="text-center col-md-2 col-md-offset-5 p-b-t-10 display-none" id="request_reference">    
+                          <div id="answers">            
+                            <p class="">Select document reference: </p>
+                            <button type="button" id="dont_use_reference" class="btn btn-danger ml-10" disabled=""><i class="fa fa-times"></i> No </button>
+                            <button type="button" id="use_reference" class="btn btn-success"><i class="fa fa-check"></i> Yes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row display-none" id="section_3">
+                  <div class="receipt col-xs-12 col-md-12">
+                    <div class="box box-warning">
+                      <div class="box-body invoice_references" >
+                       <div class="row">
+                        <div class="col-xs-12 col-md-4 table-responsive">
+                          <table class="table table-striped" id="inv_table">
+                            <caption>Invoice references</caption>
+                            <thead>
+                              <tr>
+                                <th >Option</th>
+                                <th >Reference</th>
+                                <th >Document date</th>
+                                <th >Amount ( <span class="cheque_currency"></span> )</th>
+                              </tr>
+                            </thead>
+                            <tbody id="invoice_reference_id">
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="col-xs-6 col-md-4 table-responsive">
+                          <table class="table table-striped" id="inv_table">
+                            <caption>Credit note references</caption>
+                            <thead>
+                              <tr>
+                                <th >Option</th>
+                                <th >Reference</th>
+                                <th >Document date</th>
+                                <th >Amount ( <span class="cheque_currency"></span> )</th>
+                              </tr>
+                            </thead>
+                            <tbody id="credit_reference_id">
+                            </tbody>
+                          </table>
+                        </div>
+
+                        <div class="col-xs-6 col-md-4 table-responsive">
+                          <table class="table table-striped" id="bal_table" >
+                            <caption>Balance receipt</caption>
+                            <thead>
+                              <tr>
+                                <th >Document reference</th>
+                                <th >Credit</th>
+                                <th >Debit</th>
+                              </tr>
+                            </thead>
+                            <tbody id="balance">
+                            </tbody>
+                            <tfoot>
+                              <tr>
+                                <td><b>Totals</b></td>
+                                <td id="creditTotals"></td>
+                                <td id="debitTotals"></td>
+                              </tr>
+                              <tr>
+                                <td><b>Balance</b></td>
+                                <td id="creditTotalBalance"></td>
+                                <td id="debitTotalBalance"></td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>                  
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+              </div>  
+
+              <div class="box-body display-none" id="section_2">
+                <div class="receipt invoice">
                   <div class="row receipt-info">
-                    <div class="col-sm-4 receipt-col">
-                      <b>To,</b>
-                      <address>
-                        <select name="customer_id" id="customer_id" title="Select Customer" class="form-control select2" required="">
-                          <?php echo $customer_options; ?>
-                        </select><br>
-                         <span id="customer_bldg_street"></span><br>
-                         <span id="customer_cntry_post"></span><br>
-                      </address>
-                    </div>
-                    <div class="col-sm-4 receipt-col"></div>
-                    <!-- /.col -->
-                    <div class="col-sm-4 receipt-col">
-                      <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
-                      <br>
-                      <b>Receipt : <?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?></b><br>
-                      <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="<?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?>">
-                      
-                    </div>
-                    <!-- /.col -->
-                  </div>
-                  <!-- /.row -->
-                  <br>
-                  <hr>
-                  <div class="row">
-                    <div class="col-xs-12 col-md-4 product_id_div">
-                      <select name="invoice_reference_id" id="invoice_reference_id" title="Select Invoices" required="" class="form-control select2" multiple="multiple">
-                          <?php echo $invoice_reference; ?>
-                        </select>
 
+                    <div id="without_document" class="col-md-4 receipt-col col-md-offset-4 display-none" style="margin-bottom: 20px">
+                      Please write a reference: <input type="text" name="cheque_reference" id="cheque_reference" class="form-control" >
                     </div>
-                  </div>
-                  <br>
-                  <br>
-                  <br>
-                  <!-- <legend></legend> -->
-                  <!-- Table row -->
-                  
-                  
-                  <div class="row">
-                    <div class="col-xs-6 table-responsive">
-                      <table class="table table-striped hidden" id="inv_table">
-                        <thead>
-                          <tr>
-                            <th>Invoice Number</th>
-                            <th>Original Amount ( <span id="currency2"></span> ) </th>
-                            <th>Amount Received ( <span id="currency4"></span> ) </th>
-                            <th>Difference in Amount ( <span id="currency3"></span> )</th>
-                          </tr>
-                        </thead>
+                    <div class="row no-print">
+                      <div class="col-md-11">
+                        <button type="submit" id="submitbtn" class="btn btn-success pull-right" ><i class="fa fa-credit-card"></i> Submit </button>
+                      </div>
+                    </div>
 
-                        <tbody>
-                          
-                        </tbody>
-                      </table>
-                    </div>
-                    <!-- /.col -->
                   </div>
-                  
-                  <div class="row" align="left">
-                    <div class="col-md-12">
-                        <div class="display-none receipt_body">Received with thanks the sum of <span id="currency">...</span><span id="inv_amount">...</span> Net being payment as shown above<!--  with <span id="cn_amount">...</span> Credit Note.</div>                       -->
-                    </div>
-                    <br>
-                    <div class="row col-md-12">
-                        <div class="col-md-6">Bank: <input type="text" class="form-control" name="bank"></div> 
-                        <div class="col-md-6">Cheque: <input type="text" name="cheque" class="form-control"></div> 
-                    </div>
-                    <br>
-                    <br><br>
-                    <div class="row col-md-12">
-                        <div class="col-md-6">OTHER REFERENCE IF ANY: </div> 
-                        <div class="col-md-6"> <input type="text" name="other_reference" class="form-control"> </div>
-                    </div>
-                    <!-- /.col -->
-                  </div>
-
-                  <br>
-                  <input type="hidden" name="currency" id="rec_currency">
-                  <input type="hidden" name="amount" id="rec_amount">
-                  <input type="hidden" name="invoice" id="rec_invoice">
-                  <!-- <input type="hidden" name="receipt_invoice_id" id="receipt_invoice_id"> -->
-                  <!-- this row will not appear when printing -->
-                  <div class="row no-print">
-                    <div class="col-xs-12">
-                      <button type="submit" id="submitbtn" class="btn btn-success pull-right" ><i class="fa fa-credit-card"></i> Submit
-                      </button>
-                    </div>
-                  </div>
-                </section>
+                </div>
               </div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
-  </form>
+  </div>
+</form>
 </section>
-<!-- <script type="text/javascript" src="<?php echo JS_PATH ?>receipt.js"></script> -->
-<script type="text/javascript">
-
-$(document).ready(function(){
-        // alert(document.URL);
-      history.pushState(null, null, document.URL);
-      window.addEventListener('popstate', function () {
-          $.confirm({
-                title:"<i class='fa fa-info'></i> Exit Confirmation",
-                text: "Are You Sure Exit ?",
-                confirm: function(button) {
-                  
-                    window.history.go(-1);
-                },
-                cancel: function(button) {
-                    history.pushState(null, null, document.URL);
-                }
-            });
-        
+<style type="text/css">
+table tr:hover {
+  background-color: #bbb;
+}
+</style>
+<script>
+  $(function(){
+    var bank = $("#bank");
+    var bank_input = $("#bank_input");
+    var cheque = $("#cheque");
+    var chequeAmount = $("#cheque_amount");
+    var dont_use_reference = $("#dont_use_reference"); 
+    var use_reference = $("#use_reference"); 
+    var request_reference = $("#request_reference");
+    var section_2 = $("#section_2");
+    var section_3 = $("#section_3");
+    var without_document = $("#without_document");
+    $("#customer_id").change(function(event) {
+      customer_id=$("#customer_id option:selected").val();
+      if(customer_id!=""){
+        $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
+          var obj = $.parseJSON(data);
+          $("#customer_bldg_street").html(obj.customer_bldg_street);
+          $("#customer_cntry_post").html(obj.customer_cntry_post);
+          $(".cheque_currency").html(obj.customer_currency);        
+          $("#rec_currency").val(obj.customer_currency);
+          $("#invoice_reference_id" ).html( obj.invoices );
+          $("#credit_reference_id" ).html( obj.creditNotes );
+          $("#bank_input").fadeIn(700);
+          $("#bank").focus();
+        });
+      } else{
+        bank_input.fadeOut(700);
+      }
     });
-});
+    bank.on('input',function(e){
+      bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
+    });
+    cheque.on('input',function(e){
+      bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
+      updateChequeInTable();
+    });
+    chequeAmount.on('input',function(e){
+      bankEntry(bank, cheque, chequeAmount, dont_use_reference, dont_use_reference);
+      updateChequeInTable();
+      calcBalance();
+    });
 
-$(function() {
-
-
-  $('#submitbtn').click(function(e){
-    e.preventDefault();
-    
-    var tot_amt = $('#inv_amount').html();
-    //alert(tot_amt);
-    if (tot_amt == 0.00) {
-      //return false;
-    }
-    else
-    {
-      $('#form_').submit();  
-    }
-    
-  });
-
-  var credit_tune = function(change_flag) { 
-      var tot = 0;
-      var tot_cn = 0;
-      var tot_inv = 0;
-      $(".partial_amount").each(function(){
-        if ($(this).parents('tr').children("input.amount_sign").val() == -1) {
-          tot_cn += parseFloat($(this).parents('tr').children("td.full_amount").html());
+    function bankEntry(bankField, chequeField, chequeAmountField, noAddDocument, addDocument){
+      if(bankField.val() === ""){
+        chequeField.prop('disabled',true).val("");
+        chequeAmountField.prop('disabled',true).val("");
+        noAddDocument.prop('disabled',true);  
+        use_reference.prop('disabled',true);  
+        request_reference.fadeOut(700);
+      } else {
+        chequeField.prop('disabled',false);
+        if (chequeField.val() === ""){
+          chequeAmountField.prop('disabled',true).val("");
+          noAddDocument.prop('disabled',true);
+          use_reference.prop('disabled',true);  
+          request_reference.fadeOut(700);  
+        } else{
+          chequeAmountField.prop('disabled',false);
+          if (chequeAmountField.val() <= 0){
+            noAddDocument.prop('disabled',true);
+            use_reference.prop('disabled',true);  
+            request_reference.fadeOut(700);  
+          }else {
+            noAddDocument.prop('disabled',false); 
+            use_reference.prop('disabled',false);  
+            request_reference.fadeIn(700);
+          }
         } 
-        else
-        {
-          tot_inv += parseFloat($(this).val());
-        }
-      });
-      var flag = 0;
-      console.log("tot_cn =" + tot_cn);
-      console.log("tot_inv =" + tot_inv);
-      if (tot_inv < tot_cn) {
-        var tot_minus = 0;
-        $(".partial_amount").each(function(){
-
-          if ($(this).parents('tr').children("input.amount_sign").val() == -1 && flag == 1) {
-            $(this).val(0);
-            $(this).parents('tr').children("td.diff").html((parseFloat($(this).parents('tr').children("td.full_amount").html()) - $(this).val()).toFixed(2));
-          }
-          if (tot_inv == 0) {
-            $(this).val(0);
-            $(this).parents('tr').children("td.diff").html((parseFloat($(this).parents('tr').children("td.full_amount").html()) - $(this).val()).toFixed(2));
-          }
-          else 
-          {
-            if ($(this).parents('tr').children("input.amount_sign").val() == -1) {
-              tot_minus += parseFloat($(this).parents('tr').children("td.full_amount").html());
-            }
-            console.log("tot_minus =" + tot_minus);
-           
-            if ((tot_minus > tot_inv) && (flag == 0)) {
-              var change_minus_amt = parseFloat($(this).parents('tr').children("td.full_amount").html()) + parseFloat(tot_inv) - parseFloat(tot_minus);
-              //alert(change_minus_amt)
-              console.log("change_minus_amt =" + change_minus_amt);
-              $(this).val(change_minus_amt.toFixed(2));
-              $(this).parents('tr').children("td.diff").html((parseFloat($(this).parents('tr').children("td.full_amount").html()) - $(this).val()).toFixed(2));
-              flag = 1;
-            }
-            else if((tot_minus < tot_inv) && (flag == 0))
-            {
-              if (change_flag == "change") {
-                //$(this).val(parseFloat($(this).parents('tr').children("td.full_amount").html()));  
-              }
-              else if(change_flag == "none")
-              {
-                $(this).val(parseFloat($(this).parents('tr').children("td.full_amount").html()));  
-              }
-              
-              $(this).parents('tr').children("td.diff").html((parseFloat($(this).parents('tr').children("td.full_amount").html()) - $(this).val()).toFixed(2));
-            }
-          }
-          // if ($(this).parents('tr').children("input.amount_sign").val() == -1) {
-          //   $(this).prop("readonly", true);
-          // }                    
-           
-        });
-        $("#rec_amount").val(tot_inv.toFixed(2));
-        $("#inv_amount").html(' ' + tot_inv.toFixed(2));  
       }
-      else if(tot_inv >= tot_cn)
-      {
-        $(".partial_amount").each(function(){
-          if ($(this).parents('tr').children("input.amount_sign").val() == -1) {
-            $(this).val(parseFloat($(this).parents('tr').children("td.full_amount").html()));
-            $(this).parents('tr').children("td.diff").html((parseFloat($(this).parents('tr').children("td.full_amount").html()) - $(this).val()).toFixed(2));
-          }
-        });
-        var sum = tot_inv - tot_cn;
-        $("#rec_amount").val(sum.toFixed(2));
-        $("#inv_amount").html(' ' + sum.toFixed(2) );  
+    }
+
+    chequeAmount.focusout(function(){
+      if (chequeAmount.val() < 0){
+        chequeAmount.focus();
+        alert('Amount must be greater than zero.');
+        chequeAmount.val("");      
       }
+    });
 
-      var tot_cn_show = 0;
-      var tot_inv_show = 0;
-      $(".partial_amount").each(function(){
-        if ($(this).parents('tr').children("input.amount_sign").val() == -1) {
-          tot_cn_show += parseFloat($(this).val());
-          $(this).prop("readonly", true);
-        }
-        else if($(this).parents('tr').children("input.amount_sign").val() == 1){
-          tot_inv_show += $(this).val();
-        }
-      });
-      //$("#inv_amount").html(' ' + tot_inv_show);  
-      $("#cn_amount").html(tot_cn_show.toFixed(2));
-  };
+    dont_use_reference.click(function(event) {
+      request_reference.remove();
+      section_2.fadeIn(700);
+      without_document.fadeIn(700);
+    });
 
-  //=========================customer details ====================================================
-  $("#customer_id").change(function(event) {
-    customer_id=$("#customer_id option:selected").val();
-    if(customer_id!=""){
-      $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
-        var obj = $.parseJSON(data);
-        console.log(obj);
-        $("#customer_bldg_street").html(obj.customer_bldg_street);
-        $("#customer_cntry_post").html(obj.customer_cntry_post);
-        $("#customer_cntry_post").html(obj.customer_cntry_post);
-        $("#currency").html(obj.customer_currency);
-        $("#currency2").html(obj.customer_currency);
-        $("#currency3").html(obj.customer_currency);
-        $("#currency4").html(obj.customer_currency);
-        $("#rec_currency").val(obj.customer_currency);
+    use_reference.click(function(event) {
+      request_reference.remove();
+      $('#bal_table').append('<tr id="chequeReference"><td id="chequeReferenceInTable">Cheque: '+cheque.val()+'</td><td class="creditBalance" id="chequeAmountInTable">'+chequeAmount.val()+'</td><td></td></tr>' );
+      section_2.fadeIn(700);
+      section_3.fadeIn(700);
+      calcBalance();
+    })
 
-        $( "#invoice_reference_id" ).html( obj.invoice_reference );
-        // $("#customer_email").html(obj.customer_email);
-        $("#invoice_reference_id").select2("open");
-        // $("#invoice_reference_id select:first").focus();
+    function updateChequeInTable(){
+      $('#chequeReference').html("<td id='chequeReferenceInTable'>Cheque: "+cheque.val()+"</td><td class='creditBalance' id='chequeAmountInTable'>"+chequeAmount.val()+"</td><td></td>");
+    }
+  });
 
-      });
-      // get_sub_total();
+  function addInvoice(data){
+    invoiceIdAdd = $(data).parents("tr").attr("id");
+    invoiceReference = $("#invoiceRef-"+invoiceIdAdd).text();
+    invoiceAmount = $("#invoiceAmount-"+invoiceIdAdd).text();
+    $('#bal_table').append('<tr id="invoiceInTable-'+invoiceIdAdd+'"><td id="invoiceReferenceInTable-'+invoiceIdAdd+'">'+invoiceReference+'</td><td ></td><td class="invoiceBalance" id="invoiceAmountInTable-'+invoiceIdAdd+'">'+invoiceAmount+'</td></tr>');
+    $('#invoiceAdd-'+invoiceIdAdd).prop('disabled',true);
+    $('#invoiceRemove-'+invoiceIdAdd).prop('disabled',false);
+    calcBalance();
   }
-  });
-    //===============================================invoice reference ===================================
-  $("#invoice_reference_id").change(function(event) {
-      var invoice_id = [];
 
-      $.each($("#invoice_reference_id option:selected"), function(){            
-          invoice_id.push($(this).val());
-      });
-      
-      if(invoice_id!=""){
-          $("#inv_table tbody").empty();
-          $count = 0;
-          
-          $.each($("#invoice_reference_id option:selected"), function(){            
-              $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_receipt_data') ?>', {  invoice_id: invoice_id}, function(data, textStatus, xhr) {
-                obj = $.parseJSON(data);
-                // console.log(typeof obj.invoic_name);
-                console.log(obj);
-                
-                $("#inv_table").removeClass('hidden');
+  function removeInvoice(data){
+    invoiceIdAdd = $(data).parents("tr").attr("id");
+    $("#invoiceInTable-"+invoiceIdAdd).remove()
+    $('#invoiceAdd-'+invoiceIdAdd).prop('disabled',false);
+    $('#invoiceRemove-'+invoiceIdAdd).prop('disabled',true);
+    calcBalance();
+  }
 
-                var pay_invoice_id = obj.invoice_id[$count];
-                $("#inv_table tbody").append('<tr id="' 
-                                              + pay_invoice_id 
-                                              + '"> <td>'
-                                              + obj.invoic_name[$count] 
-                                              + '</td> <td class="full_amount">' 
-                                              + obj.full_amount[$count] 
-                                              + '</td> <td><input type="hidden" class="form-control" name="full_amount['
-                                              + pay_invoice_id 
-                                              + ']" value="'
-                                              + parseFloat(obj.full_amount[$count].replace(",", "")) 
-                                              + '"><input id="partial_amount" type="hidden" class="form-control" name="partial_amount_hidden" value="'
-                                              + parseFloat(obj.invoice_amt[$count].replace(",", "")) 
-                                              + '"><input type="number" class="partial_amount form-control" name="partial_amount[' 
-                                              + pay_invoice_id 
-                                              + ']" value="'
-                                              + parseFloat(obj.invoice_amt[$count].replace(",", "")) 
-                                              + '"></td><td class="hidden hidden_diff">'
-                                              + obj.received_amount[$count]
-                                              + '</td><input id="amount_sign" type="hidden" class="form-control amount_sign" name="amount_sign" value="'
-                                              + obj.amount_sign[$count] 
-                                              + '"><td class="diff">0</td></tr>');
-                
-                credit_tune("none");
-
-                $("#rec_invoice").val(obj.invoic_name);
-                $('.receipt_body').show();
-
-                $(".partial_amount").change(function(){
-
-                    var par_td = $(this).parents('tr');
-                    var diff = $(par_td).children("td.diff");
-                    var temp_full_amount = $(par_td).children("td.full_amount").html();
-                    var amt_sign = $(par_td).children("input.amount_sign").val();
-                    var diff_html = temp_full_amount - parseFloat($(this).val());
-
-                    $(diff).html(diff_html.toFixed(2));
-
-                    credit_tune("change");
-                                        
-                });
-
-                $count = $count + 1;
-              });
-          });
-      }
-      
-      else
-      {
-            $("#inv_table tbody").empty();
-            $("#inv_table").addClass('hidden');
-            $('.receipt_body').hide();
-      }
+  function addCredit(data){
+    creditIdAdd = $(data).parents("tr").attr("id");
+    creditReference = $("#creditRef-"+creditIdAdd).text();
+    creditAmount = $("#creditAmount-"+creditIdAdd).text();
+    $('#bal_table').append('<tr id="creditInTable-'+creditIdAdd+'"><td id="creditReferenceInTable-'+creditIdAdd+'">'+creditReference+'</td><td class="creditBalance" id="creditAmountInTable-'+creditIdAdd+'">'+creditAmount+'</td><td ></td></tr>');
+    $('#creditAdd-'+creditIdAdd).prop('disabled',true);
+    $('#creditRemove-'+creditIdAdd).prop('disabled',false);
+    calcBalance();
+  }
   
-  });
-});
+  function removeCredit(data){
+    creditIdAdd = $(data).parents("tr").attr("id");
+    $("#creditInTable-"+creditIdAdd).remove()
+    $('#creditAdd-'+creditIdAdd).prop('disabled',false);
+    $('#creditRemove-'+creditIdAdd).prop('disabled',true);
+    calcBalance();
+  }
 
+  function calcBalance(type){
+    var invoiceBalance = document.getElementsByClassName('invoiceBalance');
+    var creditBalance = document.getElementsByClassName('creditBalance');
+    var creditTotals = document.getElementById('creditTotals');
+    var debitTotals = document.getElementById('debitTotals');
+    var creditTotalBalance = document.getElementById('creditTotalBalance');
+    var debitTotalBalance = document.getElementById('debitTotalBalance');
+    var invoicesTotals = 0;
+    var creditsTotals = 0;
+    var balanceTotals = 0;
+    for (var i = 0; i< invoiceBalance.length; i++){
+      invoicesTotals += parseFloat(invoiceBalance[i].innerText);
+    }
+    for (var i = 0; i< creditBalance.length; i++){
+      creditsTotals += parseFloat(creditBalance[i].innerText);
+    }
+    debitTotals.innerHTML = invoicesTotals;
+    creditTotals.innerHTML = creditsTotals;
+    balanceTotals = invoicesTotals - creditsTotals;
+    if (balanceTotals >= 0){
+      debitTotalBalance.innerHTML = balanceTotals;
+      creditTotalBalance.innerHTML = '';
+    } else {
+      debitTotalBalance.innerHTML = '';
+      creditTotalBalance.innerHTML = -(balanceTotals);
+    }
+   
+  }
 </script>
+
+<tfoot>
+       

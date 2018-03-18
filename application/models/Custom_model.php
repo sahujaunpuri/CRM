@@ -455,7 +455,11 @@ class Custom_model extends CI_Model
         $id=$columns[0];
         unset($columns[0]);
         $rows         = $this->getResult($query);
-        $drop_options = "<option value=''>-- Select ".$caption." --</option>";
+        if ($caption === "Document Ref No"){
+            $drop_options = "<option value='' disabled>-- Select ".$caption." --</option>";
+        } else {
+            $drop_options = "<option value=''>-- Select ".$caption." --</option>";
+        }
         if ($rows) {
             if (!empty($selected)) {
                 foreach ($rows as $row) {

@@ -14,6 +14,20 @@ textarea.form-control{
 .manage_text{
 	float: left; font-size: 20px; margin-bottom: -10px;
 }
+.mr-10{
+	margin-right: 10px;	
+}
+.p-b-t-10{
+	margin-top: 20px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	border: 1px solid #BBB;
+    box-shadow: 3px 3px #999999;
+}
+.fz-20{
+ font-size: 20px;
+}
+
 .container-full{
 	position: inherit !important;
 	z-index: unset !important;
@@ -54,6 +68,10 @@ tr.border_bottom {
   
 }
 
+.margin-center{
+	margin-right: auto;
+	margin-left: auto;
+}
 
 hr {
   display: block;

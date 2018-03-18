@@ -71,7 +71,7 @@
                     <div id="another_entry" class="pull-right">
                       Input An Entry?                  
                       <button type="button" class="btn btn-primary yes_btn" id="input_another_entry" >Yes</button>               
-                      <button type="button" class="btn btn-primary no_btn" id="no_input_another_entry" disabled="">No</button> 
+                      <button type="button" class="btn btn-primary no_btn" onclick="$('#credit_btn').removeClass('hidden');$('#another_entry').hide();">No</button> 
                     </div>
                   </div>
                   <div class="col-md-6 col-md-offset-6 col-xs-12">
@@ -141,29 +141,12 @@
       });
     }
   });
-  $("#no_input_another_entry").click(function(event){
-    var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
-    console.log();
-    if ($('#doc_'+(numrows-1)).val() === '' ){
-      $('#doc_'+(numrows-1)).focus();
-      console.log('vacio');
-    } else if($('#amount_'+(numrows-1)).val() === ''){
-      $('#amount_'+(numrows-1)).focus();
-    } else {
-      $('#credit_btn').removeClass('hidden');$('#another_entry').hide();
-    }
-  });
 
   $("#input_credit_note").click(function(event) {
 
     $("#flag_text").html("Mode: Credit Note");
     var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
-    if ($('#doc_'+(numrows-1)).val() === '' ){
-      $('#doc_'+(numrows-1)).focus();
-      console.log('vacio');
-    } else if($('#amount_'+(numrows-1)).val() === ''){
-      $('#amount_'+(numrows-1)).focus();
-    } else {
+    console.log(numrows);
     var append_str_credit = '<tr id="row-'+numrows+'" >' 
     +'<td class="form-group error_block">'
     + '<input type="text" required="" class="form-control my_date" id="'+numrows+'" name="data[transaction_date]['
@@ -197,20 +180,12 @@
                           $("#open_table tbody").append(append_str_credit);
                           $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
                           $(".my_date").focus();
-                        }
                         }); 
 
 
   $("#input_another_entry").click(function(event) {
     $("#flag_text").html("Mode: Invoice Entry");
     var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
-    console.log();
-    if ($('#doc_'+(numrows-1)).val() === '' ){
-      $('#doc_'+(numrows-1)).focus();
-      console.log('vacio');
-    } else if($('#amount_'+(numrows-1)).val() === ''){
-      $('#amount_'+(numrows-1)).focus();
-    } else {
     var append_str_entry = '<tr id="row-'+numrows+'" >' 
     +'<td class="form-group error_block">'
     + '<input type="text" required="" class="form-control my_date" id="'+numrows+'" name="data[transaction_date]['
@@ -241,7 +216,6 @@
     //console.log(index_add);
     $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
     $(".my_date").focus();
-  }
 });
 
 //----------------- Field validations -----------------//
@@ -261,6 +235,7 @@ function validateDate(entryDate){
   var nowDay = parseInt(dateFields[2]);
   var error = $('#date_error_'+entryDate.id);
   var number = nowYear + nowMonth + nowDay;
+  console.log(number);
   if(nowYear < 2000 || nowYear > year || nowMonth < 0 || nowMonth > 11 || nowDay < 1 || nowDay > 31 || isNaN(number) || isNaN(dateFields[2][1]) || isNaN(dateFields[1][1])){
     valid = 1;
   } else if(nowYear === year){
@@ -283,6 +258,7 @@ function validateDate(entryDate){
 }
 
 function validateDocReference(reference){
+  console.log(reference.id);
   var error = $('#error_'+reference.id);
   var valid = 0;
   var myDoc = $('#'+reference.id);
@@ -290,36 +266,34 @@ function validateDocReference(reference){
   if (doc_ref === ""){
     buttonState(1, error, myDoc);
   } else{
+    console.log(doc_ref);
     $.post('<?php echo base_url('common/Ajax/double_check/double_doc_ref') ?>', {  doc_ref_no: doc_ref}, function(data, textStatus, xhr) {
+      console.log(parseInt(data));
       buttonState(parseInt(data), error, myDoc);
     });
   }
 }
 
 function validateAmount(amount){
+  console.log(amount.id);
   var error = $('#error_'+amount.id);
   var valid = 0;
   var myAmount = $('#'+amount.id);
   var amount = myAmount.val();
+  console.log(amount);
   if (amount === "" || amount <= 0 || isNaN(amount)){
-    buttonState(1, error, myAmount, 'yes');   
+    buttonState(1, error, myAmount);   
   }else{
     buttonState(0, error, myAmount);   
   }
 }
 
-function buttonState(value, error, toFocus, end = 'no'){
+function buttonState(value, error, toFocus){
   var yesBtn = $('.yes_btn');
   var noBtn = $('.no_btn');
-  if(value === 1 && end === 'no'){
+  if(value === 1){
     yesBtn.prop("disabled",true); 
     noBtn.prop("disabled",true); 
-    error.css('display','inline');  
-    toFocus.focus();
-    $('#submitbtn').prop("disabled",true); 
-  } else if(value === 1 && end === 'yes'){
-    yesBtn.prop("disabled",false); 
-    noBtn.prop("disabled",false); 
     error.css('display','inline');  
     toFocus.focus();
     $('#submitbtn').prop("disabled",true); 
@@ -341,8 +315,10 @@ function onChargeAndDelete(){
 
 function delete_row(data) {
   var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
+  console.log(numrows);
   $(data).parents("tr").remove();
   onChargeAndDelete();
+
 }
 
 </script>
