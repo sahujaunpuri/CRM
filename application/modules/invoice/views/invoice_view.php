@@ -88,7 +88,7 @@ if($mode!="email")
 
                   <!-- Table row -->
                   <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" style="overflow-x: scroll;">
                       <table class="table table-striped" id="product_table">
                         <thead>
                           <tr>

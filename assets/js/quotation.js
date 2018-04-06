@@ -190,7 +190,7 @@ function get_sub_total(){
       console.log("individual_product_total_show" + individual_product_total_show);
        if(lump_sum_discount!=0){
          //$("#gst_amt_"+id).text(parseFloat(((individual_product_total - individual_product_total*parseInt(lump_sum_discount)/100)) * (parseInt(gst_rate)/100)).toFixed(2));
-         $("#gst_amt_"+id).val(parseFloat(((individual_product_total - individual_product_total*parseInt(lump_sum_discount)/100)) * (parseInt(gst_rate)/100)).toFixed(2));
+         $("#gst_amt_"+id).val(parseFloat(((individual_product_total - individual_product_total*parseFloat(lump_sum_discount)/100)) * (parseFloat(gst_rate)/100)).toFixed(2));
          payable_gst=parseFloat(((individual_product_total - individual_product_total*parseFloat(lump_sum_discount)/100)) * (parseFloat(gst_rate)/100)) + parseFloat(payable_gst);
          payable_gst_show=parseFloat((parseFloat(individual_product_total_show) - parseFloat(individual_product_total_show)*parseFloat(lump_sum_discount)/100) *(parseFloat(gst_rate)/100)) +parseFloat(payable_gst_show);
 

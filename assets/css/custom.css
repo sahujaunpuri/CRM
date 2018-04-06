@@ -92,6 +92,9 @@ hr {
 
 	word-wrap: break-word !important;
  }
+ .padding-20{
+ 	padding-left: 20px;
+ }
  .listing_menu {
     padding-left: 10px;
     font-size: 22px;
@@ -117,6 +120,64 @@ input[type="date"]::-webkit-input-placeholder{
 form input.custom_error_block {
 	border-color: red;
 }
+
+
+/* Style for receipt tables */
+
+.receipt_table {
+	margin-top: 20px;
+	border-collapse: collapse !important;
+}
+
+.receipt_table thead{
+	background-color: #cccccc;
+	font-weight: 700;
+
+}
+.receipt_table td, .receipt_table th{
+	padding: 5px  0px 5px 10px;
+	min-width:134px;
+	word-wrap: break-word !important;
+	border-top: 1px solid #ddd;
+}	
+
+.notch{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left:0;
+	z-index: 1;
+	height: 2em;
+	font-size: 1.2em;
+	font-weight: 700;
+	text-align: center;
+	background-color:white;
+	box-shadow: 0px 5px 5px gray;
+	padding-top: 0.4em;
+}
+
+.documents_table{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap-reverse;
+	justify-content: center;
+}
+
+.table_div_container{
+	margin: 0;
+	overflow-x: scroll;
+}
+
+@media (min-width: 768px) {
+  .table_div_container {
+    margin: 20px;
+    overflow-x: auto;
+  }
+  .notch{
+  	display: none;
+  }
+}
+
 /*table vertical scrollable*/
 /*custom dashborad layout class*/
  /*  div.col-sm-7.five-three ,div.col-xs-7.five-three{

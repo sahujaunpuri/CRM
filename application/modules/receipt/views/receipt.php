@@ -53,8 +53,7 @@
                       </div>
                       <div class="col-sm-4 receipt-col">
                         <label for="receipt_ref_no"><b>Receipt : <?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?></b></label>
-                        <br>
-                        <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="<?php //echo $invoice_details->invoice_text_prefix.'.'.$total_invoice; ?>">
+                        <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="<?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?>">
                         <br>
                         <b>Date:</b> <?php echo date('d-m-Y'); ?><br> 
                       </div>
@@ -65,14 +64,17 @@
                           Bank: <input type="text" name="bank" class="form-control" id="bank">
                         </div> 
                         <div class="col-md-4">
-                          Cheque: <input type="text" name="cheque" id="cheque" class="form-control" disabled>
+                          Cheque: <input type="text" name="cheque" id="cheque" class="form-control" >
                         </div> 
                         <div class="col-md-4">
-                          Cheque amount ( <span class="cheque_currency" id="cheque_currency"></span> ): <input type="number" name="cheque_amount" id="cheque_amount" class="form-control" min="1" disabled>
+                          Amount receipt ( <span class="cheque_currency" id="cheque_currency"></span> ): <input type="number" name="amount" id="amount" class="form-control" min="1" >
                         </div> 
+                        <div id="without_document" class="col-md-4 receipt-col col-md-offset-4" style="margin-bottom: 20px">
+                          Remarks: <input type="text" name="other_reference" id="other_reference" class="form-control" >
+                        </div>
                         <div class="text-center col-md-2 col-md-offset-5 p-b-t-10 display-none" id="request_reference">    
                           <div id="answers">            
-                            <p class="">Select document reference: </p>
+                            <p class="">CONTRA:</p>
                             <button type="button" id="dont_use_reference" class="btn btn-danger ml-10" disabled=""><i class="fa fa-times"></i> No </button>
                             <button type="button" id="use_reference" class="btn btn-success"><i class="fa fa-check"></i> Yes</button>
                           </div>
@@ -82,268 +84,310 @@
                   </div>
                 </div>
                 <hr>
-                <div class="row display-none" id="section_3">
-                  <div class="receipt col-xs-12 col-md-12">
-                    <div class="box box-warning">
-                      <div class="box-body invoice_references" >
-                       <div class="row">
-                        <div class="col-xs-12 col-md-4 table-responsive">
-                          <table class="table table-striped" id="inv_table">
+                <div class="display-none" id="section_3">
+                  <div class="notch">Balance: <span id='notch'></span></div>
+                  <div class="">  
+                    <div class="documents_table" >
+
+                      <!-- <div style="overflow-x: scroll;"> -->
+                        <div class="table_div_container" >
+                          <table class="receipt_table table-striped table-hover" id="inv_table">
                             <caption>Invoice references</caption>
                             <thead>
                               <tr>
-                                <th >Option</th>
-                                <th >Reference</th>
-                                <th >Document date</th>
-                                <th >Amount ( <span class="cheque_currency"></span> )</th>
+                                <td >Doc date</td>
+                                <td >Reference</td>
+                                <td >Amount ( <span class="cheque_currency"></span> )</td>
+                                <td class="text-center">Option</td>                                
                               </tr>
                             </thead>
                             <tbody id="invoice_reference_id">
                             </tbody>
                           </table>
+                        </div>  
+
+                        <!-- <div style="overflow-x: scroll;"> -->
+                          <div class="table_div_container">
+                            <table class="receipt_table table-striped table-hover" id="cre_table">
+                              <caption>Credit references</caption>
+                              <thead>
+                                <tr>
+                                  <td >Doc date</td>
+                                  <td >Reference</td>
+                                  <td >Amount ( <span class="cheque_currency"></span> )</td>
+                                  <td class="text-center">Option</td>
+                                </tr>
+                              </thead>
+                              <tbody id="credit_reference_id">
+                              </tbody>
+                            </table>
+                          </div>
+
+                          <!-- <div style="overflow-x: scroll;"> -->
+                            <div class="table_div_container"">
+                              <table class="receipt_table table-striped table-hover" id="bal_table" >
+                                <caption>Balance receipt</caption>
+                                <thead>
+                                  <tr>
+                                    <td >Doc reference</td>
+                                    <td >Amount ( <span class="cheque_currency"></span> )</td>                            
+                                  </tr>
+                                </thead>
+                                <tbody id="balance">
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                    <td><b>Balance</b></td>
+                                    <td id="totalBalance" class="text-right" style="padding-right:20px"></td>
+                                    <!-- <td id="debitTotalBalance" class=""></td> -->
+
+                                  </tr>
+                                </tfoot>
+                              </table>
+                            </div>
+                          </div>                  
                         </div>
-                        <div class="col-xs-6 col-md-4 table-responsive">
-                          <table class="table table-striped" id="inv_table">
-                            <caption>Credit note references</caption>
-                            <thead>
-                              <tr>
-                                <th >Option</th>
-                                <th >Reference</th>
-                                <th >Document date</th>
-                                <th >Amount ( <span class="cheque_currency"></span> )</th>
-                              </tr>
-                            </thead>
-                            <tbody id="credit_reference_id">
-                            </tbody>
-                          </table>
+                      </div>
+                      <div id="invoicesIdsToAdd"></div>
+                      <div id="creditsIdsToAdd"></div>
+                      <div id="creditTotals" class="display-none"></div>
+                      <div id="debitTotals" class="display-none"></div>
+                      <div id="balanceToAdd" class="display-none"></div>
+                      <div>
+                        <input type="hidden" name="currency" id="currency" value="">
+                        <input type="hidden" name="transaction_type" id="transaction_type" value="">
+                      </div>
+                      <div class="box-body display-none" id="section_2">
+                        <div class="receipt invoice">
+                          <div class="row receipt-info">                            
+                            <div class="row no-print">
+                              <div class="col-md-11">
+                                <button type="submit" id="submitbtn" class="btn btn-success pull-right" ><i class="fa fa-credit-card"></i> Submit </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-
-                        <div class="col-xs-6 col-md-4 table-responsive">
-                          <table class="table table-striped" id="bal_table" >
-                            <caption>Balance receipt</caption>
-                            <thead>
-                              <tr>
-                                <th >Document reference</th>
-                                <th >Credit</th>
-                                <th >Debit</th>
-                              </tr>
-                            </thead>
-                            <tbody id="balance">
-                            </tbody>
-                            <tfoot>
-                              <tr>
-                                <td><b>Totals</b></td>
-                                <td id="creditTotals"></td>
-                                <td id="debitTotals"></td>
-                              </tr>
-                              <tr>
-                                <td><b>Balance</b></td>
-                                <td id="creditTotalBalance"></td>
-                                <td id="debitTotalBalance"></td>
-                              </tr>
-                            </tfoot>
-                          </table>
-                        </div>                  
-                      </div>
-                    </div>  
-                  </div>
-                </div>
-              </div>  
-
-              <div class="box-body display-none" id="section_2">
-                <div class="receipt invoice">
-                  <div class="row receipt-info">
-
-                    <div id="without_document" class="col-md-4 receipt-col col-md-offset-4 display-none" style="margin-bottom: 20px">
-                      Please write a reference: <input type="text" name="cheque_reference" id="cheque_reference" class="form-control" >
-                    </div>
-                    <div class="row no-print">
-                      <div class="col-md-11">
-                        <button type="submit" id="submitbtn" class="btn btn-success pull-right" ><i class="fa fa-credit-card"></i> Submit </button>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
-</section>
-<style type="text/css">
-table tr:hover {
-  background-color: #bbb;
-}
-</style>
-<script>
-  $(function(){
-    var bank = $("#bank");
-    var bank_input = $("#bank_input");
-    var cheque = $("#cheque");
-    var chequeAmount = $("#cheque_amount");
-    var dont_use_reference = $("#dont_use_reference"); 
-    var use_reference = $("#use_reference"); 
-    var request_reference = $("#request_reference");
-    var section_2 = $("#section_2");
-    var section_3 = $("#section_3");
-    var without_document = $("#without_document");
-    $("#customer_id").change(function(event) {
-      customer_id=$("#customer_id option:selected").val();
-      if(customer_id!=""){
-        $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
-          var obj = $.parseJSON(data);
-          $("#customer_bldg_street").html(obj.customer_bldg_street);
-          $("#customer_cntry_post").html(obj.customer_cntry_post);
-          $(".cheque_currency").html(obj.customer_currency);        
-          $("#rec_currency").val(obj.customer_currency);
-          $("#invoice_reference_id" ).html( obj.invoices );
-          $("#credit_reference_id" ).html( obj.creditNotes );
-          $("#bank_input").fadeIn(700);
-          $("#bank").focus();
-        });
-      } else{
-        bank_input.fadeOut(700);
-      }
-    });
-    bank.on('input',function(e){
-      bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
-    });
-    cheque.on('input',function(e){
-      bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
-      updateChequeInTable();
-    });
-    chequeAmount.on('input',function(e){
-      bankEntry(bank, cheque, chequeAmount, dont_use_reference, dont_use_reference);
-      updateChequeInTable();
-      calcBalance();
-    });
+        </form>
+      </section>
+      <script>
+        $(function(){
+          var bank = $("#bank");
+          var bank_input = $("#bank_input");
+          var cheque = $("#cheque");
+          var chequeAmount = $("#amount");
+          var dont_use_reference = $("#dont_use_reference"); 
+          var use_reference = $("#use_reference"); 
+          var request_reference = $("#request_reference");
+          var section_2 = $("#section_2");
+          var section_3 = $("#section_3");
+          var without_document = $("#without_document");
+          var typeOfTransaction = $('#transaction_type');
+          $("#customer_id").change(function(event) {
+            customer_id=$("#customer_id option:selected").val();
+            if(customer_id!=""){
+              $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
+                var obj = $.parseJSON(data);
+                $("#customer_bldg_street").html(obj.customer_bldg_street);
+                $("#customer_cntry_post").html(obj.customer_cntry_post);
+                $(".cheque_currency").html(obj.customer_currency);        
+                $("#rec_currency").val(obj.customer_currency);
+                $("#currency").val(obj.customer_currency);
+                $("#invoice_reference_id" ).html( obj.invoices );
+                $("#credit_reference_id" ).html( obj.creditNotes );
+                console.log(obj.totall);
+                $("#bank_input").fadeIn(700);
+                $("#bank").focus();
+              });
+            } else{
+              bank_input.fadeOut(700);
+            }
+          });
+          bank.on('input',function(e){
+            bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
+          });
+          cheque.on('input',function(e){
+            bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
+            updateChequeInTable();
+          });
+          chequeAmount.on('input',function(e){
+            bankEntry(bank, cheque, chequeAmount, dont_use_reference, dont_use_reference);
+            updateChequeInTable();
+            calcBalance();
+          });
 
-    function bankEntry(bankField, chequeField, chequeAmountField, noAddDocument, addDocument){
-      if(bankField.val() === ""){
-        chequeField.prop('disabled',true).val("");
-        chequeAmountField.prop('disabled',true).val("");
-        noAddDocument.prop('disabled',true);  
-        use_reference.prop('disabled',true);  
-        request_reference.fadeOut(700);
-      } else {
-        chequeField.prop('disabled',false);
-        if (chequeField.val() === ""){
-          chequeAmountField.prop('disabled',true).val("");
-          noAddDocument.prop('disabled',true);
-          use_reference.prop('disabled',true);  
-          request_reference.fadeOut(700);  
-        } else{
-          chequeAmountField.prop('disabled',false);
-          if (chequeAmountField.val() <= 0){
-            noAddDocument.prop('disabled',true);
-            use_reference.prop('disabled',true);  
-            request_reference.fadeOut(700);  
-          }else {
-            noAddDocument.prop('disabled',false); 
-            use_reference.prop('disabled',false);  
-            request_reference.fadeIn(700);
+          function bankEntry(bankField, chequeField, chequeAmountField, noAddDocument, addDocument){
+            // if(bankField.val() === ""){
+            //   //chequeField.prop('disabled',true).val("");
+            //   //chequeAmountField.prop('disabled',true).val("");
+            //   noAddDocument.prop('disabled',true);  
+            //   use_reference.prop('disabled',true);  
+            //   request_reference.fadeOut(700);
+            //   updateChequeInTable();
+            //   calcBalance();
+            // } else {
+            //   chequeAmountField.prop('disabled',false);
+            //   chequeField.prop('disabled',false);        
+            if (chequeAmountField.val() <= 0){
+              noAddDocument.prop('disabled',true);
+              use_reference.prop('disabled',true);  
+              request_reference.fadeOut(700);  
+            }else {
+              noAddDocument.prop('disabled',false); 
+              use_reference.prop('disabled',false);  
+              request_reference.fadeIn(700);
+            }
+          } 
+          
+
+
+          chequeAmount.focusout(function(){
+            if (chequeAmount.val() < 0){
+              chequeAmount.focus();
+              alert('Amount must be greater than zero.');
+              chequeAmount.val("");      
+            }
+          });
+
+          dont_use_reference.click(function(event) {
+            request_reference.remove();
+            section_2.fadeIn(700);
+            //without_document.fadeIn(700);
+            typeOfTransaction.val(0);
+          });
+
+          use_reference.click(function(event) {
+            var chequeReference = '';
+            request_reference.remove();
+            if(cheque.val() == ''){
+              chequeReference = 'Cash';
+            } else {
+              chequeReference = cheque.val();
+            }
+            $('#bal_table').append('<tr id="chequeReference"><td id="chequeReferenceInTable">'+chequeReference+'</td><td class="creditBalance text-right" style="padding-right:20px" id="chequeAmountInTable">'+((chequeAmount.val())*-1)+'</td>/tr>' );
+            section_2.fadeIn(700);
+            section_3.fadeIn(700);
+            typeOfTransaction.val(1);
+            calcBalance();
+          })
+
+          function updateChequeInTable(){
+            var chequeReference = '';
+            if(cheque.val() == ''){
+              chequeReference = 'Cash';
+            } else {
+              chequeReference = cheque.val();
+            }
+            $('#chequeReference').html("<td id='chequeReferenceInTable'>"+chequeReference+"</td><td class='creditBalance text-right' style='padding-right:20px' id='chequeAmountInTable'>"+((chequeAmount.val())*-1)+"</td>");
           }
-        } 
-      }
+        });
+
+var invoiceReferences = [];
+var creditReferences = [];
+
+function addInvoice(data){
+  invoiceIdAdd = $(data).parents("tr").attr("id");
+  invoiceReferences.push(invoiceIdAdd);
+  console.log(invoiceReferences);
+  invoiceReference = $("#invoiceRef-"+invoiceIdAdd).text();
+  invoiceAmount = $("#invoiceAmount-"+invoiceIdAdd).text();
+  $('#bal_table').append('<tr id="invoiceInTable-'+invoiceIdAdd+'"><td id="invoiceReferenceInTable-'+invoiceIdAdd+'">'+invoiceReference+'</td><td class="invoiceBalance text-right" style="padding-right:20px" id="invoiceAmountInTable-'+invoiceIdAdd+'">'+invoiceAmount+'</td></tr>');
+  $('#invoiceAdd-'+invoiceIdAdd).hide();
+  $('#invoiceRemove-'+invoiceIdAdd).show();
+  inputDocuments(invoiceReferences, 'invoices');
+  calcBalance();
+}
+
+function removeInvoice(data){
+  var indexToRemove;
+  invoiceIdAdd = $(data).parents("tr").attr("id");
+  for (var i = 0; i < invoiceReferences.length; i++){
+    if (invoiceReferences[i] == invoiceIdAdd){
+      indexToRemove = i;
+      console.log(i);
     }
+  }
+  invoiceReferences.splice(indexToRemove,1);
+  inputDocuments(invoiceReferences,'invoices');
+  $("#invoiceInTable-"+invoiceIdAdd).remove()
+  $('#invoiceAdd-'+invoiceIdAdd).show();
+  $('#invoiceRemove-'+invoiceIdAdd).hide();
+  calcBalance();
+}
 
-    chequeAmount.focusout(function(){
-      if (chequeAmount.val() < 0){
-        chequeAmount.focus();
-        alert('Amount must be greater than zero.');
-        chequeAmount.val("");      
-      }
-    });
+function addCredit(data){ 
+  creditIdAdd = $(data).parents("tr").attr("id");
+  creditReferences.push(creditIdAdd);
+  console.log(creditReferences);    
+  creditReference = $("#creditRef-"+creditIdAdd).text();
+  creditAmount = $("#creditAmount-"+creditIdAdd).text();
+  $('#bal_table').append('<tr id="creditInTable-'+creditIdAdd+'"><td id="creditReferenceInTable-'+creditIdAdd+'">'+creditReference+'</td><td class="creditBalance text-right" style="padding-right:20px" id="creditAmountInTable-'+creditIdAdd+'">'+((creditAmount)*-1)+'</td></tr>');
+  $('#creditAdd-'+creditIdAdd).hide();
+  $('#creditRemove-'+creditIdAdd).show();
+  inputDocuments(creditReferences, 'credits');
+  calcBalance();
+}
 
-    dont_use_reference.click(function(event) {
-      request_reference.remove();
-      section_2.fadeIn(700);
-      without_document.fadeIn(700);
-    });
-
-    use_reference.click(function(event) {
-      request_reference.remove();
-      $('#bal_table').append('<tr id="chequeReference"><td id="chequeReferenceInTable">Cheque: '+cheque.val()+'</td><td class="creditBalance" id="chequeAmountInTable">'+chequeAmount.val()+'</td><td></td></tr>' );
-      section_2.fadeIn(700);
-      section_3.fadeIn(700);
-      calcBalance();
-    })
-
-    function updateChequeInTable(){
-      $('#chequeReference').html("<td id='chequeReferenceInTable'>Cheque: "+cheque.val()+"</td><td class='creditBalance' id='chequeAmountInTable'>"+chequeAmount.val()+"</td><td></td>");
+function removeCredit(data){
+  creditIdAdd = $(data).parents("tr").attr("id");
+  for (var i = 0; i < creditReferences.length; i++){
+    if (creditReferences[i] == creditIdAdd){
+      indexToRemove = i;
+      console.log(i);
     }
-  });
+  }
+  creditReferences.splice(indexToRemove,1);
+  inputDocuments(creditReferences,'credits');
+  $("#creditInTable-"+creditIdAdd).remove()
+  $('#creditAdd-'+creditIdAdd).show();
+  $('#creditRemove-'+creditIdAdd).hide();
+  calcBalance();
+}
 
-  function addInvoice(data){
-    invoiceIdAdd = $(data).parents("tr").attr("id");
-    invoiceReference = $("#invoiceRef-"+invoiceIdAdd).text();
-    invoiceAmount = $("#invoiceAmount-"+invoiceIdAdd).text();
-    $('#bal_table').append('<tr id="invoiceInTable-'+invoiceIdAdd+'"><td id="invoiceReferenceInTable-'+invoiceIdAdd+'">'+invoiceReference+'</td><td ></td><td class="invoiceBalance" id="invoiceAmountInTable-'+invoiceIdAdd+'">'+invoiceAmount+'</td></tr>');
-    $('#invoiceAdd-'+invoiceIdAdd).prop('disabled',true);
-    $('#invoiceRemove-'+invoiceIdAdd).prop('disabled',false);
-    calcBalance();
+function calcBalance(){
+  var invoiceBalance = document.getElementsByClassName('invoiceBalance');
+  var creditBalance = document.getElementsByClassName('creditBalance');
+  var creditTotals = document.getElementById('creditTotals');
+  var debitTotals = document.getElementById('debitTotals');
+  var totalBalance = document.getElementById('totalBalance');
+  var nothc = document.getElementById('notch');
+  var invoicesTotals = 0;
+  var creditsTotals = 0;
+  var balanceTotals = 0;
+  for (var i = 0; i< invoiceBalance.length; i++){
+    invoicesTotals += parseFloat(invoiceBalance[i].innerText);
   }
-
-  function removeInvoice(data){
-    invoiceIdAdd = $(data).parents("tr").attr("id");
-    $("#invoiceInTable-"+invoiceIdAdd).remove()
-    $('#invoiceAdd-'+invoiceIdAdd).prop('disabled',false);
-    $('#invoiceRemove-'+invoiceIdAdd).prop('disabled',true);
-    calcBalance();
+  for (var i = 0; i< creditBalance.length; i++){
+    creditsTotals -= parseFloat(creditBalance[i].innerText);
   }
-
-  function addCredit(data){
-    creditIdAdd = $(data).parents("tr").attr("id");
-    creditReference = $("#creditRef-"+creditIdAdd).text();
-    creditAmount = $("#creditAmount-"+creditIdAdd).text();
-    $('#bal_table').append('<tr id="creditInTable-'+creditIdAdd+'"><td id="creditReferenceInTable-'+creditIdAdd+'">'+creditReference+'</td><td class="creditBalance" id="creditAmountInTable-'+creditIdAdd+'">'+creditAmount+'</td><td ></td></tr>');
-    $('#creditAdd-'+creditIdAdd).prop('disabled',true);
-    $('#creditRemove-'+creditIdAdd).prop('disabled',false);
-    calcBalance();
+  debitTotals.innerHTML = invoicesTotals;
+  creditTotals.innerHTML = creditsTotals;
+  balanceTotals = invoicesTotals - creditsTotals;
+  totalBalance.innerHTML = balanceTotals;
+  notch.innerHTML = balanceTotals;
+  if (balanceTotals > 0){
+    $('.addInvoice').prop('disabled', true);
+    $('.addCredit').prop('disabled', false);
+  } else {
+    $('.addInvoice').prop('disabled', false);
+    $('.addCredit').prop('disabled', true);
   }
-  
-  function removeCredit(data){
-    creditIdAdd = $(data).parents("tr").attr("id");
-    $("#creditInTable-"+creditIdAdd).remove()
-    $('#creditAdd-'+creditIdAdd).prop('disabled',false);
-    $('#creditRemove-'+creditIdAdd).prop('disabled',true);
-    calcBalance();
+  $('#balanceToAdd').html('<input type="hidden" name="balanceTotals" value="'+balanceTotals+'">');
+}
+function inputDocuments(arr,type){
+  var inputTag = '';
+  for (var i = 0; i < arr.length; i++){
+    inputTag += '<input type="hidden" name="'+type+'['+i+']" value="'+arr[i]+'">'
   }
-
-  function calcBalance(type){
-    var invoiceBalance = document.getElementsByClassName('invoiceBalance');
-    var creditBalance = document.getElementsByClassName('creditBalance');
-    var creditTotals = document.getElementById('creditTotals');
-    var debitTotals = document.getElementById('debitTotals');
-    var creditTotalBalance = document.getElementById('creditTotalBalance');
-    var debitTotalBalance = document.getElementById('debitTotalBalance');
-    var invoicesTotals = 0;
-    var creditsTotals = 0;
-    var balanceTotals = 0;
-    for (var i = 0; i< invoiceBalance.length; i++){
-      invoicesTotals += parseFloat(invoiceBalance[i].innerText);
-    }
-    for (var i = 0; i< creditBalance.length; i++){
-      creditsTotals += parseFloat(creditBalance[i].innerText);
-    }
-    debitTotals.innerHTML = invoicesTotals;
-    creditTotals.innerHTML = creditsTotals;
-    balanceTotals = invoicesTotals - creditsTotals;
-    if (balanceTotals >= 0){
-      debitTotalBalance.innerHTML = balanceTotals;
-      creditTotalBalance.innerHTML = '';
-    } else {
-      debitTotalBalance.innerHTML = '';
-      creditTotalBalance.innerHTML = -(balanceTotals);
-    }
-   
-  }
+  $('#'+type+'IdsToAdd').html(inputTag);
+  console.log(inputTag);
+}
 </script>
 
 <tfoot>
-       

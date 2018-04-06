@@ -79,7 +79,7 @@
                       <th>Customer</th>
                       <th>Bank</th>
                       <th>Cheque</th>
-                      <th>Other Reference</th>
+                      <th>Remarks</th>
                       <th>Amount</th>
                       <th>Invoices</th>
                       <th>Created On</th>

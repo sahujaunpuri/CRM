@@ -150,10 +150,10 @@
     var append_str_credit = '<tr id="row-'+numrows+'" >' 
     +'<td class="form-group error_block">'
     + '<input type="text" required="" class="form-control my_date" id="'+numrows+'" name="data[transaction_date]['
-                         + ']" onfocusout = validateDate(this)>'
-                         + '<span class="text-danger" id="date_error_'+numrows+'">Correct this date</span></td>'
-                         + '<td class="form-group error_block">'
-                         + '<input type="text" required="" class="form-control" name="data[doc_reference]['
+    + ']" onfocusout = validateDate(this)>'
+    + '<span class="text-danger" id="date_error_'+numrows+'">Correct this date</span></td>'
+    + '<td class="form-group error_block">'
+    + '<input type="text" required="" class="form-control" name="data[doc_reference]['
                           //+ numrows
                           + ']" id="doc_'+numrows+'" onfocusout = validateDocReference(this)>'
                           + '<span class="text-danger" id="error_doc_'+numrows+'" style="display: none">Correct this reference</span></td>'
@@ -189,34 +189,34 @@
     var append_str_entry = '<tr id="row-'+numrows+'" >' 
     +'<td class="form-group error_block">'
     + '<input type="text" required="" class="form-control my_date" id="'+numrows+'" name="data[transaction_date]['
-                          + ']" onfocusout = validateDate(this)>'
-                          + '<span style="display: none" class="text-danger" id="date_error_'+numrows+'">Correct this date</span></td>'
-                          + '<td class="form-group error_block">'
-                          + '<input type="text" required="" class="form-control" name="data[doc_reference]['
-                          + ']" id="doc_'+numrows+'" onfocusout = validateDocReference(this)>'
-                          + '<span class="text-danger" id="error_doc_'+numrows+'" style="display: none">Correct this reference</span></td>'
-                          + '<td>'
-                          +  '<input type="text" class="form-control" name="data[remarks]['
-                          + ']">'
-                          + '</td>'
-                          + '<td class="form-group error_block">'
-                          +  '<input type="number" required="" class="form-control" name="data[amount]['
-                          + ']" id="amount_'+numrows+'" onfocusout = validateAmount(this) >'
-                          + ' <span style="display: none" class="text-danger" id="error_amount_'+numrows+'" ">Correct this amount</span></td>'
-                          + '<td class="hidden">'
-                          + '<input type="text" readonly class="form-control" name="data[sign]['
-                          + ']" value="+">'
-                          + '</td>'
-                          + '<td>'
-                          + '<button class="form-control btn-warning" onclick="delete_row(this)">Delete</button>'
-                          + '</td>'
-                          + '</tr>';
+    + ']" onfocusout = validateDate(this)>'
+    + '<span style="display: none" class="text-danger" id="date_error_'+numrows+'">Correct this date</span></td>'
+    + '<td class="form-group error_block">'
+    + '<input type="text" required="" class="form-control" name="data[doc_reference]['
+    + ']" id="doc_'+numrows+'" onfocusout = validateDocReference(this)>'
+    + '<span class="text-danger" id="error_doc_'+numrows+'" style="display: none">Correct this reference</span></td>'
+    + '<td>'
+    +  '<input type="text" class="form-control" name="data[remarks]['
+    + ']">'
+    + '</td>'
+    + '<td class="form-group error_block">'
+    +  '<input type="number" required="" class="form-control" name="data[amount]['
+    + ']" id="amount_'+numrows+'" onfocusout = validateAmount(this) >'
+    + ' <span style="display: none" class="text-danger" id="error_amount_'+numrows+'" ">Correct this amount</span></td>'
+    + '<td class="hidden">'
+    + '<input type="text" readonly class="form-control" name="data[sign]['
+    + ']" value="+">'
+    + '</td>'
+    + '<td>'
+    + '<button class="form-control btn-warning" onclick="delete_row(this)">Delete</button>'
+    + '</td>'
+    + '</tr>';
 
-                          $("#open_table tbody").append(append_str_entry);
+    $("#open_table tbody").append(append_str_entry);
     //console.log(index_add);
     $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
     $(".my_date").focus();
-});
+  });
 
 //----------------- Field validations -----------------//
 
@@ -236,7 +236,10 @@ function validateDate(entryDate){
   var error = $('#date_error_'+entryDate.id);
   var number = nowYear + nowMonth + nowDay;
   console.log(number);
-  if(nowYear < 2000 || nowYear > year || nowMonth < 0 || nowMonth > 11 || nowDay < 1 || nowDay > 31 || isNaN(number) || isNaN(dateFields[2][1]) || isNaN(dateFields[1][1])){
+  // if(nowYear < 2000 || nowYear > year || nowMonth < 0 || nowMonth > 11 || nowDay < 1 || nowDay > 31 || isNaN(number) || isNaN(dateFields[2][1]) || isNaN(dateFields[1][1])){
+  //   valid = 1;
+  // } 
+  if(nowMonth < 0 || nowMonth > 11 || nowDay < 1 || nowDay > 31 || isNaN(number) || isNaN(dateFields[2][1]) || isNaN(dateFields[1][1])){
     valid = 1;
   } else if(nowYear === year){
     if (nowMonth > month){
@@ -251,11 +254,42 @@ function validateDate(entryDate){
     } else{
       valid = 0;  
     }
+  } else if(nowMonth == 0 || nowMonth == 2 || nowMonth == 4 || nowMonth == 6 || nowMonth == 7 || nowMonth == 9 || nowMonth == 11){
+    if(nowDay < 1 || nowDay > 31){
+      valid = 1;
+    } else{
+      valid = 0;  
+    }
+  } else if (nowMonth == 3 || nowMonth == 5 || nowMonth == 8 || nowMonth == 10){
+    if(nowDay < 1 || nowDay > 30){
+      valid = 1;
+    } else{
+      valid = 0;  
+    }
+  } else if (nowMonth == 1){
+    if(isLeap(nowYear)){
+      if(nowDay < 1 || nowDay > 29){
+        valid = 1;
+      } else{
+        valid = 0;  
+      } 
+    } else {
+      if(nowDay < 1 || nowDay > 28){
+        valid = 1;
+      } else{
+        valid = 0;  
+      }
+    }
   } else{
     valid = 0;
   }
   buttonState(valid, error, myDate);
 }
+
+function isLeap(year) {
+ return new Date(year, 1, 29).getDate() === 29;
+}
+
 
 function validateDocReference(reference){
   console.log(reference.id);

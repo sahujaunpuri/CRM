@@ -188,8 +188,8 @@ function get_sub_total(){
       console.log(individual_product_total_show);
        if(lump_sum_discount!=0){
          $("#gst_amt_"+id).val(parseFloat(((individual_product_total - individual_product_total*parseInt(lump_sum_discount)/100)) * (parseInt(gst_rate)/100)).toFixed(2));
-         payable_gst=parseFloat(((individual_product_total - individual_product_total*parseInt(lump_sum_discount)/100)) * (parseInt(gst_rate)/100)) + parseInt(payable_gst);
-         payable_gst_show=parseFloat((parseInt(individual_product_total_show) - parseInt(individual_product_total_show)*parseInt(lump_sum_discount)/100) *(parseInt(gst_rate)/100)) +parseInt(payable_gst_show);
+         payable_gst=parseFloat(((individual_product_total - individual_product_total*parseFloat(lump_sum_discount)/100)) * (parseFloat(gst_rate)/100)) + parseFloat(payable_gst);
+         payable_gst_show=parseFloat((parseFloat(individual_product_total_show) - parseFloat(individual_product_total_show)*parseFloat(lump_sum_discount)/100) *(parseFloat(gst_rate)/100)) +parseFloat(payable_gst_show);
        
        }else{
          $("#gst_amt_"+id).val((individual_product_total*(gst_rate/100)).toFixed(2));
@@ -220,3 +220,4 @@ function get_sub_total(){
   
   },1000);
 }
+

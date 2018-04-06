@@ -258,14 +258,11 @@ function showData(mode,url,form_action='#'){
 
         else if (mode == "All Confirm") {
           $.confirm({
-
             title:"<i class='fa fa-info'></i> Confirm All Successful",
             text: "Post All ?",
             confirmButton: 'Yes',
             confirmButtonClass: 'btn-success',
-
             confirm: function(button) {
-
               var rowID_objet = table.rows({ selected: true }).data();
               var count = table.rows({ selected: true }).count();
               var rowID = 0;
@@ -274,7 +271,6 @@ function showData(mode,url,form_action='#'){
                     rowID = rowID_objet[i][0];
                       //alert(rowID);
                       $.post(url,{ rowID: rowID } , function(result){
-
                         console.log(result);
                           $("#form_data").html(''); // remove content of form.
                           $("#refresh").click();//refresh  the datatable.
@@ -282,8 +278,6 @@ function showData(mode,url,form_action='#'){
                           $("#message_area").html("<div class='alert alert-success fade in'><button type='button' class='close close-sm' data-dismiss='alert'><i class='fa fa-times'></i></button>Post All Succesfully!</div>");
                         });
                     }
-
-
                     showHideButtons("list");
                   },
                   cancelButton: 'No',
@@ -291,7 +285,6 @@ function showData(mode,url,form_action='#'){
                   cancel: function(button) {
                   $("#refresh").click();//refresh  the datatable.
                 }
-
               });
         }
 
