@@ -15,6 +15,7 @@ class Account_ajax extends CI_Controller {
 		$this->load->model('account/account_model','account');
 	}
 
+
 	public function get_customer_details()
 	{
 		is_ajax();
@@ -201,7 +202,7 @@ class Account_ajax extends CI_Controller {
 
 	public function get_customer_debtor_date($currency_type,$from = '0', $to = '120')
 	{
-		$this->db->select('SUM(total_amt) AS amount, customer_code');
+		$this->db->select('SUM(total_amt) AS amount, customer_code, ar_id');
 		$this->db->from('accounts_receivable');
 		if ($from == '0') {
 			$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN '0' AND '30' ");   	
@@ -218,6 +219,32 @@ class Account_ajax extends CI_Controller {
 
 			//$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN ".$from." AND ".$to);   
 		$this->db->where(array('offset'=>'n','sign'=>'+', 'settled'=>'n', 'currency_type' =>$currency_type));
+		$this->db->order_by("customer_code", "asc");
+		$this->db->group_by("customer_code");
+
+		$query = $this->db->get();
+		$customer_code_ar = $query->result();
+		return $customer_code_ar;
+	}
+	public function get_customer_credit_date($currency_type,$from = '0', $to = '120')
+	{
+		$this->db->select('SUM(total_amt) AS amount, customer_code, ar_id');
+		$this->db->from('accounts_receivable');
+		if ($from == '0') {
+			$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN '0' AND '30' ");   	
+		}
+		else if($from == '121')
+		{
+			$this->db->where("DATEDIFF(NOW(), doc_date) >= '120'");   	
+		}
+		else 
+		{
+			$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN ".$from." AND ".$to);  
+		}
+
+
+			//$this->db->where("DATEDIFF(NOW(), doc_date) BETWEEN ".$from." AND ".$to);   
+		$this->db->where(array('offset'=>'n','sign'=>'-', 'settled'=>'n', 'currency_type' =>$currency_type));
 		$this->db->order_by("customer_code", "asc");
 		$this->db->group_by("customer_code");
 
@@ -256,6 +283,7 @@ class Account_ajax extends CI_Controller {
 		$html_tbody = '';
 
 		$debtor_date = array();
+		$credit = array();
 
 
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '0', '30'));
@@ -263,7 +291,13 @@ class Account_ajax extends CI_Controller {
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '61', '90'));
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '91', '120'));
 		array_push($debtor_date, $this->get_customer_debtor_date($currency_type, '121', '365'));
+		array_push($credit, $this->get_customer_credit_date($currency_type, '0', '30'));
+		array_push($credit, $this->get_customer_credit_date($currency_type, '31', '60'));
+		array_push($credit, $this->get_customer_credit_date($currency_type, '61', '90'));
+		array_push($credit, $this->get_customer_credit_date($currency_type, '91', '120'));
+		array_push($credit, $this->get_customer_credit_date($currency_type, '121', '365'));
 		$customers = array();
+		$sub = array();
 		$amounts = array();
 		$i = 0;
 		foreach ($debtor_date as $key => $row) {
@@ -277,19 +311,37 @@ class Account_ajax extends CI_Controller {
 		$total_amt = array(0,0,0,0,0);
 		foreach ($customers as $key => $customer) {
 			$amounts_item = array(0,0,0,0,0);
+			$credits_item = array(0,0,0,0,0);
 			$i = 0;
 			foreach ($debtor_date as $key => $row) {
 				foreach ($row as $key => $value) {
 					if($customer == $value->customer_code){
-						$amounts_item[$i] = $value->amount;
+						$sql = 'SELECT SUM(rec_inv_amount) AS rec_amount FROM receipt_invoice_master WHERE invoice_id ='.$value->ar_id.' AND partial_status = "P"';
+						$query = $this->db->query($sql);
+						$result = $query->result();
+						$partial_for_this_number = $result[0]->rec_amount;
+//		$partial_for_this_float = floatval($partial_for_this_number);
+						$amounts_item[$i] = $value->amount - $partial_for_this_number;
 					}
 				}
 				$i++;
-
 			}
-			array_push($amounts, $amounts_item);
+
+			$i = 0;
+			foreach ($credit as $key => $row) {
+				foreach ($row as $key => $value) {
+					if($customer == $value->customer_code){
+						$credits_item[$i] = $value->amount;
+					}
+				}
+				$i++;
+			}
 			for ($i=0; $i < 5; $i++) { 
-				$total_amt[$i] += $amounts_item[$i];
+				$sub[$i] = $amounts_item[$i] - $credits_item[$i];
+			}
+			array_push($amounts, $sub);
+			for ($i=0; $i < 5; $i++) { 
+				$total_amt[$i] += $amounts_item[$i] - $credits_item[$i];
 			}
 
 		}

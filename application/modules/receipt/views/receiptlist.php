@@ -31,9 +31,9 @@
             <button class='btn btn-primary $btn_style' id='edit'>
               <i class='fa fa-pencil' aria-hidden='true'></i> Edit
             </button>
-            <button class='btn btn-success $btn_style' id='post'>
+            <!-- <button class='btn btn-success $btn_style' id='post'>
               <i class='fa fa-check' aria-hidden='true'></i> Post
-            </button> 
+            </button>  -->
             <button class='btn btn-success $btn_style' id='post_all'>
               <i class='fa fa-check' aria-hidden='true'></i> POST ALL
             </button> 
@@ -82,7 +82,7 @@
                       <th>Remarks</th>
                       <th>Amount</th>
                       <th>Invoices</th>
-                      <th>Created On</th>
+                      <th>Doc Date</th>
                     </tr>
                   </thead>
                 </table>
@@ -137,16 +137,16 @@
      /*... over here ...*/
 
      /* confirm button */
-     $("#post").on('click',function(){
-      var url = '<?php echo base_url()."common/Ajax/receiptlist_ajax/post" ?>';
-        showData("confirm",url);
-     });
+     // $("#post").on('click',function(){
+     //  var url = '<?php echo base_url()."common/Ajax/receiptlist_ajax/post" ?>';
+     //    showData("confirm",url);
+     // });
      
 
      $("#post_all").on('click',function(){
       var url = '<?php echo base_url()."common/Ajax/receiptlist_ajax/post" ?>';
         table.rows().select();
-        showData("All Confirm",url);
+        showData("All Confirm",url);        
      });
      /*... over here ...*/
 

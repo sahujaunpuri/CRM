@@ -154,7 +154,7 @@ class Receiptlist_ajax extends CI_Controller {
 			$partial = $result3[0]->sum_partial;
 			$receipt_invoice_data['invoice_id'] = $ar_id;
 			$receipt_invoice_data['rec_inv_amount'] = $partial;
-			$receipt_invoice_data['created_on'] = date('Y-m-d');
+			$receipt_invoice_data['doc_date'] = date('Y-m-d');
 			$receipt_invoice_data['modified_on'] = date('Y-m-d');
 			$receipt_invoice_data['receipt_id'] = $id;
 			$receipt_invoice_data['full_amount'] = $insert_data['total_amt'];

@@ -42,7 +42,6 @@
                       <div class="col-sm-4 receipt-col">
                         <b>To,</b>
                         <address>
-                          <span id="customer_id_show"></span>
                           <select name="customer_id" id="customer_id" title="Select Customer" class="form-control select2" required="">
                             <?php echo $customer_options; ?>
                           </select><br>
@@ -58,8 +57,7 @@
                         <br>
                         <b>Date:</b> <?php echo date('d-m-Y'); ?><br> 
                       </div>
-                      <div style="clear: both;"></div>
-                      <br/>
+                      <br/><br/>
                       <!-- /.row -->
                       <div class="row col-md-12 display-none" id="bank_input">
                         <div class="col-md-4">
@@ -163,9 +161,8 @@
                         <div class="receipt invoice">
                           <div class="row receipt-info">                            
                             <div class="row no-print">
-                              <div class="col-md-11">                               
+                              <div class="col-md-11">
                                 <button type="submit" id="submitbtn" class="btn btn-success pull-right" ><i class="fa fa-credit-card"></i> Submit </button>
-                                <button type="button" class="btn btn-default btn-danget pull-right display-none" id="abort" style="margin-right: 20px">Abort</button>
                               </div>
                             </div>
                           </div>
@@ -175,116 +172,121 @@
                   </div>
                 </div>
               </div>
-
-            </form>
-          </section>
-
-
-          <script>
-            $(function(){
-              var bank = $("#bank");
-              var bank_input = $("#bank_input");
-              var cheque = $("#cheque");
-              var chequeAmount = $("#amount");
-              var dont_use_reference = $("#dont_use_reference"); 
-              var use_reference = $("#use_reference"); 
-              var request_reference = $("#request_reference");
-              var section_2 = $("#section_2");
-              var section_3 = $("#section_3");
-              var without_document = $("#without_document");
-              var typeOfTransaction = $('#transaction_type');
-              $("#customer_id").change(function(event) {
-                customer_id=$("#customer_id option:selected").val();
-                if(customer_id!=""){
-                  $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
-                    var obj = $.parseJSON(data);
-                    $("#customer_bldg_street").html(obj.customer_bldg_street);
-                    $("#customer_cntry_post").html(obj.customer_cntry_post);
-                    $(".cheque_currency").html(obj.customer_currency);        
-                    $("#rec_currency").val(obj.customer_currency);
-                    $("#currency").val(obj.customer_currency);
-                    $("#invoice_reference_id" ).html( obj.invoices );
-                    $("#credit_reference_id" ).html( obj.creditNotes );
-                    console.log(obj.totall);
-                    $("#bank_input").fadeIn(700);
-                    $("#bank").focus();
-                  });
-                } else{
-                  bank_input.fadeOut(700);
-                }
+            </div>
+          </div>
+        </form>
+      </section>
+      <script>
+        $(function(){
+          var bank = $("#bank");
+          var bank_input = $("#bank_input");
+          var cheque = $("#cheque");
+          var chequeAmount = $("#amount");
+          var dont_use_reference = $("#dont_use_reference"); 
+          var use_reference = $("#use_reference"); 
+          var request_reference = $("#request_reference");
+          var section_2 = $("#section_2");
+          var section_3 = $("#section_3");
+          var without_document = $("#without_document");
+          var typeOfTransaction = $('#transaction_type');
+          $("#customer_id").change(function(event) {
+            customer_id=$("#customer_id option:selected").val();
+            if(customer_id!=""){
+              $.post('<?php echo base_url('common/Ajax/receiptlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
+                var obj = $.parseJSON(data);
+                $("#customer_bldg_street").html(obj.customer_bldg_street);
+                $("#customer_cntry_post").html(obj.customer_cntry_post);
+                $(".cheque_currency").html(obj.customer_currency);        
+                $("#rec_currency").val(obj.customer_currency);
+                $("#currency").val(obj.customer_currency);
+                $("#invoice_reference_id" ).html( obj.invoices );
+                $("#credit_reference_id" ).html( obj.creditNotes );
+                console.log(obj.totall);
+                $("#bank_input").fadeIn(700);
+                $("#bank").focus();
               });
-              bank.on('input',function(e){
-                bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
-              });
-              cheque.on('input',function(e){
-                bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
-                updateChequeInTable();
-              });
-              chequeAmount.on('input',function(e){
-                bankEntry(bank, cheque, chequeAmount, dont_use_reference, dont_use_reference);
-                updateChequeInTable();
-                calcBalance();
-              });
+            } else{
+              bank_input.fadeOut(700);
+            }
+          });
+          bank.on('input',function(e){
+            bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
+          });
+          cheque.on('input',function(e){
+            bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
+            updateChequeInTable();
+          });
+          chequeAmount.on('input',function(e){
+            bankEntry(bank, cheque, chequeAmount, dont_use_reference, dont_use_reference);
+            updateChequeInTable();
+            calcBalance();
+          });
 
-              function bankEntry(bankField, chequeField, chequeAmountField, noAddDocument, addDocument){
-                if (chequeAmountField.val() <= 0){
-                  noAddDocument.prop('disabled',true);
-                  use_reference.prop('disabled',true);  
-                  request_reference.fadeOut(700);  
-                }else {
-                  noAddDocument.prop('disabled',false); 
-                  use_reference.prop('disabled',false);  
-                  request_reference.fadeIn(700);
-                }
-              } 
+          function bankEntry(bankField, chequeField, chequeAmountField, noAddDocument, addDocument){
+            // if(bankField.val() === ""){
+            //   //chequeField.prop('disabled',true).val("");
+            //   //chequeAmountField.prop('disabled',true).val("");
+            //   noAddDocument.prop('disabled',true);  
+            //   use_reference.prop('disabled',true);  
+            //   request_reference.fadeOut(700);
+            //   updateChequeInTable();
+            //   calcBalance();
+            // } else {
+            //   chequeAmountField.prop('disabled',false);
+            //   chequeField.prop('disabled',false);        
+            if (chequeAmountField.val() <= 0){
+              noAddDocument.prop('disabled',true);
+              use_reference.prop('disabled',true);  
+              request_reference.fadeOut(700);  
+            }else {
+              noAddDocument.prop('disabled',false); 
+              use_reference.prop('disabled',false);  
+              request_reference.fadeIn(700);
+            }
+          } 
+          
 
 
+          chequeAmount.focusout(function(){
+            if (chequeAmount.val() < 0){
+              chequeAmount.focus();
+              alert('Amount must be greater than zero.');
+              chequeAmount.val("");      
+            }
+          });
 
-              chequeAmount.focusout(function(){
-                if (chequeAmount.val() < 0){
-                  chequeAmount.focus();
-                  alert('Amount must be greater than zero.');
-                  chequeAmount.val("");      
-                }
-              });
-
-              dont_use_reference.click(function(event) {
-                request_reference.remove();
-                section_2.fadeIn(700);
+          dont_use_reference.click(function(event) {
+            request_reference.remove();
+            section_2.fadeIn(700);
             //without_document.fadeIn(700);
             typeOfTransaction.val(0);
           });
 
-              use_reference.click(function(event) {
-                $('.form-control').prop('readonly', true);
-                customer_id=$("#customer_id option:selected").text();
-                $('#customer_id_show').html(customer_id);
-                console.log(customer_id);
-                $('.select2').hide();
-                var chequeReference = '';
-                request_reference.remove();
-                //if(cheque.val() == ''){
-                  chequeReference = '<?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?>';
-                //} else {
-                 // chequeReference = cheque.val();
-                //}
-                $('#bal_table').append('<tr id="chequeReference"><td id="chequeReferenceInTable">'+chequeReference+'</td><td class="creditBalance text-right" style="padding-right:20px" id="chequeAmountInTable">'+((chequeAmount.val())*-1)+'</td>/tr>' );
-                section_2.fadeIn(700);
-                section_3.fadeIn(700);
-                typeOfTransaction.val(1);
-                calcBalance();
-              })
+          use_reference.click(function(event) {
+            var chequeReference = '';
+            request_reference.remove();
+            if(cheque.val() == ''){
+              chequeReference = 'Cash';
+            } else {
+              chequeReference = cheque.val();
+            }
+            $('#bal_table').append('<tr id="chequeReference"><td id="chequeReferenceInTable">'+chequeReference+'</td><td class="creditBalance text-right" style="padding-right:20px" id="chequeAmountInTable">'+((chequeAmount.val())*-1)+'</td>/tr>' );
+            section_2.fadeIn(700);
+            section_3.fadeIn(700);
+            typeOfTransaction.val(1);
+            calcBalance();
+          })
 
-              function updateChequeInTable(){
-                var chequeReference = '';
-                //if(cheque.val() == ''){
-                  chequeReference = '<?php echo $receipt_details->receipt_text_prefix.'.'.$total_receipt; ?>';
-                //} else {
-                  //chequeReference = cheque.val();
-                //}
-                $('#chequeReference').html("<td id='chequeReferenceInTable'>"+chequeReference+"</td><td class='creditBalance text-right' style='padding-right:20px' id='chequeAmountInTable'>"+((chequeAmount.val())*-1)+"</td>");
-              }
-            });
+          function updateChequeInTable(){
+            var chequeReference = '';
+            if(cheque.val() == ''){
+              chequeReference = 'Cash';
+            } else {
+              chequeReference = cheque.val();
+            }
+            $('#chequeReference').html("<td id='chequeReferenceInTable'>"+chequeReference+"</td><td class='creditBalance text-right' style='padding-right:20px' id='chequeAmountInTable'>"+((chequeAmount.val())*-1)+"</td>");
+          }
+        });
 
 var invoiceReferences = [];
 var creditReferences = [];
@@ -369,23 +371,12 @@ function calcBalance(){
   balanceTotals = invoicesTotals - creditsTotals;
   totalBalance.innerHTML = balanceTotals;
   notch.innerHTML = balanceTotals;
-  var typeOfTransaction = $('#transaction_type').val();
-  if (balanceTotals == 0 && typeOfTransaction == 1){
-    $('#myModal').modal('show');
-    $('.addInvoice').prop('disabled', true);
-    $('.addCredit').prop('disabled', true);
-    $('.removeInvoice').prop('disabled', true);
-    $('.removeCredit').prop('disabled', true);
-    $('#submitbtn').focus();
-    $('#abort').show();
-  } else if (balanceTotals > 0){
-    $('.removeInvoice').prop('disabled', true);
+  if (balanceTotals > 0){
     $('.addInvoice').prop('disabled', true);
     $('.addCredit').prop('disabled', false);
-  } else if (balanceTotals < 0){
-    $('.removeCredit').prop('disabled', true);
+  } else {
+    $('.addInvoice').prop('disabled', false);
     $('.addCredit').prop('disabled', true);
-    $('#submitbtn').focus();
   }
   $('#balanceToAdd').html('<input type="hidden" name="balanceTotals" value="'+balanceTotals+'">');
 }
@@ -397,17 +388,6 @@ function inputDocuments(arr,type){
   $('#'+type+'IdsToAdd').html(inputTag);
   console.log(inputTag);
 }
-
-$("#abort").click(function(event) {
-  window.location.href = "<?php echo site_url('receipt'); ?>";
-});
-$("#close-modal").click(function(event) {
-  window.location.href = "<?php echo site_url('receipt'); ?>";
-});
-
-$("#myModal").focusout(function(event) {
-  window.location.href = "<?php echo site_url('receipt'); ?>";
-});
-
 </script>
+
 <tfoot>

@@ -7,6 +7,7 @@ class Account extends MY_Controller {
 	{
 		parent::__construct();
 		$this->load->model('account/account_model','account');
+		$this->load->model('receipt/receipt_model', 'receipt');
 	}	
 
 	public function index(){
@@ -34,6 +35,13 @@ class Account extends MY_Controller {
 			if($open_edit_data):
 				
 				$this->body_vars['customer_options']=$this->custom->createDropdownSelect("customer_master",array('customer_id','customer_name','customer_code','currency_id'),"Customer",array('(',')',' '),array(),array($open_edit_data->customer_id));
+				$customer_info = $this->receipt->get_customer_details(array('customer_id'=>$open_edit_data->customer_id));
+				$country = $this->custom->getSingleRow('country_master',array('country_id'=>$customer_info->country_id));
+				$currency = $this->custom->getSingleRow('currency_master',array('currency_id'=>$customer_info->currency_id));
+				$this->body_vars['address'] = $customer_info->customer_bldg_number.', '.$customer_info->customer_street_name;
+				$this->body_vars['country_postal'] = $country->country_name.', '.$customer_info->customer_postal_code;
+				$this->body_vars['currency'] = $currency->currency_name;
+				$this->body_vars['customer_name_code'] = $customer_info->customer_name.' ('.$customer_info->customer_code.') '.$currency->currency_name;
 				
 				if($mode=="edit"):
 					$this->body_vars['save_url']=base_url('account/create_opentable/edit');

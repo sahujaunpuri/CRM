@@ -9,7 +9,7 @@
     <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <title>Login</title>
 </head>
-<body class='login' style="background: #ddd;">
+<body class='login'>
 <div class="wrapper">
     <div class="login-body">
         <div id="heading">

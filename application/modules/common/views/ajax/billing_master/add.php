@@ -1,6 +1,6 @@
 <div class="form-horizontal">
   <div class="form-group">
-    <label for="stock_code" class="col-sm-2 control-label">Stock Code</label>
+    <label for="stock_code" class="col-sm-2 control-label stock_c">Stock Code</label>
     <div class="col-sm-8 error_block">
       <input class="form-control stockCode" name="stock_code" id="stock_code"  placeholder="Stock Code" type="text" required="">
       <span class="stock_code_error" style="display: none;">Alert - Duplicate Stock Code detected</span>
@@ -28,7 +28,7 @@
     <label for="gst_id" class="col-sm-2 control-label">GST</label>
     <div class="col-sm-8 error_block">
       <select class="form-control select2" name="gst_id" id="gst_id">
-      <?php echo $gst_options; ?>
+        <?php echo $gst_options; ?>
       </select>
     </div>
   </div>
@@ -36,7 +36,7 @@
     <label for="billing_update_stock" class="col-sm-2 control-label">UPDATE STOCKS</label>
     <div class="col-sm-8 error_block">
       <select class="form-control select2" name="billing_update_stock" id="billing_update_stock">
-      <?php echo $stock_options; ?>
+        <?php echo $stock_options; ?>
       </select>
     </div>
   </div>
@@ -44,14 +44,14 @@
     <label for="billing_type" class="col-sm-2 control-label">Billing Type</label>
     <div class="col-sm-8 error_block">
       <select class="form-control select2" name="billing_type" id="billing_type">
-      <?php echo $bill_type_options; ?>
+        <?php echo $bill_type_options; ?>
       </select>
     </div>
   </div>
 </div>
 
 <!--Modal for duplicate code-->
-<div id="myModal" class="modal" tabindex="-1" role="dialog">
+<!-- <div id="myModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -69,42 +69,45 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="btnExit">Exit</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+  </div> -->
 
-<script type="text/javascript">
+  <script type="text/javascript">
     $('.select2').select2();
     $('.stockCode').focus();
     $('#stock_code').on('input',function(e){
-        $.post('<?php echo base_url('common/Ajax/double_check/double_stock_code') ?>', {  stock_code: $(this).val()}, function(data, textStatus, xhr) {
-            console.log(data);
-            if (data == 1) {
-                $('#myModal').modal('show');
+      $.post('<?php echo base_url('common/Ajax/double_check/double_stock_code') ?>', {  stock_code: $(this).val()}, function(data, textStatus, xhr) {
+        //console.log(data);
+        if (data == 1) {
+                // $('#myModal').modal('show');
 
                 //Don't erase!!!!
                 //alert('DUPLICATE CODE NOT ALLOWED! (PLEASE ENTER UNIQUE CODE)');
                 //location.href = '<?php echo base_url('master_files/billing_master') ?>';
-                // $('.stock_code_error').css("display","block").css("color", "red");
-                // $('.stock_code').css("color", "red");
-                // $('#stock_code').css("border-color", "red ");
-                // $('.form-control').prop( "disabled", true );
-                // $('.stockCode').prop( "disabled", false);
+                $('.stock_code_error').css("display","block").css("color", "red");
+                $('.stock_code').css("color", "red");
+                $('#stock_code').css("border-color", "red ");
+                $('.form-control').prop( "disabled", true );
+                $('.stockCode').prop( "disabled", false);
+                $('#save').prop( "disabled", true );
                 // alert('Duplicate Stock Code detected, please change the Stock Code to continue');
-                // $('.stockCode').focus();
-            }
-        else
-            {
+                $('.stockCode').focus();
+                //$('.stock_c').css('color', 'red');
+              }
+              else
+              {
+                $('#save').prop( "disabled", false );
                 $('.stock_code_error').css("display","none");
                 $('.stock_code').css("color", "green");
                 $('#stock_code').css("border-color", "green ");
                 $('.form-control').prop( "disabled", false );
-            }
-        });
+              }
+            });
     });
 
     // Go to master if duplicated code
-    $('#myModal').click(function() {
-        location.href = '<?php echo base_url('master_files/billing_master') ?>';
-    });
-</script>
+    // $('#myModal').click(function() {
+    //   location.href = '<?php echo base_url('master_files/billing_master') ?>';
+    // });
+  </script>

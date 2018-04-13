@@ -257,12 +257,19 @@ function showData(mode,url,form_action='#'){
         }
 
         else if (mode == "All Confirm") {
-          $.confirm({
+          $.confirm({            
             title:"<i class='fa fa-info'></i> Confirm All Successful",
             text: "Post All ?",
+            cancelButton: 'No',
+            cancelButtonClass: 'btn-danger',
             confirmButton: 'Yes',
             confirmButtonClass: 'btn-success',
+             cancel: function(button) {
+                  $('#post_all').prop('disabled', false);
+                  $("#refresh").click();//refresh  the datatable.
+                },
             confirm: function(button) {
+              $('#post_all').prop('disabled', true);
               var rowID_objet = table.rows({ selected: true }).data();
               var count = table.rows({ selected: true }).count();
               var rowID = 0;
@@ -279,12 +286,8 @@ function showData(mode,url,form_action='#'){
                         });
                     }
                     showHideButtons("list");
-                  },
-                  cancelButton: 'No',
-                  cancelButtonClass: 'btn-danger',
-                  cancel: function(button) {
-                  $("#refresh").click();//refresh  the datatable.
-                }
+                  }  
+                 
               });
         }
 

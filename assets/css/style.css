@@ -5413,7 +5413,8 @@ body.error .wrapper .input-append .btn:hover {
     margin-top: 5px;
 }
 .login {
-    background-image: url('../../assets/images/bg/colorful.jpg') !important;
+    /*background-image: url('../../assets/images/bg/colorful.jpg') !important;*/
+    background-color: #fff;
      background-repeat:no-repeat;
     background-position:center;
     background-attachment: fixed;

@@ -344,7 +344,7 @@ class Datatable extends CI_Controller {
 		}
 		if ($data_check=="receipt_list") {
 			$table="receipt_master";
-			$columns=array("receipt_ref_no","customer_name","bank","cheque","other_reference","amount","invoice","created_on");
+			$columns=array("receipt_ref_no","customer_name","bank","cheque","other_reference","amount","invoice","doc_date");
 			$where=array('receipt_status' =>strtoupper(substr($this->uri->segment(5),0,1)),'user_id' => $logged_id);
 			$join_table=array("customer_master");
 			$join_condition=array('receipt_master.customer_id=customer_master.customer_id');
@@ -758,7 +758,7 @@ class Datatable extends CI_Controller {
 				$row[] = $person->other_reference;
 				$row[] = $person->amount;
 				$row[] = $person->invoice;
-				$row[] = $person->created_on;
+				$row[] = $person->doc_date;
 			}
 
 			if ($data_check == "payment_list") {

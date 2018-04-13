@@ -4,8 +4,8 @@
     <!-- <small>Preview of UI elements</small> -->
   </h1>
   <?php 
-    $list = array('active'=>'Account');
-    echo breadcrumb($list);  
+  $list = array('active'=>'Account');
+  echo breadcrumb($list);  
   ?>
 </section>
 <br>
@@ -41,7 +41,7 @@
                         <b>Customer_Currency:</b> <span id="customer_currency"></span>
                       </address>
                     </div>
-                                      
+
                   </div>
                   <!-- /.row -->
                   <br>
@@ -62,10 +62,10 @@
                       <tbody>
                         <tr>
                           <td class="hidden">
-                            <input type="number" name="data[open_id][0]" value="<?php echo $open_edit_data->open_id;?>">
+                            <input type="number" name="data[open_id][0] form-control" value="<?php echo $open_edit_data->open_id;?>">
                           </td>
                           <td>
-                            <input type="date" class="transaction_date form-control" name="data[transaction_date][0]" value="<?php echo $open_edit_data->open_tran_date;?>">
+                            <input type="text" class="my_date transaction_date form-control" name="data[transaction_date][0]" value="<?php echo $open_edit_data->open_tran_date;?>" onfocusout = validateDate(this)><span style="display: none" class="text-danger" id="date_error">Correct this date</span>
                           </td>
                           <td>
                             <input type="text" class="doc_reference form-control" name="data[doc_reference][0]" value="<?php echo $open_edit_data->open_doc_ref;?>">
@@ -112,49 +112,128 @@
     </div>
   </form>
 </section>
-
+<script src="<?php echo JS_PATH."/dist/jquery.inputmask.bundle.js";?>"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-        // alert(document.URL);
-      history.pushState(null, null, document.URL);
-      window.addEventListener('popstate', function () {
-          $.confirm({
-                title:"<i class='fa fa-info'></i> Exit Confirmation",
-                text: "Are You Sure Exit ?",
-                confirm: function(button) {
-                  
-                    window.history.go(-1);
-                },
-                cancel: function(button) {
-                    history.pushState(null, null, document.URL);
-                }
-            });
-        
-    });
-});
-$(function() {
-  // $.post('<?php echo base_url('common/Ajax/quotationlist_ajax/get_product_row_edit') ?>', {  billing_id: 3,quotation_id:4}, function(data, textStatus, xhr) {
-  //         var rowCount = $('#open_table tbody tr').length;
-  //         $("#open_table tbody").append("<tr id='"+1+"'><td class='sno'>"+(rowCount+1)+"</td>"+data+"</tr>");
-  //       });
-  $("#customer_id").change(function(event) {
+  $(document).ready(function(){
     customer_id=$("#customer_id option:selected").val();
     if(customer_id!=""){
+      $.post('<?php echo base_url('common/Ajax/quotationlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
+        var obj = $.parseJSON(data);
+        $("#customer_name").html(obj.customer_name);
+        $("#customer_code").html(obj.customer_code);
+        $("#customer_currency").html(obj.customer_currency);
+        $(".my_date").focus();
+      });
+    }
+
+    $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
+        // alert(document.URL);
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+          $.confirm({
+            title:"<i class='fa fa-info'></i> Exit Confirmation",
+            text: "Are You Sure Exit ?",
+            confirm: function(button) {
+
+              window.history.go(-1);
+            },
+            cancel: function(button) {
+              history.pushState(null, null, document.URL);
+            }
+          });
+
+        });
+      });
+  $(function() {
+    $("#customer_id").change(function(event) {
+      customer_id=$("#customer_id option:selected").val();
+      if(customer_id!=""){
         $.post('<?php echo base_url('common/Ajax/quotationlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function(data, textStatus, xhr) {
           console.log(data);
           var obj = $.parseJSON(data);
           console.log(obj);
-          
           $("#customer_name").html(obj.customer_name);
           $("#customer_code").html(obj.customer_code);
           $("#customer_currency").html(obj.customer_currency);
-
         });
-        // get_sub_total();
-    }
+      }
+    }); 
   });
- 
- });
 
+  function validateDate(entryDate){
+    var valid = 0;
+    var myDate = $('.my_date');
+    var nowDate = new Date();
+    var year = nowDate.getFullYear();
+    var month = nowDate.getMonth();
+    var day = nowDate.getDate();
+    var date = myDate.val();
+    var dateFields = (date.split("/")); 
+    var nowYear = parseInt(dateFields[0]);
+    var nowMonth = parseInt(dateFields[1]) - 1;
+    var nowDay = parseInt(dateFields[2]);
+    var error = $('#date_error');
+    var number = nowYear + nowMonth + nowDay;
+    console.log(number);
+  if(nowMonth < 0 || nowMonth > 11 || nowDay < 1 || nowDay > 31 || isNaN(number) || isNaN(dateFields[2][1]) || isNaN(dateFields[1][1])){
+    valid = 1;
+  } else if(nowYear === year){
+    if (nowMonth > month){
+      valid = 1;
+    } else if (nowMonth === month){
+      if (nowDay > day){
+        valid = 1;
+      }
+      else{
+        valid = 0;
+      }
+    } else{
+      valid = 0;  
+    }
+  } else if(nowMonth == 0 || nowMonth == 2 || nowMonth == 4 || nowMonth == 6 || nowMonth == 7 || nowMonth == 9 || nowMonth == 11){
+    if(nowDay < 1 || nowDay > 31){
+      valid = 1;
+    } else{
+      valid = 0;  
+    }
+  } else if (nowMonth == 3 || nowMonth == 5 || nowMonth == 8 || nowMonth == 10){
+    if(nowDay < 1 || nowDay > 30){
+      valid = 1;
+    } else{
+      valid = 0;  
+    }
+  } else if (nowMonth == 1){
+    if(isLeap(nowYear)){
+      if(nowDay < 1 || nowDay > 29){
+        valid = 1;
+      } else{
+        valid = 0;  
+      } 
+    } else {
+      if(nowDay < 1 || nowDay > 28){
+        valid = 1;
+      } else{
+        valid = 0;  
+      }
+    }
+  } else{
+    valid = 0;
+  }
+  buttonState(valid, error, myDate);
+}
 
+function buttonState(value, error, toFocus){
+  if(value === 1){
+    error.css('display','inline');  
+    toFocus.focus();
+    $('#submitbtn').prop("disabled",true); 
+  } else {
+    error.css('display','none'); 
+    $('#submitbtn').prop("disabled",false); 
+  }
+}
+
+function isLeap(year) {
+ return new Date(year, 1, 29).getDate() === 29;
+}
 </script>

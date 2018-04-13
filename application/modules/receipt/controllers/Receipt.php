@@ -90,7 +90,7 @@ class Receipt extends MY_Controller
 			$tinvoice = '';
 			$receipt_data = $post;
 			$receipt_data['user_id'] = $this->session->user_id;
-			$receipt_data['created_on'] = date('Y-m-d');
+			$receipt_data['doc_date'] = date('Y-m-d');
 			$receipt_data['modified_on'] = date('Y-m-d');
 			$this->custom->updateRow("receipt_setting", array('receipt_number_prefix' => explode('.', $receipt_data['receipt_ref_no'])[1]), array('user_id' => $this->session->user_id));
 
@@ -99,7 +99,7 @@ class Receipt extends MY_Controller
 			if ($receipt_data['transaction_type'] == 1) {
 				if ($action == 'new') {
 
-					$receipt_data['created_on'] = date('Y-m-d');
+					//$receipt_data['created_on'] = date('Y-m-d');
 					$receipt_data['modified_on'] = date('Y-m-d');
 					unset($receipt_data['transaction_type']);					
 
@@ -329,7 +329,7 @@ class Receipt extends MY_Controller
 			unset($post['credits']);
 		}			
 		$post['user_id'] = $this->session->user_id;
-		$post['created_on'] = date('Y-m-d');
+		$post['doc_date'] = date('Y-m-d');
 		$post['modified_on'] = date('Y-m-d');
 		foreach ($post as $key => $value) {
 			echo $key;

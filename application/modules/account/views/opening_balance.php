@@ -71,14 +71,14 @@
                     <div id="another_entry" class="pull-right">
                       Input An Entry?                  
                       <button type="button" class="btn btn-primary yes_btn" id="input_another_entry" >Yes</button>               
-                      <button type="button" class="btn btn-primary no_btn" onclick="$('#credit_btn').removeClass('hidden');$('#another_entry').hide();">No</button> 
+                      <button type="button" class="btn btn-primary no_btn" onclick="$('#credit_btn').removeClass('hidden');$('#another_entry').hide();$('.entry').prop('readOnly',true);">No</button> 
                     </div>
                   </div>
                   <div class="col-md-6 col-md-offset-6 col-xs-12">
                     <div id="credit_btn" class="hidden pull-right">
                       Input Credit note?
                       <button type="button" class="btn btn-primary yes_btn" id="input_credit_note">Yes</button>
-                      <button type="button" class="btn btn-primary no_btn" onclick="$('#credit_btn').hide();$('#submitbtn').removeClass('hidden');">No</button> 
+                      <button type="button" class="btn btn-primary no_btn" onclick="$('#credit_btn').hide();$('#submitbtn').removeClass('hidden');$('.credit').prop('readOnly',true)";>No</button> 
                     </div>
                   </div>
                   <br>
@@ -149,26 +149,26 @@
     console.log(numrows);
     var append_str_credit = '<tr id="row-'+numrows+'" >' 
     +'<td class="form-group error_block">'
-    + '<input type="text" required="" class="form-control my_date" id="'+numrows+'" name="data[transaction_date]['
+    + '<input type="text" required="" class="credit form-control my_date" id="'+numrows+'" name="data[transaction_date]['
     + ']" onfocusout = validateDate(this)>'
     + '<span class="text-danger" id="date_error_'+numrows+'">Correct this date</span></td>'
     + '<td class="form-group error_block">'
-    + '<input type="text" required="" class="form-control" name="data[doc_reference]['
+    + '<input type="text" required="" class=" credit form-control" name="data[doc_reference]['
                           //+ numrows
                           + ']" id="doc_'+numrows+'" onfocusout = validateDocReference(this)>'
                           + '<span class="text-danger" id="error_doc_'+numrows+'" style="display: none">Correct this reference</span></td>'
                           + '<td>'
-                          +  '<input type="text" class="form-control" name="data[remarks]['
+                          +  '<input type="text" class="credit form-control" name="data[remarks]['
                           //+ numrows
                           + ']">'
                           + '</td>'
                           + '<td class="form-group error_block">'
-                          +  '<input type="number" required="" class="form-control" name="data[amount]['
+                          +  '<input type="number" required="" class=" credit form-control" name="data[amount]['
                           //+ numrows
                           + ']" id="amount_'+numrows+'" onfocusout = validateAmount(this)>'
                           + ' <span style="display: none" class="text-danger" id="error_amount_'+numrows+'" ">Correct this amount</span></td>'
                           + '<td class="hidden">'
-                          + '<input type="text" readonly class="form-control" name="data[sign]['
+                          + '<input type="text" readonly class="credit form-control" name="data[sign]['
                           //+ numrows
                           + ']" value="-">'
                           + '</td>'
@@ -188,23 +188,23 @@
     var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
     var append_str_entry = '<tr id="row-'+numrows+'" >' 
     +'<td class="form-group error_block">'
-    + '<input type="text" required="" class="form-control my_date" id="'+numrows+'" name="data[transaction_date]['
+    + '<input type="text" required="" class="entry form-control my_date" id="'+numrows+'" name="data[transaction_date]['
     + ']" onfocusout = validateDate(this)>'
     + '<span style="display: none" class="text-danger" id="date_error_'+numrows+'">Correct this date</span></td>'
     + '<td class="form-group error_block">'
-    + '<input type="text" required="" class="form-control" name="data[doc_reference]['
+    + '<input type="text" required="" class="entry form-control" name="data[doc_reference]['
     + ']" id="doc_'+numrows+'" onfocusout = validateDocReference(this)>'
     + '<span class="text-danger" id="error_doc_'+numrows+'" style="display: none">Correct this reference</span></td>'
     + '<td>'
-    +  '<input type="text" class="form-control" name="data[remarks]['
+    +  '<input type="text" class="entry form-control" name="data[remarks]['
     + ']">'
     + '</td>'
     + '<td class="form-group error_block">'
-    +  '<input type="number" required="" class="form-control" name="data[amount]['
+    +  '<input type="number" required="" class="entry form-control" name="data[amount]['
     + ']" id="amount_'+numrows+'" onfocusout = validateAmount(this) >'
     + ' <span style="display: none" class="text-danger" id="error_amount_'+numrows+'" ">Correct this amount</span></td>'
     + '<td class="hidden">'
-    + '<input type="text" readonly class="form-control" name="data[sign]['
+    + '<input type="text" readonly class="entry form-control" name="data[sign]['
     + ']" value="+">'
     + '</td>'
     + '<td>'
