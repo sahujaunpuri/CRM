@@ -4,7 +4,7 @@
    ?>
 <aside class="main-sidebar">
    <!-- sidebar: style can be found in sidebar.less -->
-   <section class="sidebar">
+   <section class="sidebar" >
       <!-- Sidebar user panel -->
       <div class="user-panel">
          <div class="pull-left image">
@@ -801,16 +801,16 @@
                   <span class="font-bold">Offset Records</span>
                   </a>
                      <ul class="treeview-menu">
-                        <li>
+                        <!-- <li>
                            <a href="<?php echo base_url(); ?>account/offset" class="auto">
                            <i class="fa fa-arrow-right"></i>
                            <span>Offset Record</span>
                            </a>
-                        </li>
+                         --></li>
                         <li>
                            <a href="<?php echo base_url(); ?>account/offset_all" class="auto">
                            <i class="fa fa-arrow-right"></i>
-                           <span>OFFSET ALL</span>
+                           <span>REMOVE ALL OFFSETTED RECORDS</span>
                            </a>
                         </li>
                         

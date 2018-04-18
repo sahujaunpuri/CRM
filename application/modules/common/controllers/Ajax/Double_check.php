@@ -19,7 +19,6 @@ class Double_check extends CI_Controller {
 	{
 		is_ajax();
 		$post=$this->input->post();
-
 		$customer_data = $this->custom->getSingleRow("customer_master",array('customer_code'=>$post['customer_code'],'flag'=>'C'));
 		if (count($customer_data)) {
 			echo "1";

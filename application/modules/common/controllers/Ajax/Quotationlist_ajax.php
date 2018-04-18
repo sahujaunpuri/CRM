@@ -63,7 +63,7 @@ class Quotationlist_ajax extends CI_Controller {
 		
 		if($product_details->billing_type=="Product")
 		{
-			$html.="<td><input type='number' min='1' class='form-control' value='$quantity' name='quantity[$product_details->billing_id]' id='quantity_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
+			$html.="<td><input type='number' min='1' class='form-control quantity' value='$quantity' name='quantity[$product_details->billing_id]' id='quantity_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
 		}
 		else
 		{
@@ -138,9 +138,9 @@ class Quotationlist_ajax extends CI_Controller {
             else
             {
             	if($currencyFinal!=0)
-            		$html.="<td class='total' data-show='0' data-calculate='0' id='total_".$product_details->billing_id."'><input class='form-control' name='amount[$product_details->billing_id]' type='number' id='service_total_".$product_details->billing_id."' onblur='get_amount(".$product_details->billing_id.")' value='".$currencyFinal."'/> </td>";
+            		$html.="<td class='total' data-show='0' data-calculate='0' id='total_".$product_details->billing_id."'><input class='form-control serviceAmount' name='amount[$product_details->billing_id]' type='number' id='service_total_".$product_details->billing_id."' onblur='get_amount(".$product_details->billing_id.")' value='".$currencyFinal."'/> </td>";
             	else
-            		$html.="<td class='total' data-show='0' data-calculate='0' id='total_".$product_details->billing_id."'><input class='form-control' name='amount[$product_details->billing_id]' type='number' id='service_total_".$product_details->billing_id."' onblur='get_amount(".$product_details->billing_id.")' /> </td>";
+            		$html.="<td class='total' data-show='0' data-calculate='0' id='total_".$product_details->billing_id."'><input class='form-control serviceAmount' name='amount[$product_details->billing_id]' type='number' id='service_total_".$product_details->billing_id."' onblur='get_amount(".$product_details->billing_id.")' /> </td>";
             }
             
             
@@ -160,7 +160,7 @@ class Quotationlist_ajax extends CI_Controller {
             ."</td>";
 
 // added button to add description
-            $html.="<td><a id='button-$product_details->billing_id' style='margin:3px' class='btn btn-xs btn-success add-description' onclick='add_description(this)'>Add description</a><a style='margin:3px' class='btn btn-xs btn-danger delete-row' onclick='delete_row(this)'>Remove</a></td>";
+            $html.="<td><button type='button' id='button-$product_details->billing_id' style='margin:3px' class='btn btn-xs btn-success add-description' onclick='add_description(this)'>Add description</button><button type='button' style='margin:3px' class='btn btn-xs btn-danger delete-row' onclick='delete_row(this)'>Remove</button></td>";
 //        $html.="<td><a class='btn btn-xs btn-danger delete-row text-center' onclick='delete_row(this)'>Removed</a></td>";
             echo $html;
           }

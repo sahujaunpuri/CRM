@@ -516,16 +516,16 @@
                 <a href="JavaScript:void(0);" id="APOffset" class="auto">
                  <i class="fa fa-arrow-right"></i>
                  <span>Offset Records</span>
-                    <div class="APOffset_menu listing_menu" style="display: none">
+                    <!-- <div class="APOffset_menu listing_menu" style="display: none">
                        <a href="<?php echo base_url(); ?>backend/offset" class="auto">
                        <i class="fa fa-arrow-circle-down"></i>
                        <span>Offset Record</span>
                        </a>
-                    </div>
+                    </div> -->
                     <div class="APOffset_menu listing_menu" style="display: none">
                        <a href="<?php echo base_url(); ?>backend/offset_all" class="auto">
                        <i class="fa fa-arrow-circle-down"></i>
-                       <span>OFFSET ALL</span>
+                       <span>REMOVE ALL OFFSETTED</span><br/><span>RECORDS</span>
                        </a>
                     </div>
                 </a>

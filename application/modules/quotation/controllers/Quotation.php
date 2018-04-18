@@ -62,8 +62,12 @@ class Quotation extends MY_Controller
         /*==========================================*/
         $this->body_vars['salesman_options'] = $this->custom->createDropdownSelect("salesman_master", array('s_id', 's_name', 's_code'), "Sales Person", array('(', ')'));
         /*==========================================*/
-        $this->body_vars['product_options'] = $this->custom->createDropdownSelect("billing_master", array('billing_id', 'stock_code', 'billing_description'), "Product", array(" : ", " "));
+        $this->body_vars['product_options'] = $this->custom->createDropdownSelect("billing_master", array('billing_id', 'stock_code', 'billing_description'), "Product", array(" : ", " "), array('billing_type' => 'Product'));
+        //$this->body_vars['product_options'] = $this->custom->createDropdownSelect("billing_master", array('billing_id', 'stock_code', 'billing_description', 'billing_type'), "Product", array('(', ')', ' '));
         /*==========================================*/
+        $this->body_vars['service_options'] = $this->custom->createDropdownSelect("billing_master", array('billing_id', 'stock_code', 'billing_description'), "Service", array(" : ", " "), array('billing_type' => 'Service'));
+        /*==========================================*/
+
         $quotation_ref_no = $this->custom->getRowsSorted("quotation_master", array(), array(), 'quotation_id', 'DESC', 1);
         // d($quotation_ref_no);
         if (!empty($quotation_ref_no)) {
@@ -86,8 +90,9 @@ class Quotation extends MY_Controller
         has_permission();
         $post = $this->input->post();
         if ($post) {
-            if (count($post['product_id']) >= 1) {
+            if (count($post['product_id']) >= 1 || count($post['service_id']) >= 1) {
                 $quotation_data = $post;
+                unset($quotation_data['service_id']);
                 unset($quotation_data['product_row_id']);
                 unset($quotation_data['amount']);
                 unset($quotation_data['product_id']);
@@ -123,7 +128,6 @@ class Quotation extends MY_Controller
 
                         $insert_data['discount'] = $quotation_product_data['discount'][$product_id];
                         $insert_data['gst_id'] = $quotation_product_data['gst_id'][$product_id];
-
                         $insert_data['price'] = $quotation_product_data['price'][$product_id];
                         $insert_data['product_total'] = $quotation_product_data['product_total'][$product_id];
                         $insert_data['modified_on'] = $quotation_product_data['modified_on'];
@@ -217,7 +221,7 @@ class Quotation extends MY_Controller
                     $this->body_vars['mode'] = "view";
                     $this->body_file = "quotation/quotation_view.php";
                 endif;
-            /*==========================================*/
+                /*==========================================*/
             else:
                 redirect('quotation/quotationlist/pending', 'refresh');
             endif;
