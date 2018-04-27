@@ -237,8 +237,8 @@ class Account extends MY_Controller {
 				}
 				$count = count($post['data']['transaction_date']);
 				foreach ($post['data']['transaction_date'] as $transaction_date){
-					print_r($transaction_date);
-					$insert_data['open_tran_date'][] = $transaction_date;
+					$new_date = implode('/', array_reverse(explode('/', $transaction_date)));
+					$insert_data['open_tran_date'][] = $new_date;
 				}
 				foreach ($post['data']['doc_reference'] as $doc_reference) {
 					$insert_data['open_doc_ref'][] = $doc_reference;

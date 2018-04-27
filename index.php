@@ -311,7 +311,7 @@ else
 	 * --------------------------------------------------------------------
 	 */
 	define('APP_URL', 'http://192.168.0.32/');
-    // define('APP_URL', 'http://localhost/');
+    //define('APP_URL', 'http://localhost/');
 	/*
 	 * --------------------------------------------------------------------
 	 * SET ASSETS PATH FOR THE PROJECT

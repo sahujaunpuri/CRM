@@ -54,7 +54,7 @@
                     <div class="col-sm-4 receipt-col"></div>
                     <!-- /.col -->
                     <div class="col-sm-4 receipt-col">
-                      <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
+                      <b>Date:</b> <?php echo date('d/m/Y'); ?><br>
                       <!-- <br>
                       <b>Account : #REC\<?php echo $receipt_details->receipt_text_prefix.'\\'.$total_receipt; ?></b><br>
                       <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="REC\<?php echo $receipt_details->receipt_text_prefix.'\\'.$total_receipt; ?>">

@@ -1,12 +1,12 @@
 <?php
+if (!isset($head)){
+  $head = 'yes';  
+} 
 if ($mode != "email")
 {
   ?>
   <section class="content-header" id="no-email-1">
-    <?php
-    $list = array('active' => 'View Receipt');
-    echo breadcrumb($list);
-    ?>
+    <?php $list = array('active' => 'View Receipt'); echo breadcrumb($list); ?>
   </section>
   <br>
   <section class="content">
@@ -21,26 +21,32 @@ if ($mode != "email")
       </div>
     </div>
     <?php } ?>
+    <?php $new_date = implode('/', array_reverse(explode('-', $receipt_edit_data->doc_date))); ?>
     <div class="row" id="print_data">
       <div class="col-md-12">
         <div class="box box-danger">
           <div class="row">
             <div class="col-md-12">
+
               <div class="box-header with-border">
                 <center>
-                  <strong>
-                    <img src="<?php echo UPLOAD_PATH . 'site/' . $company_details->company_logo ?>"
-                    class='img img-thumbnail' height="100px" width="100px"/>
-                    <h4><?php echo $company_details->company_name ?></h4>
-                    <?php echo $company_details->company_address; ?>
-                    <br>GST Register Number : <?php echo $company_details->gst_reg_no ?> | UEN No.
-                    : <?php echo $company_details->uen_no; ?>
-                    <br>Phone : <?php echo $company_details->phone ?> | Fax
-                    : <?php echo $company_details->fax ?>
-                  </strong>
+                  <?php if($head=="yes" ): ?>
+                    <strong>
+                      <img src="<?php echo UPLOAD_PATH . 'site/' . $company_details->company_logo ?>"
+                      class='img img-thumbnail' height="100px" width="100px"/>
+                      <h4><?php echo $company_details->company_name ?></h4>
+                      <?php echo $company_details->company_address; ?>
+                      <br>GST Register Number : <?php echo $company_details->gst_reg_no ?> | UEN No.
+                      : <?php echo $company_details->uen_no; ?>
+                      <br>Phone : <?php echo $company_details->phone ?> | Fax
+                      : <?php echo $company_details->fax ?>
+                    </strong>
+                  <?php endif; ?> 
                 </center>
               </div>
+
               <hr>
+
               <div class="box-body">
                 <section class="receipt">
                   <!-- info row -->
@@ -59,7 +65,7 @@ if ($mode != "email")
                     <div class="col-sm-4 receipt-col"></div>
                     <!-- /.col -->
                     <div class="col-sm-4 invoice-col">
-                      <b>Date:</b> <?php echo $date ?><br>
+                      <b>Date:</b> <?php echo $new_date ?><br>
                       <b>Receipt : <?php echo $receipt_edit_data->receipt_ref_no; ?></b><br>
                       <input type='hidden' name='receipt_ref_no' id="receipt_ref_no"
                       value="<?php echo $receipt_edit_data->receipt_ref_no; ?>">
@@ -70,11 +76,11 @@ if ($mode != "email")
                   <!-- /.row -->
                 </section>
                 <br>
-                <div class="table_div_container ">
+                <div class="table_div_container" id='tableContainer'>
                   <table class="receipt_table table-striped table-hover margin-center" id="cre_table" >
                     <caption>Receipt references</caption>
                     <thead>
-                      <tr>
+                      <tr id="headerTable">
                         <td >Reference</td>
                         <td >Doc date</td>
                         <td >Amount ( <?php echo $currency ?> )</td>
@@ -87,8 +93,45 @@ if ($mode != "email")
                 </div>
                 <br>
               </div>
+
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+
+  <?php 
+  if($mode=="print")
+  {
+    ?>
+    <style>
+    .footer{
+      page-break-inside: avoid;
+    }
+  </style>
+  <script type="text/javascript">
+    $('#tableContainer').removeClass('table_div_container');
+    $('#headerTable').css('background-color','red');
+    $("#print_data").print({
+      mediaPrint: true,
+      title: " "
+    });
+  </script> 
+
+  <?php    
+}
+?>
+<?php 
+if($mode=="email")
+{
+  ?>
+  <script type="text/javascript">
+    $('#tableContainer').removeClass('table_div_container');
+    $("#no-email-2").html('');
+    $("#no-email-1").html('');
+  </script>
+  <?php    
+}
+?>
+

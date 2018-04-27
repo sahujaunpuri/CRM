@@ -90,189 +90,113 @@ class Receipt extends MY_Controller
 			$tinvoice = '';
 			$receipt_data = $post;
 			$receipt_data['user_id'] = $this->session->user_id;
-			$receipt_data['doc_date'] = date('Y-m-d');
 			$receipt_data['modified_on'] = date('Y-m-d');
 			$this->custom->updateRow("receipt_setting", array('receipt_number_prefix' => explode('.', $receipt_data['receipt_ref_no'])[1]), array('user_id' => $this->session->user_id));
 
 			// transactions with document reference
 
 			if ($receipt_data['transaction_type'] == 1) {
-				if ($action == 'new') {
-
-					//$receipt_data['created_on'] = date('Y-m-d');
-					$receipt_data['modified_on'] = date('Y-m-d');
-					unset($receipt_data['transaction_type']);					
+				$receipt_data['modified_on'] = date('Y-m-d');
+				unset($receipt_data['transaction_type']);					
 
 					//arrays for store documents ids (invoices and credit notes) and values: key=ar_id value=document_amount
 
-					$invoicesInfo = array();
-					$creditsInfo = array();
+				$invoicesInfo = array();
+				$creditsInfo = array();
 
 					// get the "real" amount for each invoice or credit note
 
-					if (isset($receipt_data['invoices'])) {
-						foreach ($receipt_data['invoices'] as $value) {
-							$invoicesInfo[$value] = $this->trueValueOfDocument($value);
-							$debitTotal += $invoicesInfo[$value];
-						}
-						$invoices = $receipt_data['invoices'];
-					} else {
-						$invoices = 0;
+				if (isset($receipt_data['invoices'])) {
+					foreach ($receipt_data['invoices'] as $value) {
+						$invoicesInfo[$value] = $this->trueValueOfDocument($value);
+						$debitTotal += $invoicesInfo[$value];
 					}
+					$invoices = $receipt_data['invoices'];
+				} else {
+					$invoices = 0;
+				}
 
-					if (isset($receipt_data['credits'])) {
-						foreach ($receipt_data['credits'] as $value) {
-							$creditsInfo[$value] = $this->trueValueOfDocument($value);
-							$creditTotal += $creditsInfo[$value];
-						}
-						$credits = $receipt_data['credits'];
-					} else {
-						$credits = 0;
+				if (isset($receipt_data['credits'])) {
+					foreach ($receipt_data['credits'] as $value) {
+						$creditsInfo[$value] = $this->trueValueOfDocument($value);
+						$creditTotal += $creditsInfo[$value];
 					}
+					$credits = $receipt_data['credits'];
+				} else {
+					$credits = 0;
+				}
 
 					// credit_total = amount(cheque) + all_credit_notes_values
-					$creditNotes = $creditTotal;
-					$creditTotal += $receipt_data['amount'];
-					$amount = $receipt_data['amount'];
-					unset($receipt_data['credits']);
-					unset($receipt_data['invoices']);
+				$receipt_data['invoice_reference_id'] = '';
+				$creditNotes = $creditTotal;
+				$creditTotal += $receipt_data['amount'];
+				$amount = $receipt_data['amount'];
+				unset($receipt_data['credits']);
+				unset($receipt_data['invoices']);
 
 					// $balance let us know if we have credit is greater than debit or are equals or debit is greater
 
-					$balance = $receipt_data['balanceTotals'];
-					unset($receipt_data['balanceTotals']);
+				$balance = $receipt_data['balanceTotals'];
+				unset($receipt_data['balanceTotals']);
 
           // new record in receipt_master table
-
+				if ($action == 'new') {
+					//$receipt_data['created_on'] = date('Y-m-d');
+					$receipt_data['doc_date'] = date('Y-m-d');
 					$receipt_id = $this->custom->insertRow("receipt_master", $receipt_data);
-					$receipt_invoice_data =	$receipt_data;
-					$receipt_invoice_data['receipt_id'] = $receipt_id;
-					$customer_id = $receipt_invoice_data['customer_id'];
-					unset($receipt_invoice_data['customer_id']);
-					unset($receipt_invoice_data['receipt_ref_no']);
-					unset($receipt_invoice_data['bank']);
-					unset($receipt_invoice_data['cheque']);
-					unset($receipt_invoice_data['currency']);
-					unset($receipt_invoice_data['other_reference']);
-					unset($receipt_invoice_data['user_id']);
-					unset($receipt_invoice_data['invoice']);
-					unset($receipt_invoice_data['amount']);
+				}else {
+					$this->custom->updateRow("receipt_master", array('invoice_reference_id' => $receipt_data['invoice_reference_id'],'bank' => $receipt_data['bank'], 'cheque' => $receipt_data['cheque'], 'amount' => $receipt_data['amount'], 'other_reference' => $receipt_data['other_reference']), array('receipt_ref_no' => $receipt_data['receipt_ref_no']));
+					$receipt_id = $this->custom->getSingleValue('receipt_master', 'receipt_id', array("receipt_ref_no" => $receipt_data['receipt_ref_no']));
+					$this->db->delete('receipt_invoice_master', array('receipt_id' => $receipt_id));
+					// foreach ($receipt_data as $key => $value) {
+					// 	if($key == 'invoices' || $key == 'credits'){
+					// 		foreach ($value as $keys => $values) {
+					// 			echo $keys;
+					// 			echo ' = ';
+					// 			echo $values;
+					// 			echo ' | ';
+					// 			# code...
+					// 		}
+					// 	} else {
+					// 		echo $key;
+					// 		echo ' = ';
+					// 		echo $value;
+					// 		echo ' | ';
+					// 	# code...
+					// 	}
+					// }
+				}
+
+				$receipt_invoice_data =	$receipt_data;
+				$receipt_invoice_data['receipt_id'] = $receipt_id;
+				$customer_id = $receipt_invoice_data['customer_id'];
+				unset($receipt_invoice_data['customer_id']);
+				unset($receipt_invoice_data['invoice_reference_id']);
+				unset($receipt_invoice_data['receipt_ref_no']);
+				unset($receipt_invoice_data['bank']);
+				unset($receipt_invoice_data['cheque']);
+				unset($receipt_invoice_data['currency']);
+				unset($receipt_invoice_data['other_reference']);
+				unset($receipt_invoice_data['user_id']);
+				unset($receipt_invoice_data['invoice']);
+				unset($receipt_invoice_data['amount']);
 
           // if $balance == 0, all invoices paid and all credit notes expended (working).
-					
-					if ($balance == 0) {
+
+				if ($balance == 0) {
 						// field invoice (receipt_master)
 
-						foreach ($receipt_data as $key => $value) {
-							if ($key == 'invoices' || $key == 'credits') {
-								foreach ($value as $ar_id) {
-									$document_reference = $this->custom->getSingleValue('accounts_receivable', 'doc_ref_no', array("ar_id" => $ar_id));
-									$tinvoice .= $document_reference . ',';
-								}
-								$invoice = substr($tinvoice, 0, -1);
-								$receipt_data['invoice'] = $invoice;
+					foreach ($receipt_data as $key => $value) {
+						if ($key == 'invoices' || $key == 'credits') {
+							foreach ($value as $ar_id) {
+								$document_reference = $this->custom->getSingleValue('accounts_receivable', 'doc_ref_no', array("ar_id" => $ar_id));
+								$tinvoice .= $document_reference . ',';
 							}
-						}
-						if(isset($invoicesInfo)){
-							foreach ($invoicesInfo as $key => $value) {
-								$receipt_invoice_data['invoice_id'] = $key;
-								$receipt_invoice_data['rec_inv_amount'] = $value;
-								$receipt_invoice_data['full_amount'] = $value;
-								$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
-							}
-						}
-
-						if(isset($creditsInfo)){
-							foreach ($creditsInfo as $key => $value) {
-								$receipt_invoice_data['invoice_id'] = $key;
-								$receipt_invoice_data['rec_inv_amount'] = $value;
-								$receipt_invoice_data['full_amount'] = $value;
-								$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
-							}	
+							$invoice = substr($tinvoice, 0, -1);
+							$receipt_data['invoice'] = $invoice;
 						}
 					}
-
-
-					// if $balance > 0, debits > credits, all invoices paid and all credit notes expended, except the last invoice (most recent), apply partial payment to last invoice 
-					if ($balance > 0) {
-						$invoicesOrder = array();
-						$sql = 'SELECT ar_id FROM accounts_receivable WHERE';
-						foreach ($invoices as $key => $value) {
-							$sql .= ' ar_id = ' . $value . ' or';
-						}
-						$sql .= 'der by doc_date ASC';
-						$result = $this->db->query($sql);
-						$results = $result->result();
-						foreach ($results as $key => $value) {
-							foreach ($value as $keys => $values) {
-								array_push($invoicesOrder, $values);
-							}
-						}
-						for ($i = 0; $i < sizeof($invoicesOrder); $i++) {
-							$receipt_invoice_data['invoice_id'] = $invoicesOrder[$i];
-							if ($creditTotal > $invoicesInfo[$invoicesOrder[$i]]){
-								$receipt_invoice_data['rec_inv_amount'] = $invoicesInfo[$invoicesOrder[$i]];
-								$receipt_invoice_data['full_amount'] = $invoicesInfo[$invoicesOrder[$i]];
-								$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
-								$creditTotal -= $invoicesInfo[$invoicesOrder[$i]];
-							} else {
-								$receipt_invoice_data['full_amount'] = $invoicesInfo[$invoicesOrder[$i]];
-								$receipt_invoice_data['rec_inv_amount'] = $creditTotal;
-								$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
-								$i = sizeof($invoicesOrder);
-							}
-						}
-						if (isset($creditsInfo)){
-							foreach ($creditsInfo as $key => $value) {
-								$receipt_invoice_data['invoice_id'] = $key;
-								$receipt_invoice_data['rec_inv_amount'] = $value;
-								$receipt_invoice_data['full_amount'] = $value;
-								$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
-							}
-						}
-					}
-
-					// // if $balance < 0, debits < credits, all invoices paid and all credit notes expended, except the last credit note (most recent), apply partial payment to last invoice 
-
-					if ($balance < 0) {						
-						if ($credits == 0){
-							$receipt_data['invoice_reference_id'] = 'PartialPayment';
-							$this->custom->updateRow('receipt_master',$receipt_data,array('receipt_id' => $receipt_id));
-						} else { 
-							$creditsOrder = array();
-							$sql = 'SELECT ar_id FROM accounts_receivable WHERE';
-							foreach ($credits as $key => $value) {
-								$sql .= ' ar_id = ' . $value . ' or';
-							}
-							$sql .= 'der by doc_date ASC';
-							$result = $this->db->query($sql);
-							$results = $result->result();
-							foreach ($results as $key => $value) {
-								foreach ($value as $keys => $values) {
-									array_push($creditsOrder, $values);
-								}
-							}
-							if ($amount > $debitTotal){
-								$receipt_data['invoice_reference_id'] = 'PartialPayment';
-								$this->custom->updateRow('receipt_master',$receipt_data,array('receipt_id' => $receipt_id));
-							} else {
-								$debitTotal -= $amount;
-								for ($i = 0; $i < sizeof($creditsOrder); $i++) {
-									$receipt_invoice_data['invoice_id'] = $creditsOrder[$i];
-									if ($debitTotal > $creditsInfo[$creditsOrder[$i]]){
-										$receipt_invoice_data['rec_inv_amount'] = $creditsInfo[$creditsOrder[$i]];
-										$receipt_invoice_data['full_amount'] = $creditsInfo[$creditsOrder[$i]];
-										$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
-										$debitTotal -= $creditsInfo[$creditsOrder[$i]];
-									} else {
-										$receipt_invoice_data['full_amount'] = $creditsInfo[$creditsOrder[$i]];
-										$receipt_invoice_data['rec_inv_amount'] = $debitTotal;
-										$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
-										$i = sizeof($creditsOrder);
-									}
-								}
-							}
-						}
+					if(isset($invoicesInfo)){
 						foreach ($invoicesInfo as $key => $value) {
 							$receipt_invoice_data['invoice_id'] = $key;
 							$receipt_invoice_data['rec_inv_amount'] = $value;
@@ -281,6 +205,105 @@ class Receipt extends MY_Controller
 						}
 					}
 
+					if(isset($creditsInfo)){
+						foreach ($creditsInfo as $key => $value) {
+							$receipt_invoice_data['invoice_id'] = $key;
+							$receipt_invoice_data['rec_inv_amount'] = $value;
+							$receipt_invoice_data['full_amount'] = $value;
+							$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
+						}	
+					}
+				}
+
+
+					// if $balance > 0, debits > credits, all invoices paid and all credit notes expended, except the last invoice (most recent), apply partial payment to last invoice 
+				if ($balance > 0) {
+					$invoicesOrder = array();
+					$sql = 'SELECT ar_id FROM accounts_receivable WHERE';
+					foreach ($invoices as $key => $value) {
+						$sql .= ' ar_id = ' . $value . ' or';
+					}
+					$sql .= 'der by doc_date ASC';
+					$result = $this->db->query($sql);
+					$results = $result->result();
+					foreach ($results as $key => $value) {
+						foreach ($value as $keys => $values) {
+							array_push($invoicesOrder, $values);
+						}
+					}
+					for ($i = 0; $i < sizeof($invoicesOrder); $i++) {
+						$receipt_invoice_data['invoice_id'] = $invoicesOrder[$i];
+						if ($creditTotal > $invoicesInfo[$invoicesOrder[$i]]){
+							$receipt_invoice_data['rec_inv_amount'] = $invoicesInfo[$invoicesOrder[$i]];
+							$receipt_invoice_data['full_amount'] = $invoicesInfo[$invoicesOrder[$i]];
+							$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
+							$creditTotal -= $invoicesInfo[$invoicesOrder[$i]];
+						} else {
+							$receipt_invoice_data['full_amount'] = $invoicesInfo[$invoicesOrder[$i]];
+							$receipt_invoice_data['rec_inv_amount'] = $creditTotal;
+							$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
+							$i = sizeof($invoicesOrder);
+						}
+					}
+					if (isset($creditsInfo)){
+						foreach ($creditsInfo as $key => $value) {
+							$receipt_invoice_data['invoice_id'] = $key;
+							$receipt_invoice_data['rec_inv_amount'] = $value;
+							$receipt_invoice_data['full_amount'] = $value;
+							$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
+						}
+					}
+				}
+
+					// // if $balance < 0, debits < credits, all invoices paid and all credit notes expended, except the last credit note (most recent), apply partial payment to last invoice 
+
+				if ($balance < 0) {						
+					if ($credits == 0){
+						$receipt_data['invoice_reference_id'] = 'PartialPayment';
+						$this->custom->updateRow('receipt_master',$receipt_data,array('receipt_id' => $receipt_id));
+					} else { 
+						$creditsOrder = array();
+						$sql = 'SELECT ar_id FROM accounts_receivable WHERE';
+						foreach ($credits as $key => $value) {
+							$sql .= ' ar_id = ' . $value . ' or';
+						}
+						$sql .= 'der by doc_date ASC';
+						$result = $this->db->query($sql);
+						$results = $result->result();
+						foreach ($results as $key => $value) {
+							foreach ($value as $keys => $values) {
+								array_push($creditsOrder, $values);
+							}
+						}
+						if ($amount > $debitTotal){
+							$receipt_data['invoice_reference_id'] = 'PartialPayment';
+							$this->custom->updateRow('receipt_master',$receipt_data,array('receipt_id' => $receipt_id));
+						} else {
+							$debitTotal -= $amount;
+							for ($i = 0; $i < sizeof($creditsOrder); $i++) {
+								$receipt_invoice_data['invoice_id'] = $creditsOrder[$i];
+								if ($debitTotal > $creditsInfo[$creditsOrder[$i]]){
+									$receipt_invoice_data['rec_inv_amount'] = $creditsInfo[$creditsOrder[$i]];
+									$receipt_invoice_data['full_amount'] = $creditsInfo[$creditsOrder[$i]];
+									$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
+									$debitTotal -= $creditsInfo[$creditsOrder[$i]];
+								} else {
+									$receipt_invoice_data['full_amount'] = $creditsInfo[$creditsOrder[$i]];
+									$receipt_invoice_data['rec_inv_amount'] = $debitTotal;
+									$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
+									$i = sizeof($creditsOrder);
+								}
+							}
+						}
+					}
+					foreach ($invoicesInfo as $key => $value) {
+						$receipt_invoice_data['invoice_id'] = $key;
+						$receipt_invoice_data['rec_inv_amount'] = $value;
+						$receipt_invoice_data['full_amount'] = $value;
+						$receipt_invoice_id = $this->custom->insertRow("receipt_invoice_master", $receipt_invoice_data);
+					}
+				}
+
 				// if ($this->db->trans_status() === FALSE || (isset(in_array("error", $res)))
 				// {
 				// 	set_flash_message("message","danger","Something Went Wrong");	
@@ -288,13 +311,13 @@ class Receipt extends MY_Controller
 				// }
 				//else
 				//{
-					
-					set_flash_message("message","success","Receipt Updated Successfully");
-					$this->db->trans_commit();
-					redirect('receipt/receiptlist/confirmed');
-				}
+
+				set_flash_message("message","success","Receipt Updated Successfully");
+				$this->db->trans_commit();
+				redirect('receipt/receiptlist/confirmed');
+				
 			} else if ($receipt_data['transaction_type'] == 0){
-				$this->createReceiptNoContra($post);
+				$this->createReceiptNoContra($post, $action);
 				set_flash_message("message","success","Receipt Created Successfully");
 				$this->db->trans_commit();
 				redirect('receipt/receiptlist/confirmed');
@@ -314,7 +337,7 @@ class Receipt extends MY_Controller
 		return $amount_total;
 	}
 
-	public function createReceiptNoContra($post){
+	public function createReceiptNoContra($post, $action = 'new'){
 		$post['invoice_reference_id'] = 'None';
 		$post['receipt_status'] = 'C';
 		// if($amount != 0){
@@ -338,7 +361,14 @@ class Receipt extends MY_Controller
 			echo ' | ';
 			# code...
 		}
-		$this->custom->insertRow("receipt_master",$post);
+		if($action == 'new'){
+			$this->custom->insertRow("receipt_master",$post);
+		} else{
+			$this->custom->updateRow("receipt_master", array('invoice_reference_id' => $post['invoice_reference_id'], 'receipt_status' => $post['receipt_status'] , 'bank' => $post['bank'], 'cheque' => $post['cheque'], 'amount' => $post['amount'], 'other_reference' => $post['other_reference']), array('receipt_ref_no' => $post['receipt_ref_no']));
+			$receipt_id = $this->custom->getSingleValue('receipt_master', 'receipt_id', array("receipt_ref_no" => $receipt_data['receipt_ref_no']));
+			$this->db->delete('receipt_invoice_master', array('receipt_id' => $receipt_id));
+		}		
+		
 	}
 
 
@@ -355,6 +385,7 @@ class Receipt extends MY_Controller
 		$documentToRow = '';
 		if ($row_id != ""){
 			$this->body_vars['receipt_edit_data']=$receipt_edit_data=$this->custom->getSingleRow('receipt_master',array("receipt_id"=>$row_id));
+			$new_date = implode('/', array_reverse(explode('-', $receipt_edit_data->doc_date )));
 			if($receipt_edit_data){
 				$company_where=array('profile_id'=>1);
 				$this->body_vars['company_details']=$company_details=$this->custom->getSingleRow('company_profile',$company_where);
@@ -362,6 +393,8 @@ class Receipt extends MY_Controller
 					$customer_info = $this->receipt->get_customer_details(array('customer_id'=>$receipt_edit_data->customer_id));
 					$country = $this->custom->getSingleRow('country_master',array('country_id'=>$customer_info->country_id));
 					$currency = $this->custom->getSingleRow('currency_master',array('currency_id'=>$customer_info->currency_id));
+					$this->body_vars['receipt_id'] = $row_id;
+					$this->body_vars['customer_id'] = $receipt_edit_data->customer_id;
 					$this->body_vars['address'] = $customer_info->customer_bldg_number.', '.$customer_info->customer_street_name;
 					$this->body_vars['country_postal'] = $country->country_name.', '.$customer_info->customer_postal_code;
 					$this->body_vars['bank'] = $receipt_edit_data->bank;
@@ -371,7 +404,7 @@ class Receipt extends MY_Controller
 					$this->body_vars['currency'] = $currency->currency_name;
 					$this->body_vars['customer_name_code'] = $customer_info->customer_name.' ('.$customer_info->customer_code.') '.$currency->currency_name;
 					$this->body_vars['receipt_ref_no'] = $receipt_edit_data->receipt_ref_no;
-					$this->body_vars['date'] = $receipt_edit_data->modified_on;
+					$this->body_vars['date'] = $new_date;
 					if ($mode == 'view'){
 						$balance = 0;
 						$sql = 'SELECT r_i_id, invoice_id, rec_inv_amount FROM receipt_invoice_master WHERE receipt_id = '.$row_id.'';
@@ -383,7 +416,8 @@ class Receipt extends MY_Controller
 							$result1 = $query1->result();
 							foreach ($result1 as $key => $values) {
 								$doc_ref_number = $values->doc_ref_no;
-								$doc_date = $values->doc_date;
+								$format_date = implode('/', array_reverse(explode('-', $values->doc_date)));
+								$doc_date = $format_date;
 								if ($values->sign == '+'){
 									$sign = '';
 									$balance += $value->rec_inv_amount;
@@ -402,7 +436,7 @@ class Receipt extends MY_Controller
 						}
 						$documentToRow .= '<tr class="td_receipt" id="amount">
 						<td width="200" id="invoiceRef-amount">'.$receipt_edit_data->receipt_ref_no.'</td>
-						<td id="invoiceDate-amount">'.$receipt_edit_data->modified_on.'</td>
+						<td id="invoiceDate-amount">'.$new_date.'</td>
 						<td class="text-right" style="padding-right:20px" id="invoiceAmount-amount">-'.$receipt_edit_data->amount.'</td>							
 						</tr>';
 						$balance -= $receipt_edit_data->amount;

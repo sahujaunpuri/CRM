@@ -187,6 +187,7 @@ class Quotation extends MY_Controller
         /*==========================================*/
         if ($row_id != ""):
             $this->body_vars['quotation_edit_data'] = $quotation_edit_data = $this->custom->getSingleRow('quotation_master', array("quotation_id" => $row_id));
+
             if ($quotation_edit_data):
                 $this->body_vars['quotation_product_edit_data'] = $quotation_product_edit_data = $this->custom->getRows('quotation_product_master', array("quotation_id" => $row_id));
                 foreach ($quotation_product_edit_data as $value) {

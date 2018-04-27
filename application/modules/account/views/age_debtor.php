@@ -52,7 +52,7 @@
                     <!-- /.col -->
                     <div class="col-sm-4 receipt-col">
                       <br>
-                      <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
+                      <b>Date:</b> <?php echo date('d/m/Y'); ?><br>
                       
                     </div>
                     <!-- /.col -->

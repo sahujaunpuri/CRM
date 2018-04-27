@@ -151,6 +151,7 @@ hr{
       }
       $('#submit').prop( "disabled", true );
     } else{
+      $('.form-group').removeClass("has-error");
       check();
     }
   });

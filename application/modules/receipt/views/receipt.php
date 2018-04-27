@@ -61,7 +61,7 @@
                         <input type='hidden' name='receipt_ref_no' id="receipt_ref_no"
                                value="<?php echo $receipt_details->receipt_text_prefix . '.' . $total_receipt; ?>">
                         <br>
-                        <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
+                        <b>Date:</b> <?php echo date('d/m/Y'); ?><br>
                       </div>
                       <div style="clear: both;"></div>
                       <br/>
@@ -196,6 +196,22 @@
 
 
 <script>
+  $(document).ready(function(){
+    var receiptid = $('#receipt_ref_no').val();
+    var receipt_parts = receiptid.split('.');
+    console.log(receipt_parts)
+    $.post('<?php echo base_url('receipt/receipt_ajax/receipt_new_reference') ?>', {
+      text: receipt_parts[0],
+      number: receipt_parts[1]
+    }, function (data, textStatus, xhr) {
+      console.log(data);
+      if (data == 1) {
+        window.location.href = "<?php echo site_url('receipt/receipt_setting'); ?>";
+      }
+    });
+  });
+
+
   $(function () {
     var bank = $("#bank");
     var bank_input = $("#bank_input");
@@ -236,7 +252,7 @@
       updateChequeInTable();
     });
     chequeAmount.on('input', function (e) {
-      bankEntry(bank, cheque, chequeAmount, dont_use_reference, dont_use_reference);
+      bankEntry(bank, cheque, chequeAmount, dont_use_reference, use_reference);
       updateChequeInTable();
       calcBalance();
     });

@@ -685,18 +685,45 @@ class Quotationlist_ajax extends CI_Controller {
               			$this->load->view('quotation/quotation_view.php', $this->data, FALSE);
               		endif;
               		if($mode=="email"):
-              			$this->data['mode']="email";
-              			$html=$this->load->view('quotation/quotation_view.php', $this->data, TRUE);	
-              			$this->load->helper('email');
-						// send_email("parthganatra17@gmail.com","trueline.chirag@gmail.com","Test",$html);
-              			send_email("mohit.ch@ibrinfotech.com","mohit.ch@ibrinfotech.com","Test",$html);
-              		endif;
-              		$message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
+                    $this->data['mode']="email";
+                    $html=$this->load->view('quotation/quotation_view.php', $this->data, TRUE); 
 
-              		/*==========================================*/
-              		?>
-              		<script>
-              			message='<?php echo $message; ?>';
+                    $this->load->library('email');
+
+                    $where=array('profile_id'=>1);
+                    $reply_to = $this->custom->getSingleValue("company_profile","company_email",$where);
+
+                    $from = 'notifier@'.$_SERVER['HTTP_HOST'];
+                    $to = $data['customer_email'];
+
+                    if(!empty($to)) {
+                      $company_name = $this->custom->getSingleValue("company_profile","company_name",$where);
+
+                      $this->email->from($from);
+                      $this->email->to($to);
+                      $this->email->subject('information about quotation');
+                      $this->email->message($html);
+
+                      $this->email->from($from, $company_name);
+                      $this->email->reply_to($reply_to, 'Rajen');
+
+                      $this->email->send();
+                      $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
+                    } else {
+                      $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button> Email-Id is for this customer is not present in the customer master table..! <br/> Please enter it first.</div>';
+                    }
+      //         			$this->data['mode']="email";
+      //         			$html=$this->load->view('quotation/quotation_view.php', $this->data, TRUE);	
+      //         			$this->load->helper('email');
+						// // send_email("parthganatra17@gmail.com","trueline.chirag@gmail.com","Test",$html);
+      //         			send_email("mohit.ch@ibrinfotech.com","mohit.ch@ibrinfotech.com","Test",$html);
+                  endif;
+                  $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
+
+                  /*==========================================*/
+                  ?>
+                  <script>
+                   message='<?php echo $message; ?>';
 				$("#form_data").html(""); // remove content of form.
                 $("#refresh").click();//refresh  the datatable.
                 $("#list_table").show(); // show data table

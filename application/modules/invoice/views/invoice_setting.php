@@ -50,12 +50,12 @@ hr{
                 <div class="form-group">
                   <label class="col-md-2 control-label" for="invoice_text_prefix">Text Prefix : </label>  
                   <div class="col-md-4">
-                    <input id="invoice_text_prefix" maxlength="6" value="<?php if(!is_null($invoice_details)){echo $invoice_details->invoice_text_prefix;} ?>" name="invoice_text_prefix" placeholder="Text Prefix" class="form-control input-md" type="text">
+                    <input id="invoice_text_prefix" maxlength="6" value="<?php if(!is_null($invoice_details)){echo $invoice_details->invoice_text_prefix;} ?>" name="invoice_text_prefix" placeholder="Text Prefix" class="form-control input-md pref-suf" type="text" required><span class="invoice_prefix_error" style="display: none;"></span>
                   </div>
                   <!-- ============================================================================= -->
                   <label class="col-md-2 control-label" for="invoice_number_prefix">Number Suffix : </label>  
                   <div class="col-md-4">
-                    <input id="invoice_number_prefix" onKeyPress="if(this.value.length==6) return false;" value="<?php if(!is_null($invoice_details)){echo $invoice_details->invoice_number_prefix;} ?>" name="invoice_number_prefix" placeholder="Number Suffix" class="form-control input-md" type="number">
+                    <input id="invoice_number_prefix" onKeyPress="if(this.value.length==6) return false;" value="<?php if(!is_null($invoice_details)){echo $invoice_details->invoice_number_prefix;} ?>" name="invoice_number_prefix" placeholder="Number Suffix" class="form-control input-md pref-suf" type="number"><span class="invoice_suffix_error" style="display: none;"></span>
                   </div>
                 </div>
 
@@ -89,10 +89,76 @@ hr{
             </div>
             <div class="box-footer with-border">
               <a href="<?php echo base_url().'dashboard'; ?>" class="btn btn-default">Cancel</a>
-              <button type="submit" class="btn btn-info pull-right">Submit</button>
+              <button type="submit" id="submit" class="btn btn-info pull-right">Submit</button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </section>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      check();
+    });
+
+    $('.pref-suf').on('input',function(){
+      if ($('#invoice_text_prefix').val() == "" || $('#invoice_number_prefix').val() == ""){
+        if ($('#invoice_text_prefix').val() == ""){
+          $('.invoice_prefix_error').html('Please, enter a prefix.');
+          $('.invoice_prefix_error').css("display","block").css("color", "red");
+          $('#invoice_text_prefix').css("color", "red");
+          $('#invoice_text_prefix').css("border-color", "red");  
+        } else{
+          $('.invoice_prefix_error').css("display","none");
+          $('#invoice_text_prefix').css("color", "black");
+          $('#invoice_text_prefix').css("border-color", "black");  
+        }
+
+        if ($('#invoice_number_prefix').val() == ""){
+          $('.invoice_suffix_error').html('Please, enter a suffix.');
+          $('.invoice_suffix_error').css("display","block").css("color", "red");
+          $('#invoice_number_prefix').css("color", "red");
+          $('#invoice_number_prefix').css("border-color", "red");  
+        } else{
+          $('.invoice_suffix_error').css("display","none");
+          $('#invoice_number_prefix').css("color", "black");
+          $('#invoice_number_prefix').css("border-color", "black");  
+        }
+        $('#submit').prop( "disabled", true );
+      } else{
+        $('.form-group').removeClass("has-error");
+        $('.invoice_prefix_error').css("display","none");
+        $('#invoice_text_prefix').css("color", "black");
+        $('#invoice_text_prefix').css("border-color", "black");  
+        $('.invoice_suffix_error').css("display","none");
+        $('#invoice_number_prefix').css("color", "black");
+        $('#invoice_number_prefix').css("border-color", "black");  
+        check();
+      }
+    });
+
+    function check(){
+      var text = $('#invoice_text_prefix').val();
+      var number = $('#invoice_number_prefix').val();
+      $.post('<?php echo base_url('invoice/invoice_ajax/invoice') ?>', {  text: text, number: number}, function(data, textStatus, xhr) {
+        console.log(data);
+        if (data == 1) {
+          $('.invoice_suffix_error').html('Invoice reference '+text+'.'+(parseInt(number)+1)+' is already in the system, please change suffix number.');
+          $('.invoice_suffix_error').css("display","block").css("color", "red");
+          $('#invoice_number_prefix').css("color", "red");
+          $('#invoice_number_prefix').css("border-color", "red");
+          $('#submit').prop( "disabled", true );
+        }
+        else
+        {
+          $('.invoice_suffix_error').css("display","none");
+          $('#invoice_number_prefix').css("color", "black");
+          $('#invoice_number_prefix').css("border-color", "black");
+          $('.invoice_prefix_error').css("display","none");
+          $('#invoice_text_prefix').css("color", "black");
+          $('#invoice_text_prefix').css("border-color", "black");  
+          $('#submit').prop( "disabled", false );
+        }
+      });
+    }
+  </script>

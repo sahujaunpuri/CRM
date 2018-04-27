@@ -60,13 +60,6 @@
               </div>
                 
               <div class="form-group">
-                <label for="email" class="col-sm-2 control-label">E-Mail</label>
-                <div class="col-sm-8 error_block">
-                  <input class="form-control" name="company_email" id="company_email"  value="<?php echo $company_details->company_email; ?>" placeholder="E-Mail Id" type="text">
-                </div>
-              </div>
-          
-              <div class="form-group">
                 <label for="default_currency" class="col-sm-2 control-label">Currency</label>
                 <div class="col-sm-8 error_block">
                   <select class="form-control select2" name="default_currency" id="default_currency" required="">

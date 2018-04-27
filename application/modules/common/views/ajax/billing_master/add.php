@@ -2,14 +2,14 @@
   <div class="form-group">
     <label for="stock_code" class="col-sm-2 control-label stock_c">Stock Code</label>
     <div class="col-sm-8 error_block">
-      <input class="form-control stockCode" name="stock_code" id="stock_code"  placeholder="Stock Code" type="text" required="">
+      <input class="form-control stockCode" name="stock_code" id="stock_code"  placeholder="Stock Code" type="text">
       <span class="stock_code_error" style="display: none;">Alert - Duplicate Stock Code detected</span>
     </div>
   </div>
   <div class="form-group">
     <label for="billing_description" class="col-sm-2 control-label">Description</label>
     <div class="col-sm-8 error_block">
-      <input class="form-control" name="billing_description" id="billing_description"  placeholder="Description" type="text" required="">
+      <input class="form-control" name="billing_description" id="billing_description"  placeholder="Description" type="text">
     </div>
   </div>
   <div class="form-group">
@@ -21,7 +21,7 @@
   <div class="form-group">
     <label for="billing_price_per_uom" class="col-sm-2 control-label">Price Per UOM</label>
     <div class="col-sm-8 error_block">
-      <input class="form-control" name="billing_price_per_uom" id="billing_price_per_uom"  placeholder="Price Per UOM" type="text">
+      <input class="form-control" name="billing_price_per_uom" id="billing_price_per_uom"  placeholder="Price Per UOM" type="number">
     </div>
   </div> 
   <div class="form-group">
@@ -105,6 +105,24 @@
               }
             });
     });
+
+    var billing_update_stock = $('#billing_update_stock');
+      billing_update_stock.change(function(){
+        console.log(billing_update_stock.val());
+        if (billing_update_stock.val() == 'YES'){
+          $('#billing_type').prop('selectedIndex', 2);
+          $('#billing_uom').prop('required', true);
+          $('#billing_price_per_uom').prop('required', true);
+          $('#billing_type').prop('disabled', true);
+          $('#select2-billing_type-container').prop('title', 'Product').text('Product');
+        } else {
+          $('#billing_type').prop('disabled', false);
+          $('#billing_uom').prop('required', false);
+          $('#billing_price_per_uom').prop('required', false);
+          $('#billing_type').prop('selectedIndex', 0);
+          $('#select2-billing_type-container').prop('title', '-- Select  --').text('-- Select  --');
+        }
+      });
 
     // Go to master if duplicated code
     // $('#myModal').click(function() {

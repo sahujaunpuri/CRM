@@ -3,10 +3,31 @@
   <component name="ChangeListManager">
     <list default="true" id="8bd1bb6a-bd59-4358-956c-e03e7db31700" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Double_check.php" afterPath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Double_check.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/account/controllers/Account.php" afterPath="$PROJECT_DIR$/application/modules/account/controllers/Account.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/account/views/offset_all.php" afterPath="$PROJECT_DIR$/application/modules/account/views/offset_all.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/account/views/opening_balance.php" afterPath="$PROJECT_DIR$/application/modules/account/views/opening_balance.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Account_ajax.php" afterPath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Account_ajax.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Invoicelist_ajax.php" afterPath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Invoicelist_ajax.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Quotationlist_ajax.php" afterPath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Quotationlist_ajax.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Receiptlist_ajax.php" afterPath="$PROJECT_DIR$/application/modules/common/controllers/Ajax/Receiptlist_ajax.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/common/controllers/Datatable.php" afterPath="$PROJECT_DIR$/application/modules/common/controllers/Datatable.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/common/views/header.php" afterPath="$PROJECT_DIR$/application/modules/common/views/header.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/company_profile/controllers/Company_profile.php" afterPath="$PROJECT_DIR$/application/modules/company_profile/controllers/Company_profile.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/company_profile/views/company_profile.php" afterPath="$PROJECT_DIR$/application/modules/company_profile/views/company_profile.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/company_profile/views/company_profile_edit.php" afterPath="$PROJECT_DIR$/application/modules/company_profile/views/company_profile_edit.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/invoice/controllers/Invoice.php" afterPath="$PROJECT_DIR$/application/modules/invoice/controllers/Invoice.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/invoice/views/extract_invoice.php" afterPath="$PROJECT_DIR$/application/modules/invoice/views/extract_invoice.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/invoice/views/invoice.php" afterPath="$PROJECT_DIR$/application/modules/invoice/views/invoice.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/invoice/views/invoice_view.php" afterPath="$PROJECT_DIR$/application/modules/invoice/views/invoice_view.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/quotation/controllers/Quotation.php" afterPath="$PROJECT_DIR$/application/modules/quotation/controllers/Quotation.php" />
       <change beforePath="$PROJECT_DIR$/application/modules/quotation/views/quotation.php" afterPath="$PROJECT_DIR$/application/modules/quotation/views/quotation.php" />
-      <change beforePath="$PROJECT_DIR$/application/modules/quotation/views/quotation_setting.php" afterPath="$PROJECT_DIR$/application/modules/quotation/views/quotation_setting.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/quotation/views/quotation_view.php" afterPath="$PROJECT_DIR$/application/modules/quotation/views/quotation_view.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/quotation/views/quotation_view_basic.php" afterPath="$PROJECT_DIR$/application/modules/quotation/views/quotation_view_basic.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/receipt/controllers/Receipt.php" afterPath="$PROJECT_DIR$/application/modules/receipt/controllers/Receipt.php" />
       <change beforePath="$PROJECT_DIR$/application/modules/receipt/views/receipt.php" afterPath="$PROJECT_DIR$/application/modules/receipt/views/receipt.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/receipt/views/receipt_edit.php" afterPath="$PROJECT_DIR$/application/modules/receipt/views/receipt_edit.php" />
+      <change beforePath="$PROJECT_DIR$/application/modules/receipt/views/receipt_view.php" afterPath="$PROJECT_DIR$/application/modules/receipt/views/receipt_view.php" />
+      <change beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,8 +44,8 @@
       <file leaf-file-name="quotation.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="484" column="12" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="605" selection-end-column="0" />
+            <state relative-caret-position="884">
+              <caret line="520" column="12" lean-forward="false" selection-start-line="520" selection-start-column="12" selection-end-line="520" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -33,7 +54,7 @@
       <file leaf-file-name="quotation_setting.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation_setting.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1680">
+            <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -43,8 +64,8 @@
       <file leaf-file-name="receipt.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/modules/receipt/views/receipt.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="263">
-              <caret line="236" column="20" lean-forward="true" selection-start-line="236" selection-start-column="20" selection-end-line="236" selection-end-column="20" />
+            <state relative-caret-position="4250">
+              <caret line="250" column="20" lean-forward="false" selection-start-line="250" selection-start-column="20" selection-end-line="250" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -152,7 +173,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -267,6 +287,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -274,6 +295,7 @@
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.PHP" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="last_opened_file_path" value="$USER_HOME$/public_html/ecoluz" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -319,6 +341,9 @@
       <workItem from="1521479393503" duration="360000" />
       <workItem from="1523808618397" duration="30000" />
       <workItem from="1523808775213" duration="1091000" />
+      <workItem from="1524229182961" duration="90000" />
+      <workItem from="1524229308083" duration="47000" />
+      <workItem from="1524229381520" duration="42000" />
     </task>
     <task id="LOCAL-00001" summary="Initial">
       <created>1519372951712</created>
@@ -331,28 +356,29 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73291000" />
+    <option name="totallyTimeSpent" value="73470000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="994" y="0" width="1860" height="1080" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21021505" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2123656" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -383,7 +409,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2006">
           <caret line="118" column="36" lean-forward="false" selection-start-line="118" selection-start-column="36" selection-end-line="118" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -391,7 +416,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -427,7 +451,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1717">
           <caret line="101" column="52" lean-forward="false" selection-start-line="101" selection-start-column="41" selection-end-line="101" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -435,7 +458,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -478,7 +500,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3281">
           <caret line="193" column="135" lean-forward="false" selection-start-line="193" selection-start-column="113" selection-end-line="193" selection-end-column="135" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -486,7 +507,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -673,15 +693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2989">
           <caret line="128" column="42" lean-forward="false" selection-start-line="128" selection-start-column="42" selection-end-line="128" selection-end-column="42" />
-          <folding>
-            <marker date="1523309193642" expanded="true" signature="1356:1522" ph="SELECT ar_id... accounts_receivable" />
-            <marker date="1523309193642" expanded="true" signature="1640:1811" ph="SELECT SUM(r... receipt_invoice_master" />
-            <marker date="1523309193642" expanded="true" signature="4084:4152" ph="SELECT r_i_i... receipt_invoice_master" />
-            <marker date="1523309193642" expanded="true" signature="4233:4340" ph="SELECT recei... receipt_master" />
-            <marker date="1523309193642" expanded="true" signature="5254:5336" ph="SELECT r_i_i... receipt_invoice_master" />
-            <marker date="1523309193642" expanded="true" signature="5692:5831" ph="SELECT SUM(r... receipt_invoice_master" />
-            <marker date="1523309193642" expanded="true" signature="7352:7449" ph="SELECT SUM(r... receipt_invoice_master" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -689,7 +700,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="884">
           <caret line="106" column="0" lean-forward="false" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -697,13 +707,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation_setting.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1680">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
@@ -711,16 +720,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/receipt/views/receipt.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="236" column="20" lean-forward="true" selection-start-line="236" selection-start-column="20" selection-end-line="236" selection-end-column="20" />
+        <state relative-caret-position="4250">
+          <caret line="250" column="20" lean-forward="false" selection-start-line="250" selection-start-column="20" selection-end-line="250" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/quotation/views/quotation.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="484" column="12" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="605" selection-end-column="0" />
+        <state relative-caret-position="884">
+          <caret line="520" column="12" lean-forward="false" selection-start-line="520" selection-start-column="12" selection-end-line="520" selection-end-column="12" />
           <folding />
         </state>
       </provider>

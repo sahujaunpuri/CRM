@@ -7,69 +7,72 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <!-- Apple devices fullscreen -->
     <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <title>Login</title>
+    <title>Sign in</title>
 </head>
-<body class='login'>
-<div class="wrapper">
-    <div class="login-body">
-        <div id="heading">
-            <h2 class="text-center">Login Here</h2>
-        </div>
-        <hr>
-        <?php echo $this->session->flashdata('info_msg'); ?>
-        <form autocomplete="off" action="#" method="post" id="login_form" class="" autocomplete="off">
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <i class="fa fa-user"></i>
+<body class='login' style="background-image: url('<?php echo ASSET_PATH.'images/bg/4.jpg' ?>')">
+    <div class="login-box">
+        <div class="login-body display-none margin-center login-form" style="height: 475px">
+            <div class="margin-center img-logo display-none login-element" id="logo-img">
+                <img src="<?php echo ASSET_PATH.'images/logo.jpeg' ?>" class='img mw100'/>    
+            </div>
+            <div  login-element">
+                <h3 id="heading" class="display-none text-center">Sign in</h3>
+            </div>
+            <?php echo $this->session->flashdata('info_msg'); ?>
+            <form autocomplete="off" action="#" method="post" id="login_form" class="display-none" autocomplete="off">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Username"
+                        required=""/>
                     </div>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username"
-                           required=""/>
                 </div>
-            </div>
-            <div class="form-group" id="password_div">
-                <div class="input-group">
-                    <div class="input-group-addon">
-                        <i class="fa fa-key"></i>
+                <div class="form-group" id="password_div">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-key"></i>
+                        </div>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required=""/>
                     </div>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                           required=""/>
+                </div>
+                <div id="login_btn_div" class="display-none">
+                    <input value="Sign me in" id="login_btn" class="margin-center btn btn-success login-submit" type="submit">
+                </div>
+            </form>
+            <div class="forget display-none" >
+                <div class="">
+                    <div class="">
+                        <a class="btn btn-grey w100" id="f_pass" ><span>Forgot password?</span></a>
+                        <a class="btn btn-grey w100" id="login"><span>Login</span></a>
+                    </div>
                 </div>
             </div>
-            <div class="submit">
-                <input value="Sign me in" id="login_btn" class="btn btn-primary" type="submit">
-            </div>
-        </form>
-        <div class="forget">
-            <div class="row-fluid">
-                <div class="span12">
-                    <a class="btn btn-grey" id="f_pass"><span>Forgot password?</span></a>
-                    <a class="btn btn-grey" id="login"><span>Login</span></a>
-                </div>
+            <br><br>
+            <div class="text-center display-none" id="managed">
+                Proudly Managed By TRUELINE INFOTECH<br>
+                &copy; <?php echo date("Y"); ?>
             </div>
         </div>
+
+        <!-- /.login-box-body -->
     </div>
-    <br><br><br>
-    <div class="text-center">
-        Proudly Managed By TRUELINE INFOTECH<br>
-        &copy; <?php echo date("Y"); ?>
-    </div>
-    <!-- /.login-box-body -->
-</div>
-<!-- /.login-box -->
-<!-- Bootstrap -->
-<link href="<?php echo CSS_PATH . 'bootstrap/css/bootstrap.min.css'; ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo CSS_PATH . 'font-awesome/css/font-awesome.min.css'; ?>" rel="stylesheet" type="text/css"/>
-<!-- Bootstrap responsive -->
-<link rel="stylesheet" href="<?php echo CSS_PATH . 'bootstrap-responsive.min.css'; ?>">
-<!-- Theme CSS -->
-<link rel="stylesheet" href="<?php echo CSS_PATH . 'style.css'; ?>">
-<!-- Color CSS -->
-<link rel="stylesheet" href="<?php echo CSS_PATH . 'themes.css'; ?>">
-<link rel="stylesheet" href="<?php echo CSS_PATH . 'datepicker\css\datepicker.css'; ?>">
-<!-- jQuery -->
-<script type="text/javascript" src="<?php echo JS_PATH . 'jQuery-2.1.4.min.js'; ?>"></script>
-<link rel="stylesheet" href="<?php echo CSS_PATH . 'toastr.min.css'; ?>">
+    <!-- /.login-box -->
+    <!-- Bootstrap -->
+    <link href="<?php echo CSS_PATH . 'bootstrap/css/bootstrap.min.css'; ?>" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo CSS_PATH . 'font-awesome/css/font-awesome.min.css'; ?>" rel="stylesheet" type="text/css"/>
+    <!-- Bootstrap responsive -->
+    <link rel="stylesheet" href="<?php echo CSS_PATH . 'bootstrap-responsive.min.css'; ?>">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="<?php echo CSS_PATH . 'style.css'; ?>">
+    <link rel="stylesheet" href="<?php echo CSS_PATH . 'custom.css'; ?>">
+    <!-- Color CSS -->
+    <link rel="stylesheet" href="<?php echo CSS_PATH . 'themes.css'; ?>">
+    <link rel="stylesheet" href="<?php echo CSS_PATH . 'datepicker\css\datepicker.css'; ?>">
+    <!-- jQuery -->
+    <script type="text/javascript" src="<?php echo JS_PATH . 'jQuery-2.1.4.min.js'; ?>"></script>
+    <link rel="stylesheet" href="<?php echo CSS_PATH . 'toastr.min.css'; ?>">
 
 <!--[if lte IE 9]>
 <script src="js/plugins/placeholder/jquery.placeholder.min.js"></script>
@@ -104,6 +107,7 @@ $imagepath = IMG_PATH . 'bg/';
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         var message = "<?php echo $this->session->flashdata('message'); ?>";
         if (message != "") {
             toastr["info"](message, "Message");
@@ -127,17 +131,38 @@ $imagepath = IMG_PATH . 'bg/';
                 }
             },
         };
-        var forgot_options = {
-            url: "<?php echo base_url('common/forgot_password') ?>",
-            resetForm: true,
-            beforeSubmit: function () {
-                $("#login_btn").html("<i class='fa fa-spin fa-refresh fa-pulse'></i>");
-            },
-            success: function (data) {
-                $(".submit").html("<input type='submit'  value='Sign me in' class='btn btn-primary'>");
-                toastr["warning"](data, "Message");
-            },
-        };
+
+        function sleep(ms) {
+          return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      async function demo() {
+        $('.login-body').fadeIn(700);    
+        await sleep(400);
+        $('#logo-img').fadeIn(700);    
+        await sleep(200);
+        $('#heading').fadeIn(700);
+        await sleep(200);
+        $('#login_form').fadeIn(700);
+        await sleep(200);
+        $('#login_btn_div').fadeIn(700);
+        $('.forget').fadeIn(700);
+        await sleep(200);
+        $('#managed').fadeIn(700);
+                
+    }
+    demo();
+    var forgot_options = {
+        url: "<?php echo base_url('common/forgot_password') ?>",
+        resetForm: true,
+        beforeSubmit: function () {
+            $("#login_btn").html("<i class='fa fa-spin fa-refresh fa-pulse'></i>");
+        },
+        success: function (data) {
+            $(".submit").html("<input type='submit'  value='Sign me in' class='btn btn-primary'>");
+            toastr["warning"](data, "Message");
+        },
+    };
         // bind form using 'ajaxForm'
         $("#login_btn").click(function (event) {
             var form_id = $("form").attr('id');

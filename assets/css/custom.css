@@ -183,7 +183,41 @@ form input.custom_error_block {
   }
 }
 
-/*table vertical scrollable*/
+/*login homepage*/
+.login-box{
+	display: flex; 
+	justify-content: center; 
+	align-items: center;
+	width: 100%; 
+	height: 100%
+}
+
+.login-form{
+	max-width: 80%;
+	background-color: #fff;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	width: 380px;
+	padding: 30px 30px 30px 30px;
+}
+
+.img-logo{
+	max-width: 70%; 
+	padding-bottom: 30px
+}
+
+.mw100{
+	max-width: 100%;
+}
+
+.login-submit{
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+.w100{
+	width: 100%;
+}
+
 /*custom dashborad layout class*/
  /*  div.col-sm-7.five-three ,div.col-xs-7.five-three{
     width: 60% !important;

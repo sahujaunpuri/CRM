@@ -64,7 +64,7 @@
                       <input type='hidden' name='quotation_ref_no' id="quotation_ref_no"
                       value="<?php echo $quotation_details->quotation_text_prefix . '.' . $total_quotation; ?>">
                       <br>
-                      <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
+                      <b>Date:</b> <?php echo date('d/m/Y'); ?><br>
                       <b>Salesman:</b>
                       <span id="salesman_id_show"></span>
                       <select name="salesman_id" id="salesman_id" title="Select Sales Person"
@@ -102,6 +102,7 @@
                   <br>
                   <!-- <legend></legend> -->
                   <hr>
+
                   <div class="row">
                     <div class="col-xs-12 col-md-5 product_id_div">
                       <select name="product_id" id="product_id" title="Select Product" class="form-control select2">
@@ -115,6 +116,7 @@
                     </div>
                     <!-- <button class="btn btn-primary" id="new_product" onclick="$('.product_id_div').removeClass('hidden');">Add New Product</button> -->
                   </div>
+                  
                   <br>
                   <!-- <legend></legend> -->
                   <!-- Table row -->
@@ -146,7 +148,6 @@
                   <!-- /.row -->
                   <!-- <hr> -->
 
-
                   <div class="row">
                     <div id="done_btn" class="pull-right">
                       <div id="productsSelect">
@@ -162,13 +163,12 @@
                         <button type="button" class="btn btn-primary" id="abort">Abort</button>
                         <!-- <button type="button" class="btn btn-primary "onclick='$("#select2-product_id-container").click();$("#product_id").select2("open");'>No</button> -->
                       </div>
-
-
                       <!-- /.col -->
                     </div>
                     <!-- accepted payments column -->
                     <!-- /.col -->
                   </div>
+
                   <div class="">
                     <div class="total_table">
                       <div class="table_div_container">
@@ -383,9 +383,7 @@
 }
 
 </style>
-<script type="text/javascript" src="<?php echo JS_PATH ?>quotation.js"></script>
 <script type="text/javascript">
-
   $(document).ready(function () {
     var quotationid = $('#quotation_id').text();
     var quotation_parts = quotationid.split('.');
@@ -415,7 +413,6 @@
     });
   });
 
-
   $(function () {
     var print_form_action = '<?php echo base_url('common/Ajax/quotationlist_ajax/print_new_quotation');?>';
     var save_form_action = '<?php echo base_url('quotation/create_new_quotation');?>';
@@ -424,9 +421,7 @@
     $print = false;
 
     $("#print_without_head").on('click', function (e) {
-
       $("#logo_with").val("logo_without");
-
       var print_salesman_id = $('#salesman_id').val();
       var print_customer_id = $('#customer_id').val();
       var datos = $('#form_').serialize();
@@ -438,16 +433,16 @@
           url: print_form_action,
           data: $('#form_').serialize(),
           success: function (result) {
-            $("#form_data").html('');
+            //$("#form_data").html('');
             $("#form_data").html(result);
           }
         });
       }
     });
 
-    $("#print_with_head").on('click touchstart', function (e) {
-
-      $("#logo_with").val("logo_with");
+    
+    $("#print_with_head").on('click', function (e) { //$("#print_with_head").on('click touchstart', function (e) {
+      $("#logo_with").val("logo_with"); 
 
       var print_salesman_id = $('#salesman_id').val();
       var print_customer_id = $('#customer_id').val();
@@ -669,8 +664,7 @@
     $(".personal").next().hide();
     $("#start_quotation").fadeIn(700);
     $("#add_products_services").remove();
-    $('#modalProductServices').modal('show');
-    
+    $('#modalProductServices').modal('show');    
   });
 
   // Show services
@@ -725,6 +719,7 @@
       $('#servicesSelect').removeClass('hidden');
       $('.product_id_div').css('display','none');
       $('.service_id_div').removeClass('hidden');  
+      $("#service_id").select2("open");
       isProduct = 1;
       checkProductsServices();
     } else {
@@ -755,3 +750,4 @@
     window.location.href = '<?php echo base_url('quotation')?>';
   });
 </script>
+<script type="text/javascript" src="<?php echo JS_PATH ?>quotation.js"></script>

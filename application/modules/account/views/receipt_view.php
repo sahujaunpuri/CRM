@@ -57,7 +57,7 @@ if($mode!="email")
                     <div class="col-sm-4 receipt-col"></div>
                     <!-- /.col -->
                     <div class="col-sm-4 invoice-col">
-                      <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
+                      <b>Date:</b> <?php echo date('d/m/Y'); ?><br>
                       <b>Receipt : <?php echo $receipt_edit_data->receipt_ref_no; ?></b><br>
                       <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="<?php echo $receipt_edit_data->receipt_ref_no; ?>">
                       <br>

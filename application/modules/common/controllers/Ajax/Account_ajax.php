@@ -143,9 +143,9 @@ class Account_ajax extends CI_Controller {
 
 
 			foreach ($each_customer_account as $key => $value) {
-
+				$new_date = implode('/', array_reverse(explode('-', $value->doc_date)));
 				$html_tbody.='<tr>';
-				$html_tbody.='<td>'.$value->doc_date.'</td>';
+				$html_tbody.='<td>'.$new_date.'</td>';
 				$html_tbody.='<td>'.$value->doc_ref_no.'</td>';
 				$html_tbody.='<td>'.$value->remarks.'</td>';
 				if($value->sign=="+")
@@ -469,9 +469,9 @@ class Account_ajax extends CI_Controller {
 		$amount = 0;
 
 		foreach ($ar_data as $key => $value) {
-
+			$new_date = implode('/', array_reverse(explode('-', $value->doc_date)));
 			$html.='<tr>';
-			$html.='<td style="min-width: 100px;">'.$value->doc_date.'</td>';
+			$html.='<td style="min-width: 100px;">'.$new_date.'</td>';
 			$html.='<td style="min-width: 100px;">'.$value->doc_ref_no.'</td>';
 			$html.='<td>'.$value->tran_type.'</td>';
 			if($value->sign=="+")

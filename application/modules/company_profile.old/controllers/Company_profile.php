@@ -42,7 +42,7 @@
 				else{
 					set_flash_message('message','warning',$message);
 				}
-				redirect('company_profile','refresh');
+				//redirect('company_profile','refresh');
 			}
 		}
 	

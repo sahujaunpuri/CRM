@@ -37,7 +37,6 @@
             <br>UEN No. : <?php echo $company_details->uen_no; ?>
             <br>Phone : <?php echo $company_details->phone ?>
             <br>Fax : <?php echo $company_details->fax ?>
-            <br>E-Mail : <?php echo $company_details->company_email ?>
             <br>Currency : <?php echo $company_details->default_currency ?>
           </div>
           </center></strong>

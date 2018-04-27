@@ -81,7 +81,7 @@
       console.log(customer_id_arr);
   
       $cansend = false;
-      $("#offset_Date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
+      $("#offset_Date").inputmask("99/99/9999",{ "placeholder": "dd/mm/yyyy" });
 
       $('form#form_').submit(function(){
          var form = $(this);

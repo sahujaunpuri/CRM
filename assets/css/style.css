@@ -5414,8 +5414,8 @@ body.error .wrapper .input-append .btn:hover {
 }
 .login {
     /*background-image: url('../../assets/images/bg/colorful.jpg') !important;*/
-    background-color: #fff;
-     background-repeat:no-repeat;
+    background-color: #ecf0f5;f
+    background-repeat:no-repeat;
     background-position:center;
     background-attachment: fixed;
 }
@@ -5441,7 +5441,7 @@ body.error .wrapper .input-append .btn:hover {
 }
 .login .wrapper .login-body {
     margin-top: 20px;
-    background: #fff;
+    background: #ecf0f5;
 }
 .login .wrapper .login-body form {
     padding: 0 30px;

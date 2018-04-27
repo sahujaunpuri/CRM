@@ -63,7 +63,7 @@ if($mode!="email")
                     <div class="col-sm-4 invoice-col">
                       <b>Quotation : <?php echo $quotation_details->quotation_text_prefix.'.'.($quotation_details->quotation_number_prefix + 1); ?></b><br>
                       <br>
-                      <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
+                      <b>Date:</b> <?php echo date('d/m/Y'); ?><br>
                       <b>Salesman:</b>
                       <?php echo $salesman_options->s_name; ?>
                     </div>

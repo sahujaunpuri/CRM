@@ -61,8 +61,11 @@
 			/*==========================================*/
 			$this->body_vars['salesman_options']=$this->custom->createDropdownSelect("salesman_master",array('s_id','s_name','s_code'),"Sales Person",array('(',')'));
 			/*==========================================*/
-			$this->body_vars['product_options']=$this->custom->createDropdownSelect("billing_master",array('billing_id','stock_code','billing_description'),"Product",array(" : "," "));
-			/*==========================================*/
+        $this->body_vars['product_options'] = $this->custom->createDropdownSelect("billing_master", array('billing_id', 'stock_code', 'billing_description'), "Product", array(" : ", " "), array('billing_type' => 'Product'));
+        //$this->body_vars['product_options'] = $this->custom->createDropdownSelect("billing_master", array('billing_id', 'stock_code', 'billing_description', 'billing_type'), "Product", array('(', ')', ' '));
+        /*==========================================*/
+        $this->body_vars['service_options'] = $this->custom->createDropdownSelect("billing_master", array('billing_id', 'stock_code', 'billing_description'), "Service", array(" : ", " "), array('billing_type' => 'Service'));
+        /*==========================================*/
 			$invoice_ref_no=$this->custom->getRowsSorted("invoice_master",array(),array(),'invoice_id','DESC',1);
 			// d($invoice_ref_no);
 			if(!empty($invoice_ref_no)){
@@ -139,6 +142,7 @@
 					$invoice_data=$post;
 					unset($invoice_data['product_row_id']); 
 					unset($invoice_data['product_id']);
+					unset($invoice_data['service_id']);
 					unset($invoice_data['quantity']);
 					unset($invoice_data['discount']);
 					unset($invoice_data['gst_id']);

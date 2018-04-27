@@ -24,7 +24,7 @@ if ($mode != "email")
       </div>
     </div>
     <?php } ?>
-
+    <?php $new_date = implode('/', array_reverse(explode('-', $quotation_edit_data->created_on))); ?>
     <div class="row" id="print_data">
       <div class="col-md-12">
         <div class="box box-danger">
@@ -70,7 +70,7 @@ if ($mode != "email")
                     <input type='hidden' name='quotation_ref_no' id="quotation_ref_no"
                     value="<?php echo $quotation_edit_data->quotation_ref_no; ?>">
 
-                    <b>Date:</b> <?php echo date('d-m-Y'); ?><br>
+                    <b>Date:</b> <?php echo $new_date; ?><br>
                     <b>Salesman:</b>
                     <?php echo $this->custom->getSingleValue("salesman_master", "s_name", array("s_id" => $quotation_edit_data->salesman_id)); ?>
                   </div>

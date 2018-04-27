@@ -71,14 +71,14 @@
                     <div id="another_entry" class="pull-right">
                       Input An Entry?                  
                       <button type="button" class="btn btn-primary yes_btn" id="input_another_entry" >Yes</button>               
-                      <button type="button" class="btn btn-primary no_btn" onclick="$('#credit_btn').removeClass('hidden');$('#another_entry').hide();$('.entry').prop('readOnly',true);">No</button> 
+                      <button type="button" class="btn btn-primary no_btn" id="no_input_another_entry">No</button> 
                     </div>
                   </div>
                   <div class="col-md-6 col-md-offset-6 col-xs-12">
                     <div id="credit_btn" class="hidden pull-right">
                       Input Credit note?
                       <button type="button" class="btn btn-primary yes_btn" id="input_credit_note">Yes</button>
-                      <button type="button" class="btn btn-primary no_btn" onclick="$('#credit_btn').hide();$('#submitbtn').removeClass('hidden');$('.credit').prop('readOnly',true)";>No</button> 
+                      <button type="button" class="btn btn-primary no_btn" id="no_input_credit_note" onclick="$('#credit_btn').hide();$('#submitbtn').removeClass('hidden');$('.credit').prop('readOnly',true);$('.btn-warning').prop('disabled',true);";>No</button> 
                     </div>
                   </div>
                   <br>
@@ -178,7 +178,7 @@
                           + '</tr>';
 
                           $("#open_table tbody").append(append_str_credit);
-                          $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
+                          $(".my_date").inputmask("99/99/9999",{ "placeholder": "dd/mm/yyyy" });
                           $(".my_date").focus();
                         }); 
 
@@ -214,13 +214,28 @@
 
     $("#open_table tbody").append(append_str_entry);
     //console.log(index_add);
-    $(".my_date").inputmask("9999/99/99",{ "placeholder": "yyyy/mm/dd" });
+    $(".my_date").inputmask("99/99/9999",{ "placeholder": "dd/mm/yyyy" });
     $(".my_date").focus();
   });
 
 //----------------- Field validations -----------------//
 
 // Date
+
+function delete_row(data = 0) {
+  var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
+  $(data).parents("tr").remove();
+  onChargeAndDelete();
+  var rowCount = $('#open_table tbody tr').length;
+  console.log('is '+rowCount);
+  if(rowCount === 0){
+    $('#no_input_credit_note').prop('disabled', true);
+    console.log('true');
+    console.log(rowCount);  
+  }
+}
+
+
 function validateDate(entryDate){
   var valid = 0;
   var myDate = $('#'+entryDate.id);
@@ -230,9 +245,9 @@ function validateDate(entryDate){
   var day = nowDate.getDate();
   var date = myDate.val();
   var dateFields = (date.split("/")); 
-  var nowYear = parseInt(dateFields[0]);
+  var nowYear = parseInt(dateFields[2]);
   var nowMonth = parseInt(dateFields[1]) - 1;
-  var nowDay = parseInt(dateFields[2]);
+  var nowDay = parseInt(dateFields[0]);
   var error = $('#date_error_'+entryDate.id);
   var number = nowYear + nowMonth + nowDay;
   console.log(number);
@@ -292,7 +307,6 @@ function isLeap(year) {
 
 
 function validateDocReference(reference){
-  console.log(reference.id);
   var error = $('#error_'+reference.id);
   var valid = 0;
   var myDoc = $('#'+reference.id);
@@ -322,6 +336,8 @@ function validateAmount(amount){
   }
 }
 
+
+
 function buttonState(value, error, toFocus){
   var yesBtn = $('.yes_btn');
   var noBtn = $('.no_btn');
@@ -347,13 +363,18 @@ function onChargeAndDelete(){
   $('#submitbtn').prop("disabled",false); 
 }
 
-function delete_row(data) {
-  var numrows = $("form#form_").find("input[name^='data[transaction_date]']").length;
-  console.log(numrows);
-  $(data).parents("tr").remove();
-  onChargeAndDelete();
 
-}
-
+$('#no_input_another_entry').click(function(event){
+  $('#credit_btn').removeClass('hidden');
+  $('#another_entry').hide();$('.entry').prop('readOnly',true);
+  $('.btn-warning').prop('disabled',true);
+  var rowCount = $('#open_table tbody tr').length;
+  console.log('is '+rowCount);
+  if(rowCount === 0){
+    $('#no_input_credit_note').prop('disabled', true);
+    console.log(rowCount);  
+  }
+  
+});
 </script>
 

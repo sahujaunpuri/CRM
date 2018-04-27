@@ -50,12 +50,12 @@ hr{
               <div class="form-group">
                 <label class="col-md-2 control-label" for="receipt_text_prefix">Text Prefix : </label>  
                 <div class="col-md-4">
-                  <input id="receipt_text_prefix" maxlength="6" value="<?php if(!is_null($receipt_details)){echo $receipt_details->receipt_text_prefix;} ?>" name="receipt_text_prefix" placeholder="Text Prefix" class="form-control input-md" type="text">
+                  <input id="receipt_text_prefix" maxlength="6" value="<?php if(!is_null($receipt_details)){echo $receipt_details->receipt_text_prefix;} ?>" name="receipt_text_prefix" placeholder="Text Prefix" class="form-control input-md pref-suf" type="text" required><span class="receipt_prefix_error" style="display: none;"></span>
                 </div>
                 <!-- ============================================================================= -->
                 <label class="col-md-2 control-label" for="receipt_number_prefix">Number Suffix : </label>  
                 <div class="col-md-4">
-                <input id="receipt_number_prefix" onKeyPress="if(this.value.length==6) return false;" value="<?php if(!is_null($receipt_details)){echo $receipt_details->receipt_number_prefix;} ?>" name="receipt_number_prefix" placeholder="Number Suffix" class="form-control input-md" type="number">
+                <input id="receipt_number_prefix" onKeyPress="if(this.value.length==6) return false;" value="<?php if(!is_null($receipt_details)){echo $receipt_details->receipt_number_prefix;} ?>" name="receipt_number_prefix" placeholder="Number Suffix" class="pref-suf form-control input-md" type="number" required><span class="receipt_suffix_error" style="display: none;"></span>
                 </div>
               </div>
 
@@ -80,10 +80,77 @@ hr{
       </div>
     <div class="box-footer with-border">
         <a href="<?php echo base_url().'dashboard'; ?>" class="btn btn-default">Cancel</a>
-              <button type="submit" class="btn btn-info pull-right">Submit</button>
+              <button type="submit" id="submit" class="btn btn-info pull-right">Submit</button>
       </div>
           </form>
   </div>
     </div>
 </div>
 </section>
+
+ <script type="text/javascript">
+    $(document).ready(function () {
+      check();
+    });
+
+    $('.pref-suf').on('input',function(){
+      if ($('#receipt_text_prefix').val() == "" || $('#receipt_number_prefix').val() == ""){
+        if ($('#receipt_text_prefix').val() == ""){
+          $('.receipt_prefix_error').html('Please, enter a prefix.');
+          $('.receipt_prefix_error').css("display","block").css("color", "red");
+          $('#receipt_text_prefix').css("color", "red");
+          $('#receipt_text_prefix').css("border-color", "red");  
+        } else{
+          $('.receipt_prefix_error').css("display","none");
+          $('#receipt_text_prefix').css("color", "black");
+          $('#receipt_text_prefix').css("border-color", "black");  
+        }
+
+        if ($('#receipt_number_prefix').val() == ""){
+          $('.receipt_suffix_error').html('Please, enter a suffix.');
+          $('.receipt_suffix_error').css("display","block").css("color", "red");
+          $('#receipt_number_prefix').css("color", "red");
+          $('#receipt_number_prefix').css("border-color", "red");  
+        } else{
+          $('.receipt_suffix_error').css("display","none");
+          $('#receipt_number_prefix').css("color", "black");
+          $('#receipt_number_prefix').css("border-color", "black");  
+        }
+        $('#submit').prop( "disabled", true );
+      } else{
+        $('.form-group').removeClass("has-error");
+        $('.receipt_prefix_error').css("display","none");
+        $('#receipt_text_prefix').css("color", "black");
+        $('#receipt_text_prefix').css("border-color", "black");  
+        $('.receipt_suffix_error').css("display","none");
+        $('#receipt_number_prefix').css("color", "black");
+        $('#receipt_number_prefix').css("border-color", "black");  
+        check();
+      }
+    });
+
+    function check(){
+      var text = $('#receipt_text_prefix').val();
+      var number = $('#receipt_number_prefix').val();
+      $.post('<?php echo base_url('receipt/receipt_ajax/receipt') ?>', {  text: text, number: number}, function(data, textStatus, xhr) {
+        console.log(data);
+        if (data == 1) {
+          $('.receipt_suffix_error').html('Invoice reference '+text+'.'+(parseInt(number)+1)+' is already in the system, please change suffix number.');
+          $('.receipt_suffix_error').css("display","block").css("color", "red");
+          $('#receipt_number_prefix').css("color", "red");
+          $('#receipt_number_prefix').css("border-color", "red");
+          $('#submit').prop( "disabled", true );
+        }
+        else
+        {
+          $('.receipt_suffix_error').css("display","none");
+          $('#receipt_number_prefix').css("color", "black");
+          $('#receipt_number_prefix').css("border-color", "black");
+          $('.receipt_prefix_error').css("display","none");
+          $('#receipt_text_prefix').css("color", "black");
+          $('#receipt_text_prefix').css("border-color", "black");  
+          $('#submit').prop( "disabled", false );
+        }
+      });
+    }
+  </script>

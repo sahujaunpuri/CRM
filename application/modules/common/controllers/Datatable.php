@@ -496,7 +496,8 @@ class Datatable extends CI_Controller {
 				$row[] = $person->lump_sum_discount;
 				$row[] = $person->lump_sum_discount_price;
 				$row[] = $person->final_total;
-				$row[] = $person->created_on;
+				$new_date = implode('/', array_reverse(explode('-', $person->created_on)));
+				$row[] = $new_date;
 			}
 			if ($data_check == "stock_adjustment_list") {
 				$row[] = $person->table_id;
@@ -551,7 +552,8 @@ class Datatable extends CI_Controller {
 			}
 			if ($data_check=="open_list") {
 				$row[] = $person->table_id;
-				$row[] = $person->open_tran_date;
+				$new_date = implode('/', array_reverse(explode('-', $person->open_tran_date)));
+				$row[] = $new_date;
 				$row[] = $person->customer_name;
 				$row[] = $person->open_doc_ref;
 				$row[] = $person->open_remarks;
@@ -568,7 +570,8 @@ class Datatable extends CI_Controller {
 				$row[] = $person->lump_sum_discount;
 				$row[] = $person->lump_sum_discount_price;
 				$row[] = $person->final_total;
-				$row[] = $person->created_on;
+				$new_date = implode('/', array_reverse(explode('-', $person->created_on)));
+				$row[] = $new_date;
 				$row[] = $person->invoice_status;
 			}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -646,7 +649,8 @@ class Datatable extends CI_Controller {
 			{
 				if ($this->uri->segment(5) == 'AR') {
 					$row[] = $person->table_id;
-					$row[] = $person->doc_date;
+					$new_date = implode('/', array_reverse(explode('-', $person->doc_date)));
+					$row[] = $new_date;
 					$row[] = $person->doc_ref_no;
 					$row[] = $person->customer_name;
 					$row[] = $person->customer_code;
@@ -721,7 +725,8 @@ class Datatable extends CI_Controller {
 	        if($data_check=="audit_list")
 			{
 				$row[] = $person->table_id;
-				$row[] = $person->doc_date;
+				$new_date = implode('/', array_reverse(explode('-', $person->doc_date)));
+				$row[] = $new_date;
 				$row[] = $person->doc_ref_no;
 				$row[] = $person->customer_code;
 				$row[] = $person->currency_type;
@@ -758,7 +763,8 @@ class Datatable extends CI_Controller {
 				$row[] = $person->other_reference;
 				$row[] = $person->amount;
 				$row[] = $person->invoice;
-				$row[] = $person->doc_date;
+				$new_date = implode('/', array_reverse(explode('-', $person->doc_date)));
+				$row[] = $new_date;
 			}
 
 			if ($data_check == "payment_list") {
