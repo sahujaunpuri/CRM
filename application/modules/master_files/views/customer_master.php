@@ -118,7 +118,6 @@
      /* delete button */
      $("#delete").on('click',function(){
       var url = '<?php echo $delete_url; ?>';
-     // alert(url);
         showData("delete",url);
      });
      /*... over here ...*/

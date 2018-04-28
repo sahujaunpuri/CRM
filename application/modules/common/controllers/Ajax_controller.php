@@ -2,10 +2,10 @@
 
 class Ajax_controller extends CI_Controller {
 
-    function __construct() {
-        parent::__construct();
+	function __construct() {
+		parent::__construct();
 		is_ajax();
-    }
+	}
 	public function check_availability()
 	{
 		$accept="";
@@ -60,23 +60,21 @@ class Ajax_controller extends CI_Controller {
 			
 			$from=$this->custom->getSingleValue('company_profile','default_currency',$where);
 			$amount=1;
-			
-		    $url  = "https://finance.google.com/finance/converter?a=$amount&from=$from&to=$to";
-		    
-		    $data = file_get_contents($url);
-		    preg_match("/<span class=bld>(.*)<\/span>/",$data, $converted);
-		    
-		    $converted = preg_replace("/[^0-9.]/", "", $converted);
-		   
-		    if(!empty($converted)){
-		    	$converted=$converted[0];
-		    	echo round($converted, 3);
-		    }
-		    else{
-		    	echo "Can't Get Exchange Rates";
-		    }
+			// echo $from;
+			// echo $amount;
+			// echo $fto;
+			$from = urlencode(strtoupper($from));
+			$to = urlencode(strtoupper($to));
+			$url = 'http://free.currencyconverterapi.com/api/v3/convert?q='.$from .'_'.$to.'&compact=ultra';
+		    //$url  = "https://finance.google.com/finance/converter?a=$amount&from=$from&to=$to";
+
+			$data = file_get_contents($url);
+			$json = json_decode($data, true);
+
+			echo json_encode($json[$from. '_' . $to]);
+
 		}
-	    
+
 	}	
 	
 	

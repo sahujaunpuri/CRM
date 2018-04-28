@@ -3,7 +3,7 @@
     <label for="currency_name" class="col-sm-2 control-label">Currency Name</label>
     <div class="col-sm-8 error_block">
       <select class="form-control select2" name="currency_name" id="currency_name" required="">
-      <?php echo $currency_options; ?>
+        <?php echo $currency_options; ?>
       </select>
     </div>
   </div>
@@ -21,20 +21,20 @@
   </div>
 </div>
 <script type="text/javascript">
-  
-function matchStart (term, text) {
-  if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
-    return true;
+
+  function matchStart (term, text) {
+    if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
+      return true;
+    }
+
+    return false;
   }
 
-  return false;
-}
-
-$.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
-  $(".select2").select2({
-    matcher: oldMatcher(matchStart)
-  })
-});
+  $.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
+    $(".select2").select2({
+      matcher: oldMatcher(matchStart)
+    })
+  });
   $("#currency_name").change(function(event) {
     cur=$.trim($("#currency_name option:selected").text()).split("-");
     $("#currency_description").val(cur[0]);
@@ -44,7 +44,7 @@ $.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
       }
       else{
         $("#currency_rate").val("");
-        alert(data);
+        alert('Change the selected currency.');
       }
     });
   });
