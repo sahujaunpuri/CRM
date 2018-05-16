@@ -10,24 +10,26 @@
 </section>
 <section class="content">
   <div class="row">
-    <div class="col-md-12">
+    <div class="">
       <div id="message_area">
         <?php get_flash_message('message'); ?>
       </div>
       <?php echo $buttonsPanel; ?>
-      <div class="box box-warning">
+      <div class="box box-warning" >
         <div class="box-body">
           <div id="list_table">
-            <table class="table " id="datatable" width="100%">
-              <thead>
-                <tr>
-                 <th>Id</th>
-                 <th>Currency</th>
-                 <th>Discription</th>
-                 <th>X Rate</th>
-               </tr>
-             </thead>
-           </table>
+            <center>
+              <table class="forex_table" id="datatable" style="margin-right: 20px">              
+                <thead>
+                  <tr>
+                   <th>Id</th>
+                   <th>Currency</th>
+                   <th>Description</th>
+                   <th>X Rate</th>
+                 </tr>
+               </thead>
+             </table>
+           </center>
          </div>
          <form autocomplete="off" method="post" action="#" enctype="multipart/form-data" class="validate">
           <div id="form_data"></div>
@@ -37,6 +39,48 @@
   </div>
 </div>
 </section>
+<style type="text/css">
+
+.forex_table {
+  margin-top: 20px;
+  border-collapse: collapse !important;
+}
+
+.forex_table thead{
+  background-color: #cccccc;
+  font-weight: 700;
+
+}
+.forex_table td, .forex_table th{
+  padding: 5px  0px 5px 10px;
+  /*min-width:110px;
+  max-width:130px;*/
+  word-wrap: break-word !important;
+  border-top: 1px solid #ddd;
+} 
+
+tbody tr :nth-child(1){ 
+  min-width:80px;
+  /*text-align: right;*/
+  padding-right: 10px;
+}
+
+tbody tr :nth-child(2){ 
+  min-width:130px;
+  /*padding-right: 10px;*/
+}
+
+tbody tr :nth-child(3){ 
+  min-width:100px;
+  text-align: right;
+  padding-right: 10px;
+}
+@media only screen and (max-width: 500px) {
+  center {
+    overflow-x: scroll;
+  }
+}
+</style>
 <script type="text/javascript">
   jQuery(document).ready(function() {
     hideButtons();
@@ -94,10 +138,11 @@
      /* .......... over here............. */
 
      /* view form */
-     $("#view").on('click',function(){
-      url = '<?php echo $view_url; ?>';
-      showData("view",url);
-    });
+    //  $("#view").on('click',function(){
+    //   url = '<?php echo $view_url; ?>';
+    //   showData("view",url);
+    // });
+    $("#view").addClass('hidden');
      /* .......... over here............. */
      
      /* delete button */

@@ -35,6 +35,7 @@ class Quotation_ajax extends CI_Controller {
 		$post=$this->input->post();
 		$number = $post['number'];
 		$toCheck = $post['text'].'.'.$number;	
+		$this->db->delete('detail_description_quotation', array('quotation_ref_no' => $toCheck)); 
 		$nextQuotation = $this->custom->getSingleRow("quotation_master",array('quotation_ref_no'=>$toCheck));
 		if (count($nextQuotation)) {
 			echo "1";

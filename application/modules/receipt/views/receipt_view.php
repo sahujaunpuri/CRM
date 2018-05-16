@@ -46,30 +46,31 @@ if ($mode != "email")
               </div>
 
               <hr>
-
-              <div class="box-body">
+              <br>
+              <br>
+              <div class="box-body" style="font-size: 16px">
                 <section class="receipt">
                   <!-- info row -->
                   <div class="row receipt-info">
-                    <div class="col-sm-4 receipt-col">
+                    <div class="col-sm-6 invoice-col">
                       <address>
-                        <b>To:</b><span> <?php echo $customer_name_code ?></span><br>
+                        <b>From:</b><span> <?php echo $customer_name_code ?></span><br>
                         <b>Country:</b><span> <?php echo $country_postal ?></span><br>
                         <b>Address:</b><span> <?php echo $address ?></span><br>
-                        <b>Bank:</b><span> <?php echo $bank ?></span><br>
-                        <b>Cheque:</b><span> <?php echo $cheque ?></span><br>
-                        <b>Remarks:</b><span> <?php echo $other_reference ?></span><br>
-                        <b>Amount receipt (<?php echo $currency ?>) : </b>$<span><?php echo $amount ?></span><br>
+                        <b>Phone:</b> <?php echo $phone; ?><br>
+                        <b>Email:</b> <?php echo $email; ?><br>
                       </address>
                     </div>
-                    <div class="col-sm-4 receipt-col"></div>
+                    <div class="col-sm-1 invoice-col"></div>
                     <!-- /.col -->
-                    <div class="col-sm-4 invoice-col">
+                    <div class="col-sm-5 invoice-col">
                       <b>Date:</b> <?php echo $new_date ?><br>
                       <b>Receipt : <?php echo $receipt_edit_data->receipt_ref_no; ?></b><br>
-                      <input type='hidden' name='receipt_ref_no' id="receipt_ref_no"
-                      value="<?php echo $receipt_edit_data->receipt_ref_no; ?>">
-                      <br>
+                      <input type='hidden' name='receipt_ref_no' id="receipt_ref_no" value="<?php echo $receipt_edit_data->receipt_ref_no; ?>">
+                      <b>Bank:</b><span> <?php echo $bank ?></span><br>
+                      <b>Cheque:</b><span> <?php echo $cheque ?></span><br>
+                      <b>Remarks:</b><span> <?php echo $other_reference ?></span><br>
+                      <b><?php echo $currency ?> : </b><span><?php echo $amount ?></span><br>
                     </div>
                     <!-- /.col -->
                   </div>
@@ -78,11 +79,11 @@ if ($mode != "email")
                 <br>
                 <div class="table_div_container" id='tableContainer'>
                   <table class="receipt_table table-striped table-hover margin-center" id="cre_table" >
-                    <caption>Receipt references</caption>
+                    <caption>Transaction references</caption>
                     <thead>
                       <tr id="headerTable">
                         <td >Reference</td>
-                        <td >Doc date</td>
+                        <td style="text-align: center;">Doc date</td>
                         <td >Amount ( <?php echo $currency ?> )</td>
                       </tr>
                     </thead>

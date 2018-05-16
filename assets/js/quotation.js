@@ -211,10 +211,13 @@ function get_sub_total(){
     gst=$("#gst").val();
 
     //Forex price calculation
-
+    currency_amount=$("#currency_amount").val();
     var final_total_display=(parseFloat(payable_gst_show)+parseFloat(lump_sum_discount_price)).toFixed(2);
-    $("#final_total_forex_text").text(parseFloat(final_total_display).toFixed(2));
-    $("#final_total_forex").val(parseFloat(final_total_display).toFixed(2));
+    $("#final_total_forex").val((final_total_display/currency_amount).toFixed(2));
+    $("#final_total_forex_text").text((final_total_display/currency_amount).toFixed(2));
+    
+    // $("#final_total_forex_text").text(parseFloat(final_total_display).toFixed(2));
+    // $("#final_total_forex").val(parseFloat(final_total_display).toFixed(2));
 
    lump_sum_discount_price_text=$("#lump_sum_discount_price_text").val();
    var final_total=(parseFloat(payable_gst)+parseFloat(lump_sum_discount_price_text)).toFixed(2);

@@ -9,7 +9,7 @@
         $title = $this->uri->segment(1);
     }
     ?>
-    <title>CRM | <?php echo ucwords(str_replace('_', ' ', $title)); ?></title>
+    <title class="no-print">CRM | <?php echo ucwords(str_replace('_', ' ', $title)); ?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -19,8 +19,10 @@
     <script type="text/javascript" src="<?php echo JS_PATH . 'jQuery-2.1.4.min.js'; ?>"></script>
     <link rel="icon" href="<?php echo base_url('assets/images/favicon.ico'); ?>" type="image/x-icon"/>    
     <?php echo $css; ?>
+    <style type="text/css" media="print">
+</style>
 </head>
-<body class="skin-green sidebar-mini">
+<body class="skin-green sidebar-mini" >
 <!-- Site wrapper -->
 <div class="pace  pace-active">
     <div class="pace-progress" style="transform: translate3d(100%, 0px, 0px);" data-progress-text="100%"

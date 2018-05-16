@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$gst_id = $this->custom->getSingleValue('gst_master',"gst_id",array('gst_code' =>"SR"));
 			$this->data['gst_options']=$this->custom->createDropdownSelect1("gst_master",array('gst_id','gst_code','gst_type','gst_rate'),"GST",array(' ( ', ' ) =>' , '%'),array("gst_type"=>"supply"),array($gst_id));
 			$this->data['stock_options']=createSimpleDropdown(array("YES","NO"),"");
-			$this->data['bill_type_options']=createSimpleDropdown(array("Service","Product"),"Bill Type");
+			$this->data['bill_type_options']=createSimpleDropdown(array("Service","Products"),"Bill Type");
 			$this->load->view($this->view_path.'add',$this->data);
 		}
 		public function edit()
@@ -39,6 +39,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		public function save()
 		{
 			$post=$post=$this->input->post();
+			foreach ($post as $key => $value) {
+				echo $key;
+				echo " = ";
+				echo $value;
+				echo " | ";
+				# code...
+			}
 			if($post)
 			{
 				$id = $this->custom->insertRow($this->table,$post);

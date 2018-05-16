@@ -43,8 +43,11 @@
             <button class='btn bg-purple $btn_style' id='email'>
               <i class='fa fa-inbox' aria-hidden='true'></i> Send Email To Customer
             </button> 
+            <button class='btn bg-navy $btn_style' id='print-simple'>
+              <i class='fa fa-print' aria-hidden='true'></i> Print receipt
+            </button> 
             <button class='btn bg-navy $btn_style' id='print'>
-              <i class='fa fa-print' aria-hidden='true'></i> Print
+              <i class='fa fa-print' aria-hidden='true'></i> Print detailed receipt
             </button> 
             <button class='btn btn-info $btn_style' id='refresh'>
               <i class='fa fa-refresh' aria-hidden='true'></i> Refresh
@@ -181,6 +184,11 @@
      /* print button */
      $("#print").on('click',function(){
         var url = '<?php echo base_url()."common/Ajax/receiptlist_ajax/print_receipt" ?>';
+        showData("print",url);
+     });
+
+     $("#print-simple").on('click',function(){
+        var url = '<?php echo base_url()."common/Ajax/receiptlist_ajax/print_receipt/simple" ?>';
         showData("print",url);
      });
      /*... over here ...*/

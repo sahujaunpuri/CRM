@@ -2,26 +2,27 @@
   <div class="form-group">
     <label for="stock_code" class="col-sm-2 control-label stock_c">Stock Code</label>
     <div class="col-sm-8 error_block">
-      <input class="form-control stockCode" name="stock_code" id="stock_code"  placeholder="Stock Code" type="text">
+      <input class="form-control stockCode" name="stock_code" id="stock_code"  placeholder="Stock Code" type="text" required>
       <span class="stock_code_error" style="display: none;">Alert - Duplicate Stock Code detected</span>
     </div>
   </div>
   <div class="form-group">
     <label for="billing_description" class="col-sm-2 control-label">Description</label>
     <div class="col-sm-8 error_block">
-      <input class="form-control" name="billing_description" id="billing_description"  placeholder="Description" type="text">
+      <input class="form-control" name="billing_description" id="billing_description"  placeholder="Description" type="text" required>
     </div>
   </div>
   <div class="form-group">
     <label for="billing_uom" class="col-sm-2 control-label">UOM</label>
     <div class="col-sm-8 error_block">
-      <input class="form-control" name="billing_uom" id="billing_uom"  placeholder="UOM" type="text">
+      <input class="form-control" name="billing_uom" id="billing_uom"  placeholder="UOM" type="text" maxlength="15" size="15">
+      <!-- <span class="uom_code_error" style="display: none;">Alert - Enter unit of measure: eg. pcs, set, ctn, etc.</span> -->
     </div>
   </div>
   <div class="form-group">
     <label for="billing_price_per_uom" class="col-sm-2 control-label">Price Per UOM</label>
     <div class="col-sm-8 error_block">
-      <input class="form-control" name="billing_price_per_uom" id="billing_price_per_uom"  placeholder="Price Per UOM" type="number">
+      <input class="form-control" name="billing_price_per_uom" id="billing_price_per_uom"  placeholder="Price Per UOM" type="number" min="1">
     </div>
   </div> 
   <div class="form-group">
@@ -42,11 +43,17 @@
   </div>
   <div class="form-group">
     <label for="billing_type" class="col-sm-2 control-label">Billing Type</label>
-    <div class="col-sm-8 error_block">
-      <select class="form-control select2" name="billing_type" id="billing_type">
-        <?php echo $bill_type_options; ?>
+    <div class="col-sm-8 error_block divBilling" id="divBilling">
+      <select class="form-control" name="billing_type" id="billing_type" tabindex="-1" aria-hidden="">
+        <option value="">-- Select Bill Type --</option>
+        <option value="Service">Service</option>
+        <option value="Product">Product</option>
       </select>
+      <!-- <select class="form-control select2" name="billing_type" id="billing_type">
+        <?php echo $bill_type_options; ?>
+      </select> -->
     </div>
+    <input type="hidden" name="billing_type" id="billing_type_input" disabled>
   </div>
 </div>
 
@@ -107,23 +114,35 @@
     });
 
     var billing_update_stock = $('#billing_update_stock');
-      billing_update_stock.change(function(){
-        console.log(billing_update_stock.val());
-        if (billing_update_stock.val() == 'YES'){
-          $('#billing_type').prop('selectedIndex', 2);
-          $('#billing_uom').prop('required', true);
-          $('#billing_price_per_uom').prop('required', true);
-          $('#billing_type').prop('disabled', true);
-          $('#select2-billing_type-container').prop('title', 'Product').text('Product');
-        } else {
-          $('#billing_type').prop('disabled', false);
-          $('#billing_uom').prop('required', false);
-          $('#billing_price_per_uom').prop('required', false);
-          $('#billing_type').prop('selectedIndex', 0);
-          $('#select2-billing_type-container').prop('title', '-- Select  --').text('-- Select  --');
-        }
-      });
+    billing_update_stock.change(function(){
+      console.log(billing_update_stock.val());
+      if (billing_update_stock.val() == 'YES'){
+        $('#billing_uom').prop('required', true);
+        $('#billing_price_per_uom').prop('required', true);
+        $("#billing_type")[0].selectedIndex=2;
+        $('#select2-billing_type-container').prop('title', 'Product').text('Product');
+        $('#billing_type').prop('disabled', true);
+        $('#billing_type_input').prop('disabled', false).val('Product');
+      } else {
+        $('#billing_uom').prop('required', false);
+        $('#billing_price_per_uom').prop('required', false);
+        $('#billing_type').prop('disabled', false);
+        $('#billing_type_input').prop('disabled', true);
+        $("#billing_type")[0].selectedIndex=0;
+        $('#select2-billing_type-container').prop('title', '-- Select  --').text('-- Select  --');
+      }
+    });
 
+    var billing_type = $('#billing_type');
+    billing_type.change(function(){
+      if (billing_type.val() == 'Product'){
+        $('#billing_uom').prop('required', true);
+        $('#billing_price_per_uom').prop('required', true);
+      } else {
+        $('#billing_uom').prop('required', false);
+        $('#billing_price_per_uom').prop('required', false);
+      }
+    });
     // Go to master if duplicated code
     // $('#myModal').click(function() {
     //   location.href = '<?php echo base_url('master_files/billing_master') ?>';

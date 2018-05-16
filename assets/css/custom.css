@@ -230,3 +230,20 @@ form input.custom_error_block {
 
 
 /*custom dashborad layout class*/
+
+@media print {
+    .print_table tbody tr :nth-child(1) {
+        width: 80px;
+    }
+    .print_table tbody tr :nth-child(2) {
+        width: 200px;
+    }
+    .print_table tbody tr :nth-child(n+3) {
+        width: 80px;
+        text-align: right;
+        padding-right: 5px; 
+    }
+    .print_table tbody tr :nth-child(7) {
+        padding-right: 0px; 
+    }
+}

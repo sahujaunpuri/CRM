@@ -90,6 +90,7 @@ class Quotation extends MY_Controller
         has_permission();
         $post = $this->input->post();
         if ($post) {
+            unset($post['logo_with']);
             if (count($post['product_id']) >= 1 || count($post['service_id']) >= 1) {
                 $quotation_data = $post;
                 unset($quotation_data['service_id']);
@@ -101,7 +102,24 @@ class Quotation extends MY_Controller
                 unset($quotation_data['gst_id']);
                 unset($quotation_data['price']);
                 unset($quotation_data['product_total']);
-                unset($quotation_data['logo_with']);
+            //     foreach ($quotation_data as $key => $value) {
+            //         echo $key;
+            //         echo ' = ';
+
+            //         if ($key == 'price' || $key == 'product_id' || $key == 'service_id' || $key == 'product_id' || $key == 'product_total' || $key == 'gst_id' || $key == 'discount' || $key == 'quantity' || $key == 'product_row_id' && $value != ''){
+            //             foreach ($value as $keys => $values) {
+            //                 echo $keys;
+            //                 echo ' | ';
+            //         # code...
+            //             }
+            //         } else {
+            //             echo $value;
+            //         }
+
+            //         echo  nl2br ("\n");
+            // # code...
+
+            //     }
                 $quotation_product_data = array_diff_assoc_recursive($post, $quotation_data);
                 $quotation_data['modified_on'] = date('Y-m-d');
                 $quotation_data['user_id'] = $this->session->user_id;
@@ -115,8 +133,8 @@ class Quotation extends MY_Controller
                     $this->custom->updateRow("quotation_setting", array('quotation_number_prefix' => $quotation_details->quotation_number_prefix + 1), array('user_id' => $this->session->user_id));
 
                     $quotation_data['quotation_ref_no'] = str_replace(explode('.', $quotation_data['quotation_ref_no'])[1], $quotation_details->quotation_number_prefix + 1, $quotation_data['quotation_ref_no']);
-                    $quotation_id = $this->custom->insertRow("quotation_master", $quotation_data);
-                    $quotation_product_data['quotation_id'] = $quotation_id;
+                   $quotation_id = $this->custom->insertRow("quotation_master", $quotation_data);
+                   $quotation_product_data['quotation_id'] = $quotation_id;
                     foreach ($quotation_product_data['product_id'] as $product_id) {
                         $insert_data['product_id'] = $product_id;
 
@@ -128,7 +146,7 @@ class Quotation extends MY_Controller
 
                         $insert_data['discount'] = $quotation_product_data['discount'][$product_id];
                         $insert_data['gst_id'] = $quotation_product_data['gst_id'][$product_id];
-                        $insert_data['price'] = $quotation_product_data['price'][$product_id];
+                        $insert_data['price'] = $quotation_product_data['price'][$product_id]*$quotation_data['currency_amount'];
                         $insert_data['product_total'] = $quotation_product_data['product_total'][$product_id];
                         $insert_data['modified_on'] = $quotation_product_data['modified_on'];
                         $insert_data['created_on'] = $quotation_product_data['created_on'];
@@ -189,8 +207,14 @@ class Quotation extends MY_Controller
             $this->body_vars['quotation_edit_data'] = $quotation_edit_data = $this->custom->getSingleRow('quotation_master', array("quotation_id" => $row_id));
 
             if ($quotation_edit_data):
-                $this->body_vars['quotation_product_edit_data'] = $quotation_product_edit_data = $this->custom->getRows('quotation_product_master', array("quotation_id" => $row_id));
+                $this->db->select('*');
+                $this->db->order_by('q_p_id');
+                $query = $this->db->get_where('quotation_product_master', array("quotation_id" => $row_id));
+                $this->body_vars['quotation_product_edit_data'] = $quotation_product_edit_data = $query->result();
+                // $this->body_vars['quotation_product_edit_data'] = $quotation_product_edit_data = 
+                // $this->custom->getRows('quotation_product_master', array("quotation_id" => $row_id));
                 foreach ($quotation_product_edit_data as $value) {
+
                     $product_array[] = $value->product_id;
                 }
                 $this->body_vars['product_array'] = $product_array;
@@ -224,7 +248,7 @@ class Quotation extends MY_Controller
                 endif;
                 /*==========================================*/
             else:
-                redirect('quotation/quotationlist/pending', 'refresh');
+               // redirect('quotation/quotationlist/pending', 'refresh');
             endif;
         endif;
     }
@@ -237,6 +261,8 @@ class Quotation extends MY_Controller
         zapQuotation();
         redirect('dashboard', 'refresh');
     }
+
+
 }
 
 /*End of file Quotation.php */

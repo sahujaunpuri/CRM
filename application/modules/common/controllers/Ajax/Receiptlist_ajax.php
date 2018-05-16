@@ -220,6 +220,8 @@ class Receiptlist_ajax extends CI_Controller {
 					$this->data['receipt_id'] = $row_id;
 					$this->data['customer_id'] = $receipt_edit_data->customer_id;
 					$this->data['address'] = $customer_info->customer_bldg_number.', '.$customer_info->customer_street_name;
+					$this->data['email'] = $customer_info->customer_email;
+					$this->data['phone'] = $customer_info->customer_phone;
 					$this->data['country_postal'] = $country->country_name.', '.$customer_info->customer_postal_code;
 					$this->data['bank'] = $receipt_edit_data->bank;
 					$this->data['cheque'] = $receipt_edit_data->cheque;
@@ -253,22 +255,22 @@ class Receiptlist_ajax extends CI_Controller {
 						}
 						echo ' ';
 						$documentToRow .= '
-						<tr class="td_receipt" id="'.$value->invoice_id.'">
-						<td width="200" id="invoiceRef-'.$value->invoice_id.'">'.$doc_ref_number.'</td>
-						<td id="invoiceDate-'.$value->invoice_id.'">'.$doc_date.'</td>
-						<td class="text-right" style="padding-right:20px" id="invoiceAmount-'.$value->invoice_id.'">'.$sign.$value->rec_inv_amount.'</td>							
+						<tr class="td_receipt" id="'.$value->invoice_id.'" >
+						<td style="padding-left:20px" id="invoiceRef-'.$value->invoice_id.'">'.$doc_ref_number.'</td>
+						<td style="text-align: center;" id="invoiceDate-'.$value->invoice_id.'">'.$doc_date.'</td>
+						<td style="text-align: right; padding-right:20px; padding-top:10px; padding-top:10px;" id="invoiceAmount-'.$value->invoice_id.'">'.$sign.$value->rec_inv_amount.'</td>							
 						</tr>';
 					}
 					$documentToRow .= '<tr class="td_receipt" id="amount">
-					<td width="200" id="invoiceRef-amount">'.$receipt_edit_data->receipt_ref_no.'</td>
-					<td id="invoiceDate-amount">'.$new_date.'</td>
-					<td class="text-right" style="padding-right:20px" id="invoiceAmount-amount">-'.$receipt_edit_data->amount.'</td>							
+					<td style="padding-left:20px" id="invoiceRef-amount">'.$receipt_edit_data->receipt_ref_no.'</td>
+					<td style="text-align: center;" id="invoiceDate-amount">'.$new_date.'</td>
+					<td style="text-align: right; padding-right:20px; padding-top: 10px; padding-bottom: 10px;" id="invoiceAmount-amount">-'.$receipt_edit_data->amount.'</td>							
 					</tr>';
 					$balance -= $receipt_edit_data->amount;
 					$documentToRow .= '<tr class="td_receipt" id="balance">
-					<td width="200" ><b>Balance</b></td>
+					<td style="padding-left:20px"><b>Balance</b></td>
 					<td id="invoiceDate-balance"></td>
-					<td class="text-right" style="padding-right:20px" id="invoiceAmount-balance"><b>'.$balance.'</b></td>							
+					<td style="text-align: right; padding-right:20px;" id="invoiceAmount-balance"><b>'.number_format($balance, 2, '.', '').'</b></td>							
 					</tr>';
 					$this->data['documentToRow'] = $documentToRow; 
 					if ($mode == 'print'){
@@ -276,9 +278,14 @@ class Receiptlist_ajax extends CI_Controller {
 						$this->data['mode']="print";
 						$this->load->view('receipt/receipt_view.php', $this->data, FALSE);						
 						$message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
-					} else if($mode=="email"){
+					} else if($mode=="simple"){
+						$this->data['head']=$head;
+						$this->data['mode']="print";
+						$this->load->view('receipt/receipt_view_simple.php', $this->data, FALSE);						
+						$message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>Print task Complete!</div>';
+					}	else if($mode=="email"){
 						$this->data['mode']="email";
-						$html = $this->load->view('receipt/receipt_view.php', $this->data, TRUE);						
+						$html = $this->load->view('receipt/receipt_email_view.php', $this->data, TRUE);						
 						$this->load->library('email');
 						$where=array('profile_id'=>1);
 						$reply_to = $this->custom->getSingleValue("company_profile","company_email",$where);

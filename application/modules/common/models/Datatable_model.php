@@ -27,9 +27,9 @@ class Datatable_model extends CI_Model {
 		{
 			if (!is_null($join_table) && !is_null($join_condition) && !is_null($where)) {
 				$this->db->select(" *  , $table.$table_id AS table_id")->from($table)->where($where);
-
+				
 				$this->db->order_by($column_search[1], 'ASC');
-				$this->db->order_by($column_order[2], 'ASC');	
+				//$this->db->order_by($column_order[2], 'ASC');	
 			
 				for ($i=0; $i <count($join_table) ; $i++) { 
 					$this->db->join($join_table[$i],$join_condition[$i]);
@@ -46,7 +46,7 @@ class Datatable_model extends CI_Model {
 			elseif (!is_null($where)){
 				$this->db->select(" *  , $table.$table_id AS table_id")->from($table)->where($where);	
 				$this->db->order_by($column_search[1], 'ASC');
-				$this->db->order_by($column_order[2], 'ASC');	
+				//$this->db->order_by($column_order[2], 'ASC');	
 			}
 			else{
 				$this->db->select(" *  , $table.$table_id AS table_id")->from($table);

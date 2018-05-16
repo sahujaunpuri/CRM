@@ -424,7 +424,7 @@ class Datatable extends CI_Controller {
 				$row[] = $person->table_id;
 				$row[] = $person->currency_name;
 				$row[] = $person->currency_description;
-				$row[] = $person->currency_rate;
+				$row[] = number_format($person->currency_rate, 5);
 			}
 
 			if($data_check=="country_master")

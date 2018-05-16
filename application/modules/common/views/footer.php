@@ -3,7 +3,7 @@
 </div><!-- /.content-wrapper -->
 
 <footer class="main-footer">
-	<strong>Copyright &copy; 2016-2017</a>.</strong> All rights reserved.
+	<strong>Copyright &copy; 2016-<?php echo date('Y')?></a>.</strong> All rights reserved.
 </footer>
 <?php echo $js; ?>
 <script type="text/javascript">

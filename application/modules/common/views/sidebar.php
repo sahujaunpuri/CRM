@@ -810,7 +810,7 @@
                         <li>
                            <a href="<?php echo base_url(); ?>account/offset_all" class="auto">
                            <i class="fa fa-arrow-right"></i>
-                           <span>REMOVE ALL OFFSETTED RECORDS</span>
+                           <span>Remove offsetted records</span>
                            </a>
                         </li>
                         

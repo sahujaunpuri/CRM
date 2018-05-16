@@ -74,9 +74,12 @@
       <div class="form-group">
         <label for="currency_id" class="col-sm-4 control-label">Currency : </label>
         <div class="col-sm-8 error_block">
-          <select class="form-control select2" name="currency_id" id="currency_id"  >
-          <?php echo $currency_options; ?>
-          </select>
+          <input type="text" name="" id="currency_to_show" class="form-control" disabled>
+          <div style="display: none">
+            <select class="form-control select2" name="currency_id" id="currency_id">
+              <?php echo $currency_options; ?>
+            </select>
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -101,7 +104,7 @@
         <label for="country_id" class="col-sm-4 control-label">Country : </label>
         <div class="col-sm-8 error_block">
           <select class="form-control select2" name="country_id" id="country_id" >
-          <?php echo $country_options; ?>
+            <?php echo $country_options; ?>
           </select>
         </div>
       </div>
@@ -111,35 +114,37 @@
 <?php 
 if($mode=="view")
 {
-?>
-<script type="text/javascript">
+  ?>
+  <script type="text/javascript">
     $(function(){
-        $("form :input").prop("disabled", true);
+      $("form :input").prop("disabled", true);
     });
-</script>
-<?php    
+  </script>
+  <?php    
 }
 ?>
 <script type="text/javascript">
-    $('.customercode').prop( "disabled", true);
-    $('.select2').select2();
-    $('#customer_code').on('input',function(e){
+  var currency = document.getElementById('currency_id').selectedOptions[0].innerText;
+  $('#currency_to_show').val(currency);
+  $('.customercode').prop( "disabled", true);
+  $('.select2').select2();
+  $('#customer_code').on('input',function(e){
     $.post('<?php echo base_url('common/Ajax/double_check/double_customer_code') ?>', {  customer_code: $(this).val()}, function(data, textStatus, xhr) {
-        console.log(data);
-        if (data == 1) {
-            $('.customer_code_error').css("display","block").css("color", "red");
-            $('.customer_code').css("color", "red");
-            $('#customer_code').css("border-color", "red ");
-            $('.form-control').prop( "disabled", true );
-            alert('Duplicate Customer Code detected, please change the Customer Code to continue');
-            $('.customercode').focus();
-        }
-        else
-        {
-            $('.customer_code_error').css("display","none");
-            $('.customer_code').css("color", "green");
-            $('#customer_code').css("border-color", "green ");
-        }
+      console.log(data);
+      if (data == 1) {
+        $('.customer_code_error').css("display","block").css("color", "red");
+        $('.customer_code').css("color", "red");
+        $('#customer_code').css("border-color", "red ");
+        $('.form-control').prop( "disabled", true );
+        alert('Duplicate Customer Code detected, please change the Customer Code to continue');
+        $('.customercode').focus();
+      }
+      else
+      {
+        $('.customer_code_error').css("display","none");
+        $('.customer_code').css("color", "green");
+        $('#customer_code').css("border-color", "green ");
+      }
     });
-});
+  });
 </script>

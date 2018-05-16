@@ -395,6 +395,8 @@ class Receipt extends MY_Controller
 					$currency = $this->custom->getSingleRow('currency_master',array('currency_id'=>$customer_info->currency_id));
 					$this->body_vars['receipt_id'] = $row_id;
 					$this->body_vars['customer_id'] = $receipt_edit_data->customer_id;
+					$this->body_vars['email'] = $customer_info->customer_email;
+					$this->body_vars['phone'] = $customer_info->customer_phone;
 					$this->body_vars['address'] = $customer_info->customer_bldg_number.', '.$customer_info->customer_street_name;
 					$this->body_vars['country_postal'] = $country->country_name.', '.$customer_info->customer_postal_code;
 					$this->body_vars['bank'] = $receipt_edit_data->bank;

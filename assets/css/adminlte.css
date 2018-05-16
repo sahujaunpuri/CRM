@@ -4818,9 +4818,11 @@ table.text-center th {
     .dataTables_length {
         display: none!important
     }
+
     .thead_print_list{
         display: inline;
     }
+
     .content-wrapper,
     .right-side,
     .main-footer {

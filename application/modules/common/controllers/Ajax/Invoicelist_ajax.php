@@ -554,7 +554,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					endif;
 					if($mode=="email"):
 						$this->data['mode']="email";
-						$html=$this->load->view('invoice/invoice_view.php', $this->data, TRUE);	
+						$html=$this->load->view('invoice/invoice_email_view.php', $this->data, TRUE);	
 
 						//$this->load->helper('email');
 						// send_email("parthganatra17@gmail.com","trueline.chirag@gmail.com","Test",$html);

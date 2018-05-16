@@ -112,6 +112,16 @@
   
      /* save button */
      $("#save").on('click',function(){
+        if($('#billing_update_stock').val() == ''){
+          $('#billing_update_stock').val('NO');
+          console.log('NoNo');
+        }
+        if($('#billing_type').val() == ''){
+          $('#billing_type').val('Service');
+          console.log('SerSer');
+        }
+        console.log($('#billing_update_stock').val());
+        console.log($('#billing_type').val());
         form.attr('action',form_action);
         var valid = $('.stock_code_error').css('display');
         //alert(valid);

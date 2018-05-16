@@ -97,14 +97,13 @@ if ($mode != "email")
                       <thead>
                         <tr>
                           <th>S.NO</th>
-                          <th style="width: 290px;">DESCRIPTION</th>
+                          <th style="width: 320px;">DESCRIPTION</th>
                           <th style="width: 100px">QUANTITY</th>
                           <!--                              <th>UOM</th>-->
-                          <th style="text-align: right" width="15%">UNIT PRICE(<span
-                            class="customer_currency_unit"> SGD </span>)
+                          <th style="text-align: right" width="15%">UNIT PRICE (<span class="customer_currency_unit"><?php echo $cust_data['customer_currency'] ?></span>)
                           </th>
                           <th style="text-align: right;">DISCOUNT (%)</th>
-                          <th style="text-align: right;">AMOUNT(<span class="customer_currency_unit">SGD</span>)</th>
+                          <th style="text-align: right;">AMOUNT (<span class="customer_currency_unit"><?php echo $cust_data['customer_currency'] ?></span>)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -118,169 +117,178 @@ if ($mode != "email")
                         //$this->data['detail_description'][] = $detailed_description;
                         //
                           ?>
+
                           <tr>
                             <td><?php echo $i; ?></td>
-                            <!--                                //<td>-->
-                              <?php //echo $product_details->billing_description; ?><!--</td>-->
-                              <td style="max-width: 290px;">
-                                <span><?php echo $product_details->billing_description; ?></span><br><span
-                                style="white-space: pre"><?php echo $detailed_description; ?></span></td>
-                                <td class="invo_table"
-                                style="text-align: left"><?php echo $value->quantity; ?><?php echo $product_details->billing_uom; ?></td>
-                                <!--                                    <td style="max-width: 100px">-->
-                                  <?php //echo $product_details->billing_uom; ?><!--</td>-->
-                                  <td class="invo_table"><?php echo $product_details->billing_price_per_uom; ?></td>
-                                  <td class="invo_table"><?php echo $value->discount; ?></td>
-                                  <td class="invo_table" style="text-align: right"><?php echo $value->product_total; ?></td>
-                                </tr>
-                                <?php
-                                $i++;
-                              }
-                              ?>
+                            <td >
+                              <span><?php echo $product_details->billing_description; ?></span><br><span><?php echo $detailed_description; ?></span>
+                            </td>
+                            <?php if($product_details->billing_uom != '') { ?>
+                            <td class="invo_table" style="text-align: left">
+                              <?php echo $value->quantity; ?> <?php echo $product_details->billing_uom; ?>
+                            </td>
+                            <td class="invo_table"><?php echo $value->price; ?></td>
+                            <td class="invo_table"><?php echo $value->discount; ?></td>
+                            <?php } else { ?>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <?php }?>
+
+
+
+                          <td class="invo_table" style="text-align: right"><?php echo $value->product_total; ?></td>
+                        </tr>
+                        <?php
+                        $i++;
+                      }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+              <div class="row">
+                <!-- accepted payments column -->
+                <!-- /.col -->
+
+                <div class="col-md-6 col-xs-12 invo_tableinner">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr>
+                          <th style="width:50%">Subtotal:</th>
+                          <td></td>
+                          <td class="pull-right" id="sub_total"><?php echo $quotation_edit_data->sub_total ?></td>
+                        </tr>
+                        <tr>
+                          <th style="width:50%">Lump Sum Discount:</th>
+                          <td style="text-align: right"><?php echo $quotation_edit_data->lump_sum_discount; ?>%</td>
+                          <td class="pull-right">
+                            -<?php echo number_format($quotation_edit_data->sub_total - $quotation_edit_data->lump_sum_discount_price, 2); ?></td>
+                          </tr>
+                          <tr>
+                            <th>Net of lump Discount:</th>
+                            <td></td>
+                            <td class="pull-right">&nbsp;<?php echo $quotation_edit_data->lump_sum_discount_price; ?></td>
+                            <td class="hidden"><input type='hidden' name='lump_sum_discount_price'
+                              id="lump_sum_discount_price_text"></td>
+                            </tr>
+                            <tr>
+                              <th>GST</th>
+                              <td style="text-align: right"><?php echo $quotation_edit_data->gst; ?>%</td>
+                              <td class="pull-right">
+                                +<?php echo number_format($quotation_edit_data->final_total - $quotation_edit_data->lump_sum_discount_price, 2); ?></td>
+                              </tr>
+                              <tr>
+                                <th>Total:</th>
+                                <td></td>
+                                <td class="pull-right"><?php echo $quotation_edit_data->final_total; ?></td>
+                              </tr>
+                              <?php if ($cust_data['customer_currency'] != $company_details->default_currency){?>
+                              <tr id="total_curr">
+                                <th>Total in(<?php echo $company_details->default_currency ?>):</th>
+                                <td></td>
+                                <td class="pull-right"><?php echo $quotation_edit_data->final_total_forex; ?></td>
+                              </tr>
+                              <?php }?>
                             </tbody>
                           </table>
                         </div>
-                        <!-- /.col -->
                       </div>
-                      <!-- /.row -->
-                      <div class="row">
-                        <!-- accepted payments column -->
-                        <!-- /.col -->
-
-                        <div class="col-md-6 col-xs-12 invo_tableinner">
-                          <div class="table-responsive">
-                            <table class="table">
-                              <tbody>
+                      <!-- /.col -->
+                    </div>
+                    <div class="row ">
+                      <!-- accepted payments column -->
+                      <!-- /.col -->
+                      <div class="col-md-12 col-xs-12">
+                        <div class="table-responsive">
+                          <table class="table footer">
+                            <tbody>
+                              <?php if (!empty($quotation_edit_data->terms_of_payments)): ?>
                                 <tr>
-                                  <th style="width:50%">Subtotal:</th>
-                                  <td></td>
-                                  <td class="pull-right" id="sub_total"><?php echo $quotation_edit_data->sub_total ?></td>
+                                  <th style="width:30%">Terms Of Payments:</th>
+                                  <td><?php echo $quotation_edit_data->terms_of_payments; ?></td>
                                 </tr>
+                              <?php endif; ?>
+                              <?php if (!empty($quotation_edit_data->training_venue)): ?>
                                 <tr>
-                                  <th style="width:50%">Lump Sum Discount:</th>
-                                  <td style="text-align: right"><?php echo $quotation_edit_data->lump_sum_discount; ?>%</td>
-                                  <td class="pull-right">
-                                    -<?php echo number_format($quotation_edit_data->sub_total - $quotation_edit_data->lump_sum_discount_price, 2); ?></td>
-                                  </tr>
-                                  <tr>
-                                    <th>Net of lump Discount:</th>
-                                    <td></td>
-                                    <td class="pull-right">&nbsp;<?php echo $quotation_edit_data->lump_sum_discount_price; ?></td>
-                                    <td class="hidden"><input type='hidden' name='lump_sum_discount_price'
-                                      id="lump_sum_discount_price_text"></td>
-                                    </tr>
-                                    <tr>
-                                      <th>GST</th>
-                                      <td style="text-align: right"><?php echo $quotation_edit_data->gst; ?>%</td>
-                                      <td class="pull-right">
-                                        +<?php echo number_format($quotation_edit_data->final_total - $quotation_edit_data->lump_sum_discount_price, 2); ?></td>
-                                      </tr>
-                                      <tr>
-                                        <th>Total:</th>
-                                        <td></td>
-                                        <td class="pull-right"><?php echo $quotation_edit_data->final_total; ?></td>
-                                      </tr>
-                                      <tr id="total_curr">
-                                        <th>Total in(<?php echo $cust_data['customer_currency'] ?>):</th>
-                                        <td></td>
-                                        <td class="pull-right"><?php echo $quotation_edit_data->final_total_forex; ?></td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
-                              <!-- /.col -->
-                            </div>
-                            <div class="row ">
-                              <!-- accepted payments column -->
-                              <!-- /.col -->
-                              <div class="col-md-12 col-xs-12">
-                                <div class="table-responsive">
-                                  <table class="table footer">
-                                    <tbody>
-                                      <?php if (!empty($quotation_edit_data->terms_of_payments)): ?>
-                                        <tr>
-                                          <th style="width:30%">Terms Of Payments:</th>
-                                          <td><?php echo $quotation_edit_data->terms_of_payments; ?></td>
-                                        </tr>
-                                      <?php endif; ?>
-                                      <?php if (!empty($quotation_edit_data->training_venue)): ?>
-                                        <tr>
-                                          <th style="width:30%">Training Venue:</th>
-                                          <td><?php echo $quotation_edit_data->training_venue; ?></td>
-                                        </tr>
-                                      <?php endif; ?>
-                                      <?php if (!empty($quotation_edit_data->modification)): ?>
-                                        <tr>
-                                          <th style="width:30%">Modification:</th>
-                                          <td><?php echo $quotation_edit_data->modification; ?></td>
-                                        </tr>
-                                      <?php endif; ?>
-                                      <?php if (!empty($quotation_edit_data->cancellation)): ?>
-                                        <tr>
-                                          <th style="width:30%">Cancellation:</th>
-                                          <td><?php echo $quotation_edit_data->cancellation; ?></td>
-                                        </tr>
-                                      <?php endif; ?>
-                                    </tbody>
-                                  </table>
-                                  <div class="footer">
-                                    <?php echo $quotation_edit_data->quotation_footer_text; ?>
-                                    <legend style="padding-top: 80px;"></legend>
-                                    Customer Signature and Co Stamp<br>
-                                    Name: <br>
-                                    Date:
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </section>
+                                  <th style="width:30%">Training Venue:</th>
+                                  <td><?php echo $quotation_edit_data->training_venue; ?></td>
+                                </tr>
+                              <?php endif; ?>
+                              <?php if (!empty($quotation_edit_data->modification)): ?>
+                                <tr>
+                                  <th style="width:30%">Modification:</th>
+                                  <td><?php echo $quotation_edit_data->modification; ?></td>
+                                </tr>
+                              <?php endif; ?>
+                              <?php if (!empty($quotation_edit_data->cancellation)): ?>
+                                <tr>
+                                  <th style="width:30%">Cancellation:</th>
+                                  <td><?php echo $quotation_edit_data->cancellation; ?></td>
+                                </tr>
+                              <?php endif; ?>
+                            </tbody>
+                          </table>
+                          <div class="footer">
+                            <?php echo $quotation_edit_data->quotation_footer_text; ?>
+                            <legend style="padding-top: 80px;"></legend>
+                            Customer Signature and Co Stamp<br>
+                            Name: <br>
+                            Date:
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </section>
                 </div>
               </div>
-            </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <?php
-            if ($mode == "print") {
-              ?>
-              <style>
-              .footer {
-                page-break-inside: avoid;
-              }
-            </style>
-            <script>
-              $(document).ready(function () {
-                $("#print_data").print({
-                  mediaPrint: true,
-                  title: " "
-                });
-              });
-            </script>
-            <?php
-          }
-          ?>
-          <?php
-          if ($mode == "email") {
-            ?>
-            <script type="text/javascript">
-              $("#no-email-2").html('');
-              $("#no-email-1").html('');
-            </script>
-            <?php
-          }
-          ?>
+    <?php
+    if ($mode == "print") {
+      ?>
+      <style>
+      .footer {
+        page-break-inside: avoid;
+      }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $("#print_data").print({
+          mediaPrint: true,
+          title: " "
+        });
+      });
+    </script>
+    <?php
+  }
+  ?>
+  <?php
+  if ($mode == "email") {
+    ?>
+    <script type="text/javascript">
+      $("#no-email-2").html('');
+      $("#no-email-1").html('');
+    </script>
+    <?php
+  }
+  ?>
 
-          <style type="text/css">
-          .invo_table {
-            text-align: right;
-          }
+  <style type="text/css">
+  .invo_table {
+    text-align: right;
+  }
 
-          .invo_tableinner {
-            /* margin-left: 50%; */
-            width: 41%;
-            float: right;
-          }
-        </style>
+  .invo_tableinner {
+    /* margin-left: 50%; */
+    width: 41%;
+    float: right;
+  }
+</style>

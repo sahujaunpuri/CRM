@@ -126,12 +126,12 @@
                         <thead>
                           <tr>
                             <th>S.NO</th>
-                            <th>DESCRIPTION</th>
+                            <th width="320">DESCRIPTION</th>
                             <th>QUANTITY</th>
                             <th>UOM</th>
-                            <th width="15%">UNIT PRICE(<span class="customer_currency_unit"> SGD </span>)</th>
+                            <th width="15%">UNIT PRICE(<span class="customer_currency_unit" id="customer_currency_unit"></span>)</th>
                             <th>DISCOUNT (%)</th>
-                            <th>AMOUNT(<span class="customer_currency_unit">SGD </span>)</th>
+                            <th>AMOUNT(<span class="customer_currency_unit"></span>)</th>
                             <th>CAT</th>
                             <th>GST AMT</th>
                             <th>ACTION</th>
@@ -207,7 +207,7 @@
                               <td class="hidden"><input type='hidden' name='final_total' id="final_total_text"></td>
                             </tr>
                             <tr id="total_curr">
-                              <th>Total in(<span id="cust_curr">SGD</span>):</th>
+                              <th>Total in (<span><?php echo $company_details->default_currency?></span>):</th>
                               <td></td>
                               <td id="final_total_forex_text" class="pull-right text-right mr-10"></td>
                               <td class="hidden"><input type='hidden' name='currency_amount' id="currency_amount"></td>
@@ -219,6 +219,8 @@
                       </div> 
                     </div>
                   </div>
+
+                  <!-- <input type='hidden' name='customer_currency' id="customer_currency"> -->
                   <br><br>
                   <div class="row display-none details" >
                     <!-- accepted payments column -->
@@ -278,7 +280,7 @@
 
                   <div class="row no-print display-none" id="printAndSave">
                     <div class="">
-                      <div class="clearb"><button type="submit" class="btn btn-success pull-right ml-20 submitbtn" id="submitbtn"><i class="fa fa-credit-card"></i> Submit</button></div>
+                      <div class="clearb"><button type="submit" class="btn btn-success pull-right ml-20 submitbtn" id="submitbtn" disabled><i class="fa fa-credit-card"></i> Submit</button></div>
                       <div class="clearb">
                         <button type="button" class="btn btn-warning $btn_style pull-right printbtns ml-20" id='print_without_head'><i class="fa fa-print"></i>Print Without Letterhead</button>                            
                         <input type="hidden" name="logo_with" value="" id="logo_with">
@@ -501,23 +503,25 @@
 
     }); 
 
-    var currencyUnit = "SGD";
-    var currencyRate = 1;
+    // var currencyUnit = "SGD";
+    // var currencyRate = 1;
     $("#customer_id").change(function (event) {
       customer_id = $("#customer_id option:selected").val();
       if (customer_id != "") {
         $.post('<?php echo base_url('common/Ajax/quotationlist_ajax/get_customer_details') ?>', {customer_id: customer_id}, function (data, textStatus, xhr) {
           var obj = $.parseJSON(data);
+          var companyCurrency = '<?php echo $company_details->default_currency ?>';
           $("#customer_address").html(obj.customer_address);
           $(".customer_currency_unit").html(obj.customer_currency);
           currencyUnit = obj.customer_currency;
           currencyRate = obj.currency_amount;
           $("#customer_phone").html(obj.customer_phone);
+          
           $("#customer_email").html(obj.customer_email);
-          if (obj.customer_currency != "SGD") {
+          if (obj.customer_currency != companyCurrency) {
             $("#total_curr").removeClass('hidden');
-            $("#cust_curr").text(obj.customer_currency);
-            $(".customer_currency_unit").html(obj.customer_currency);
+            //$("#cust_curr").text(obj.customer_currency);
+            //$(".customer_currency_unit").html(obj.customer_currency);
           }
           else {
             $("#total_curr").addClass('hidden');
@@ -676,14 +680,29 @@
     } else {
       var quantityEmpty = 0;
       var quantityFields = $('input.quantity');
+      var discountFields = $('input.discount');
       for(var i=0; i<quantityFields.length; i++){
-        if($(quantityFields[i]).val() == 0 || $(quantityFields[i]).val() == ''){
+        var discToNumber = Number($(discountFields[i]).val());
+        var toNumber = Number($(quantityFields[i]).val());
+        if(toNumber <= 0 || toNumber == '' || $(quantityFields[i]).val()[0] == '0' || !Number.isInteger(toNumber)){
           quantityEmpty = 1;
-          console.log(quantityFields[i]);
-          $(quantityFields[i]).prop('placeholder','Add a quantity');
+          $(quantityFields[i]).val('');  
+          if(toNumber < 0){
+            $(quantityFields[i]).prop('placeholder','Add a positive value');  
+          } else{
+            $(quantityFields[i]).prop('placeholder','Add a valid quantity');  
+          }
           $(quantityFields[i]).focus();
           i = quantityFields.length +1;
-        } 
+        } else if ($(discountFields[i]).val() != ''){
+          if (discToNumber <= 0 || discToNumber > 100 ){
+            quantityEmpty = 1;
+            $(discountFields[i]).val('');  
+            $(discountFields[i]).prop('placeholder','0 to 100');  
+            $(discountFields[i]).focus();
+            i = quantityFields.length +1;
+          }
+        }
       }  
       if (quantityEmpty == 0){
         doneWithProducts();
@@ -732,6 +751,7 @@
       $('#terms_of_payments').prop('readOnly',false);
       $('#training_venue').prop('readOnly',false);
       $('#modification').prop('readOnly',false);
+      $('#submitbtn').prop('disabled', false);
     }
   }
 

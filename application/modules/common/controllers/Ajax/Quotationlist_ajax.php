@@ -36,6 +36,26 @@ class Quotationlist_ajax extends CI_Controller {
 			//////////////
 		echo json_encode($data);
 	}
+  public function allRow(){
+    is_ajax();
+    $this->body_file="common/blank.php";
+    $this->header_file="common/blank.php";
+    $this->footer_file="common/blank.php";
+    $post=$this->input->post();
+    $quotation_id = $post['quotation_id'];
+    $all = [];
+    foreach ($post as $key => $value) {
+      if($key == 'product_id_arr'){
+        foreach ($value as $keys => $values) {
+          echo $this->get_product_row_edit($quotation_id, $values);
+          //array_push($all, $this->get_product_row_edit($quotation_id, $values));
+         
+          # code...
+        }
+      } 
+    }
+    //echo $all;
+  }
 
 	public function get_product_row()
 	{
@@ -63,11 +83,11 @@ class Quotationlist_ajax extends CI_Controller {
 		
 		if($product_details->billing_type=="Product")
 		{
-			$html.="<td><input type='number' min='1' class='form-control quantity' value='$quantity' name='quantity[$product_details->billing_id]' id='quantity_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
+			$html.="<td><input type='number' min='1' step='1' class='form-control quantity' value='$quantity' name='quantity[$product_details->billing_id]' id='quantity_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
 		}
 		else
 		{
-			$html.="<td><input type='hidden' disabled min='1' class='form-control' value='1' name='quantity[$product_details->billing_id]' id='quantity_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")' value='1'></td>";
+			$html.="<td><input type='hidden' disabled min='1' step='1' class='form-control' value='1' name='quantity[$product_details->billing_id]' id='quantity_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")' value='1'></td>";
 		}
 		
 		$html.="<td style='max-width: 100px; white-space: normal;'>".$product_details->billing_uom."</td>";
@@ -108,12 +128,12 @@ class Quotationlist_ajax extends CI_Controller {
 
             if($product_details->billing_type=="Service")
             {
-            	$html.="<td><input type='hidden' min='0' max='100' class='form-control' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
+            	$html.="<td><input type='hidden' min='0' max='100' class='form-control discount' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."'  onchange='get_amount(".$product_details->billing_id.")'></td>";
             }
             
             else
             {
-            	$html.="<td><input type='number' min='0' max='100' class='form-control' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
+            	$html.="<td><input type='number' min='0' max='100' class='form-control discount' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
             }
 
 
@@ -165,21 +185,21 @@ class Quotationlist_ajax extends CI_Controller {
             echo $html;
           }
 
-          public function get_product_row_edit()
+          public function get_product_row_edit($quotation_id, $billing_id)
           {
-          	is_ajax();
-          	$this->body_file="common/blank.php";
-          	$this->header_file="common/blank.php";
-          	$this->footer_file="common/blank.php";
-          	$post=$this->input->post();
-          	$quotation_id=null;
-          	if (isset($post['quotation_id'])) {
-          		$quotation_id=$post['quotation_id'];
-          		unset($post['quotation_id']);
-          	}
+          	// is_ajax();
+          	// $this->body_file="common/blank.php";
+          	// $this->header_file="common/blank.php";
+          	// $this->footer_file="common/blank.php";
+          	// $post=$this->input->post();
+          	// $quotation_id=null;
+          	// if (isset($post['quotation_id'])) {
+          	// 	$quotation_id=$post['quotation_id'];
+          	// 	unset($post['quotation_id']);
+          	// }
 
-          	$product_details=$this->quotation->get_product_details_row($post["billing_id"]);
-          	$this->data['product_edit_data']=$product_edit_data=$this->custom->getSingleRow('billing_master',array("billing_id"=>$post["billing_id"]));
+          	$product_details=$this->quotation->get_product_details_row($billing_id);
+          	$this->data['product_edit_data']=$product_edit_data=$this->custom->getSingleRow('billing_master',array("billing_id"=>$billing_id));
 
           	$old_quotation_product_details=$this->custom->getSingleRow('quotation_product_master',array("quotation_id"=>$quotation_id,'product_id'=>$product_details->billing_id));
           	$quantity=1;
@@ -190,10 +210,9 @@ class Quotationlist_ajax extends CI_Controller {
           	}
           	$gst=$this->custom->getSingleRow('gst_master',array('gst_id'=>$product_details->gst_id));
           	$html="";
-			//added field for detailed description
+			      //added field for detailed description
           	$html.="<td name='$product_details->billing_id' style='max-width: 600px; white-space: pre;'><span id='billing-id-$product_details->billing_id' >".$product_details->billing_description."</span><br><span id='detailsAdded-$product_details->billing_id'></span></td>";
-		//	$html.="<td>".$product_details->billing_description."</td>";
-          	
+		        //	$html.="<td>".$product_details->billing_description."</td>";          	
           	if($product_details->billing_type=="Product")
           	{
           		$html.="<td><input type='number' min='1' class='form-control' value='$quantity' name='quantity[$product_details->billing_id]' id='quantity_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
@@ -230,7 +249,7 @@ class Quotationlist_ajax extends CI_Controller {
           		$showCurrency=$product_details->billing_price_per_uom;
           		if($product_details->billing_type=="Product")
           		{
-          			$html.="<td id='unit_price_".$product_details->billing_id."'>".$product_details->billing_price_per_uom."</td>";
+          			$html.="<td id='unit_price_".$product_details->billing_id."'>".$old_quotation_product_details->price."</td>";
           		}
           		
           		else
@@ -241,12 +260,12 @@ class Quotationlist_ajax extends CI_Controller {
 
           	if($product_details->billing_type=="Service")
           	{
-          		$html.="<td><input type='hidden' min='0' max='100' class='form-control' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
+          		$html.="<td><input type='hidden' min='0' max='100' class='form-control discount' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
           	}
           	
           	else
           	{
-          		$html.="<td><input type='number' min='0' max='100' class='form-control' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
+          		$html.="<td><input type='number' min='0' max='100' class='form-control discount' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
           	}
 
 
@@ -309,7 +328,7 @@ class Quotationlist_ajax extends CI_Controller {
         ."</td>";
 
         $html.="<td><a id='$product_details->billing_id' style='margin:3px' class='btn btn-xs btn-success add-description' onclick='add_description(this)'>Add description</a><a style='margin:3px' class='btn btn-xs btn-danger delete-row' onclick='delete_row(this)'>Remove</a></td>";
-        echo $html;
+        return $html;
       }
       
       public function get_product_row_invoice()
@@ -383,12 +402,12 @@ class Quotationlist_ajax extends CI_Controller {
 
       	if($product_details->billing_type=="Service")
       	{
-      		$html.="<td><input type='hidden' min='0' max='100' class='form-control' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
+      		$html.="<td><input type='hidden' min='0' max='100' class='form-control discount' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
       	}
       	
       	else
       	{
-      		$html.="<td><input type='number' readonly min='0' max='100' class='form-control' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."' onchange='get_amount(".$product_details->billing_id.")'></td>";
+      		$html.="<td><input type='number' readonly min='0' max='100' class='form-control discount' value='$discount' name='discount[$product_details->billing_id]' id='discount_".$product_details->billing_id."'  onchange='get_amount(".$product_details->billing_id.")'></td>";
       	}
 
 
@@ -531,7 +550,7 @@ class Quotationlist_ajax extends CI_Controller {
       }
       public function print_new_quotation($mode="print")
       {
-			//print_r($this->input->post());exit();
+			 //print_r($this->input->post());exit();
       	$data=$this->input->post();
 			//var_dump($data);exit();
 
@@ -603,10 +622,11 @@ class Quotationlist_ajax extends CI_Controller {
       			$this->data['quantity'][] = $data["quantity"][$billing_id];
       			$this->data['unit_price'][] = $this->num_change($billing_price_unit);
       			$this->data['discount'][] = $data["discount"][$billing_id];
-      			$this->data['amount'][] = $this->num_change($data["quantity"][$billing_id] * $billing_price_unit * ( 1 - $data["discount"][$billing_id] / 100));
-      			$subtotal += $data["quantity"][$billing_id] * $billing_price_unit * ( 1 - $data["discount"][$billing_id] / 100);
-      			$this->data['gst_amt'][] = $this->num_change($billing_price_unit * $data["quantity"][$billing_id] * $person->gst_rate * ( 1 - $data["discount"][$billing_id] / 100) * (1 - $data["lump_sum_discount"] / 100 ));
-      			$gst_lump_sum_amount += $billing_price_unit * $data["quantity"][$billing_id] * $person->gst_rate * ( 1 - $data["discount"][$billing_id] / 100) * (1 - $data["lump_sum_discount"] / 100 ) / 100;
+      			$subtotal += $this->data['amount'][] = $this->num_change($data["quantity"][$billing_id] * $this->num_change($billing_price_unit) * ( 1 - $data["discount"][$billing_id] / 100));
+      			//$subtotal += $data["quantity"][$billing_id] * $this->num_change($billing_price_unit) * ( 1 - $data["discount"][$billing_id] / 100);
+      			$this->data['gst_amt'][] = $this->num_change($this->num_change($billing_price_unit) * $data["quantity"][$billing_id] * $person->gst_rate * ( 1 - $data["discount"][$billing_id] / 100) * (1 - $data["lump_sum_discount"] / 100 ));
+
+      			$gst_lump_sum_amount += $this->num_change($billing_price_unit) * $data["quantity"][$billing_id] * $person->gst_rate * ( 1 - $data["discount"][$billing_id] / 100) * (1 - $data["lump_sum_discount"] / 100 ) / 100;
 
       		}
       		else if($person->billing_type == 'Service')
@@ -623,7 +643,6 @@ class Quotationlist_ajax extends CI_Controller {
       	}
 
       	$this->data['lump_sum_discount'] = $data["lump_sum_discount"];
-
       	$this->data['lump_sum_discount_amount'] = '-'.$this->num_change(($subtotal * $data["lump_sum_discount"] / 100));
       	$this->data['net_of_lump_discount'] = $this->num_change($subtotal - $subtotal * $data["lump_sum_discount"] / 100);
       	$this->data['subtotal'] = $this->num_change($subtotal);
@@ -638,92 +657,92 @@ class Quotationlist_ajax extends CI_Controller {
       	<script>
       		message='<?php echo $message; ?>';
 				$("#form_data").html(""); // remove content of form.
-                //$("#refresh").click();//refresh  the datatable.
-                //$("#list_table").show(); // show data table
-                $("#message_area").html(message);
-                </script><?php
-              }
+        //$("#refresh").click();//refresh  the datatable.
+        //$("#list_table").show(); // show data table
+        $("#message_area").html(message);
+        </script><?php
+      }
 
-              public function print_quotation($mode="print")
-              {
-              	$row_id=$this->input->post('rowID');
-              	$head = $this->input->post('head');
-              	echo $head;
-              	$this->data['quotation_edit_data']=$quotation_edit_data=$this->custom->getSingleRow('quotation_master',array("quotation_id"=>$row_id));
-              	if($quotation_edit_data):
-              		$this->data['quotation_product_edit_data']=$quotation_product_edit_data=$this->custom->getRows('quotation_product_master',array("quotation_id"=>$row_id));
-              		foreach ($quotation_product_edit_data as $value) {
-              			$product_array[]=$value->product_id;
-              		}
-              		$this->data['product_array']=$product_array;
-              		/*==========================================*/
-              		$company_where=array('profile_id'=>1);
-              		$this->data['company_details']=$company_details=$this->custom->getSingleRow('company_profile',$company_where);
-              		/*==========================================*/
-              		$this->data['customer_options']=$this->custom->createDropdownSelect("customer_master",array('customer_id','customer_name','customer_code'),"Customer",array('(',')'),array(),array($quotation_edit_data->customer_id));
-              		/*==========================================*/
-              		$this->data['salesman_options']=$this->custom->createDropdownSelect("salesman_master",array('s_id','s_name'),"Sales Person",array(' '),array(),array($quotation_edit_data->salesman_id));
-              		/*==========================================*/
-              		$this->data['product_options']=$this->custom->createDropdownSelect("billing_master",array('billing_id','stock_code','billing_description'),"Product",array(" : "," "));
-              		/*==========================================*/
-              		$this->data['total_quotation']=$this->custom->getTotalCount("quotation_master");
-              		/*==========================================*/
-              		$result= $this->quotation->get_customer_details(array('customer_id'=>$quotation_edit_data->customer_id));
-              		$data['customer_address']=$result->customer_bldg_number.' , <br>'.$result->customer_street_name.' , <br>'.$result->customer_postal_code;
-              		$data['customer_phone']=$result->customer_phone;
-              		$data['customer_email']=$result->customer_email;
-              		$currency_data=$this->custom->getSingleRow("currency_master",array('currency_id'=>$result->currency_id));
-              		$data['customer_currency']=$currency_data->currency_name;
-              		$data['currency_amount']=$currency_data->currency_rate;
-              		$this->data['cust_data']=$data;
-              		/*==========================================*/
+      public function print_quotation($mode="print")
+      {
+       $row_id=$this->input->post('rowID');
+       $head = $this->input->post('head');
+       echo $head;
+       $this->data['quotation_edit_data']=$quotation_edit_data=$this->custom->getSingleRow('quotation_master',array("quotation_id"=>$row_id));
+       if($quotation_edit_data):
+        $this->data['quotation_product_edit_data']=$quotation_product_edit_data=$this->custom->getRows('quotation_product_master',array("quotation_id"=>$row_id));
+        foreach ($quotation_product_edit_data as $value) {
+         $product_array[]=$value->product_id;
+       }
+       $this->data['product_array']=$product_array;
+       /*==========================================*/
+       $company_where=array('profile_id'=>1);
+       $this->data['company_details']=$company_details=$this->custom->getSingleRow('company_profile',$company_where);
+       /*==========================================*/
+       $this->data['customer_options']=$this->custom->createDropdownSelect("customer_master",array('customer_id','customer_name','customer_code'),"Customer",array('(',')'),array(),array($quotation_edit_data->customer_id));
+       /*==========================================*/
+       $this->data['salesman_options']=$this->custom->createDropdownSelect("salesman_master",array('s_id','s_name'),"Sales Person",array(' '),array(),array($quotation_edit_data->salesman_id));
+       /*==========================================*/
+       $this->data['product_options']=$this->custom->createDropdownSelect("billing_master",array('billing_id','stock_code','billing_description'),"Product",array(" : "," "));
+       /*==========================================*/
+       $this->data['total_quotation']=$this->custom->getTotalCount("quotation_master");
+       /*==========================================*/
+       $result= $this->quotation->get_customer_details(array('customer_id'=>$quotation_edit_data->customer_id));
+       $data['customer_address']=$result->customer_bldg_number.' , <br>'.$result->customer_street_name.' , <br>'.$result->customer_postal_code;
+       $data['customer_phone']=$result->customer_phone;
+       $data['customer_email']=$result->customer_email;
+       $currency_data=$this->custom->getSingleRow("currency_master",array('currency_id'=>$result->currency_id));
+       $data['customer_currency']=$currency_data->currency_name;
+       $data['currency_amount']=$currency_data->currency_rate;
+       $this->data['cust_data']=$data;
+       /*==========================================*/
 
-              		$this->data['save_url']=base_url('quotation/create_new_quotation/edit');
-              		if($mode=="print"):
-              			$this->data['mode']="print";
-              			$this->data['head']=$head;
-              			$this->load->view('quotation/quotation_view.php', $this->data, FALSE);
-              		endif;
-              		if($mode=="email"):
-                    $this->data['mode']="email";
-                    $html=$this->load->view('quotation/quotation_view.php', $this->data, TRUE); 
+       $this->data['save_url']=base_url('quotation/create_new_quotation/edit');
+       if($mode=="print"):
+         $this->data['mode']="print";
+         $this->data['head']=$head;
+         $this->load->view('quotation/quotation_view.php', $this->data, FALSE);
+       endif;
+       if($mode=="email"):
+        $this->data['mode']="email";
+        $html=$this->load->view('quotation/quotation_email_view.php', $this->data, TRUE); 
 
-                    $this->load->library('email');
+        $this->load->library('email');
 
-                    $where=array('profile_id'=>1);
-                    $reply_to = $this->custom->getSingleValue("company_profile","company_email",$where);
+        $where=array('profile_id'=>1);
+        $reply_to = $this->custom->getSingleValue("company_profile","company_email",$where);
 
-                    $from = 'notifier@'.$_SERVER['HTTP_HOST'];
-                    $to = $data['customer_email'];
+        $from = 'notifier@'.$_SERVER['HTTP_HOST'];
+        $to = $data['customer_email'];
 
-                    if(!empty($to)) {
-                      $company_name = $this->custom->getSingleValue("company_profile","company_name",$where);
+        if(!empty($to)) {
+          $company_name = $this->custom->getSingleValue("company_profile","company_name",$where);
 
-                      $this->email->from($from);
-                      $this->email->to($to);
-                      $this->email->subject('information about quotation');
-                      $this->email->message($html);
+          $this->email->from($from);
+          $this->email->to($to);
+          $this->email->subject('information about quotation');
+          $this->email->message($html);
 
-                      $this->email->from($from, $company_name);
-                      $this->email->reply_to($reply_to, 'Rajen');
+          $this->email->from($from, $company_name);
+          $this->email->reply_to($reply_to, 'Rajen');
 
-                      $this->email->send();
-                      $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
-                    } else {
-                      $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button> Email-Id is for this customer is not present in the customer master table..! <br/> Please enter it first.</div>';
-                    }
+          $this->email->send();
+          $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
+        } else {
+          $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button> Email-Id is for this customer is not present in the customer master table..! <br/> Please enter it first.</div>';
+        }
       //         			$this->data['mode']="email";
       //         			$html=$this->load->view('quotation/quotation_view.php', $this->data, TRUE);	
       //         			$this->load->helper('email');
 						// // send_email("parthganatra17@gmail.com","trueline.chirag@gmail.com","Test",$html);
       //         			send_email("mohit.ch@ibrinfotech.com","mohit.ch@ibrinfotech.com","Test",$html);
-                  endif;
-                  $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
+      endif;
+      $message='<div class="alert alert-success fade in"><button type="button" class="close close-sm" data-dismiss="alert"><i class="fa fa-times"></i></button>'.$mode.' Task Complete!</div>';
 
-                  /*==========================================*/
-                  ?>
-                  <script>
-                   message='<?php echo $message; ?>';
+      /*==========================================*/
+      ?>
+      <script>
+       message='<?php echo $message; ?>';
 				$("#form_data").html(""); // remove content of form.
                 $("#refresh").click();//refresh  the datatable.
                 $("#list_table").show(); // show data table
